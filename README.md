@@ -7,7 +7,8 @@ Enchanted is a lightweight, annotation-driven command library.
 Many other command frameworks are too complex and struggle to model different types of commands.
 
 Another thing is that they often attempt to handle tasks that should be handled by a different
-framework, such as dependency injection, and internationalisation. Although we do support internationalisation, the implementation is up to the end user (we still offer a reasonable default
+framework, such as dependency injection, and internationalisation. Although we do support 
+internationalisation, the implementation is up to the end user (we still offer a reasonable default
 implementation).
 
 One thing you will notice when using these frameworks is the lack of support for overloaded
