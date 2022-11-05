@@ -42,7 +42,8 @@ public interface Command {
      * @since 0.0.0
      */
     @Contract(pure = true)
-    @Pattern(NAME_PATTERN) @NotNull String getName();
+    @Pattern(NAME_PATTERN)
+    @NotNull String getName();
 
     /**
      * Gets the aliases of this command.
@@ -129,7 +130,9 @@ public interface Command {
      *
      * @param sender the sender.
      * @param arguments the arguments.
+     * @return the result of the execution.
      * @since 0.0.0
      */
-    void execute(@NotNull Object sender, @NotNull List<@NotNull String> arguments);
+    @NotNull CommandResult execute(@NotNull CommandExecutor sender,
+                                   @NotNull List<@NotNull String> arguments);
 }
