@@ -59,7 +59,7 @@ public interface CommandRegistry {
      * @return an optional containing the command that was found, or {@code Optional.empty()}.
      * @since 0.0.0
      */
-    @NotNull Optional<@NotNull Command> getCommand(@Pattern(NAME_PATTERN) @NotNull String label);
+    @NotNull Optional<? extends @NotNull Command> getCommand(@Pattern(NAME_PATTERN) @NotNull String label);
 
     /**
      * Gets all the registered commands of this registry.
@@ -70,5 +70,5 @@ public interface CommandRegistry {
      * @return all the registered commands of this registry.
      * @since 0.0.0
      */
-    @NotNull @Unmodifiable Collection<@NotNull Command> getRegisteredCommands();
+    @NotNull @Unmodifiable Collection<? extends @NotNull Command> getRegisteredCommands();
 }
