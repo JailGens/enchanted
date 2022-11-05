@@ -1,6 +1,7 @@
 package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.annotations.Aliases;
+import net.jailgens.enchanted.annotations.Description;
 import net.jailgens.enchanted.annotations.Usage;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +32,7 @@ public interface CommandFactory {
      *     <li>Have the aliases from {@link Aliases#value()} or {@code {}}</li>
      *     <li>Contain the usage from {@link Usage#value}. If the annotation is not present on the
      *     command, the factory may choose an alternative</li>
+     *     <li>Have the description from {@link Description#value()} or {@code ""}</li>
      *     <li>Have sub-commands of all methods, and nested classes (command groups) annotated with
      *     {@link net.jailgens.enchanted.annotations.Command}. The way methods created is defined
      *     <a href="methods">here</a></li>

@@ -20,6 +20,14 @@ import java.util.Locale;
 public interface Command {
 
     /**
+     * The pattern that all descriptions must match.
+     *
+     * @since 0.0.0
+     */
+    @RegExp
+    @NotNull String DESCRIPTION_PATTERN = "[^\\\\n]";
+
+    /**
      * The pattern that all names must match.
      *
      * @since 0.0.0
