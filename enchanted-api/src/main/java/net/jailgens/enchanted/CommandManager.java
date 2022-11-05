@@ -5,6 +5,6 @@ package net.jailgens.enchanted;
  *
  * @since 0.0.0
  */
-public interface CommandManager extends CommandFactory, CommandRegistry {
+public interface CommandManager extends CommandFactory, CommandRegistry, ConverterRegistry {
 
 }
