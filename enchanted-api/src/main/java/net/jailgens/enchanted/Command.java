@@ -33,7 +33,7 @@ public interface Command {
      * @since 0.0.0
      */
     @RegExp
-    @NotNull String DESCRIPTION_PATTERN = "[^\\\\n]";
+    @NotNull String DESCRIPTION_PATTERN = "[^\\n]*";
 
     /**
      * Gets the name of this command.

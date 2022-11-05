@@ -5,6 +5,8 @@ plugins {
     `java-library`
 }
 
+val libs = extensions.getByType(org.gradle.accessors.dm.LibrariesForLibs::class)
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(11))
@@ -20,9 +22,9 @@ repositories {
 dependencies {
     implementation("org.jetbrains:annotations:23.0.0")
 
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation(libs.junit.api)
+    testRuntimeOnly(libs.junit.engine)
+    testImplementation(libs.junit.params)
 }
 
 tasks.getByName<Test>("test") {
