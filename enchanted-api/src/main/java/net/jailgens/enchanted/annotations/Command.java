@@ -2,7 +2,6 @@ package net.jailgens.enchanted.annotations;
 
 import net.jailgens.enchanted.CommandFactory;
 import org.intellij.lang.annotations.Pattern;
-import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
