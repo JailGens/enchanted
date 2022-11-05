@@ -36,6 +36,7 @@ public interface CommandResult {
      *
      * @param message the message.
      * @return the result.
+     * @throws NullPointerException if the message is {@code null}.
      * @since 0.0.0
      */
     @Contract(value = "_ -> new", pure = true)
@@ -53,6 +54,7 @@ public interface CommandResult {
      *
      * @param message the message.
      * @return the result.
+     * @throws NullPointerException if the message is {@code null}.
      * @since 0.0.0
      */
     @Contract(value = "_ -> new", pure = true)

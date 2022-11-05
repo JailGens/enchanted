@@ -16,6 +16,7 @@ public interface CommandExecutor {
      * Sends the specified message to the command executor.
      *
      * @param message the message.
+     * @throws NullPointerException if the message is {@code null}.
      * @since 0.0.0
      */
     void sendMessage(@NotNull String message);
