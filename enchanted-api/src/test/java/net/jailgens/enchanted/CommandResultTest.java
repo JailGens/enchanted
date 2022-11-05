@@ -62,6 +62,48 @@ class CommandResultTest {
     }
 
     @Test
+    void Given_SuccessCommandResult_When_EqualsCompareWithEqual_Then_IsEqual() {
+
+        final CommandResult success1 = CommandResult.success("message");
+        final CommandResult success2 = CommandResult.success("message");
+
+        assertEquals(success1, success2);
+    }
+
+    @Test
+    void Given_SuccessCommandResult_When_EqualsCompareWithNotEqual_Then_IsNotEqual() {
+
+        final CommandResult success1 = CommandResult.success("message");
+        final CommandResult success2 = CommandResult.success("message2");
+
+        assertNotEquals(success1, success2);
+    }
+
+    @Test
+    void Given_SuccessCommandResult_When_HashCode_Then_IsEqual() {
+
+        final CommandResult success1 = CommandResult.success("message");
+        final CommandResult success2 = CommandResult.success("message");
+
+        final int hashCode1 = success1.hashCode();
+        final int hashCode2 = success2.hashCode();
+
+        assertEquals(hashCode1, hashCode2);
+    }
+
+    @Test
+    void Given_SuccessCommandResult_When_HashCodeWithNotEqual_Then_IsNotEqual() {
+
+        final CommandResult success1 = CommandResult.success("message");
+        final CommandResult success2 = CommandResult.success("message2");
+
+        final int hashCode1 = success1.hashCode();
+        final int hashCode2 = success2.hashCode();
+
+        assertNotEquals(hashCode1, hashCode2);
+    }
+
+    @Test
     void Given_SuccessCommandResultWithoutMessage_When_IsSuccess_Then_IsSuccess() {
 
         final CommandResult success = CommandResult.success();
@@ -100,6 +142,48 @@ class CommandResultTest {
         success.handleResult(executor);
 
         verifyNoInteractions(executor);
+    }
+
+    @Test
+    void Given_SuccessCommandResultWithoutMessage_When_EqualsCompareWithEqual_Then_IsEqual() {
+
+        final CommandResult success1 = CommandResult.success();
+        final CommandResult success2 = CommandResult.success();
+
+        assertEquals(success1, success2);
+    }
+
+    @Test
+    void Given_SuccessCommandResultWithoutMessage_When_EqualsCompareWithNotEqual_Then_IsNotEqual() {
+
+        final CommandResult success1 = CommandResult.success();
+        final CommandResult success2 = CommandResult.success("message");
+
+        assertNotEquals(success1, success2);
+    }
+
+    @Test
+    void Given_SuccessCommandResultWithoutMessage_When_HashCode_Then_IsEqual() {
+
+        final CommandResult success1 = CommandResult.success();
+        final CommandResult success2 = CommandResult.success();
+
+        final int hashCode1 = success1.hashCode();
+        final int hashCode2 = success2.hashCode();
+
+        assertEquals(hashCode1, hashCode2);
+    }
+
+    @Test
+    void Given_SuccessCommandResultWithoutMessage_When_HashCodeWithNotEqual_Then_IsNotEqual() {
+
+        final CommandResult success1 = CommandResult.success();
+        final CommandResult success2 = CommandResult.success("message");
+
+        final int hashCode1 = success1.hashCode();
+        final int hashCode2 = success2.hashCode();
+
+        assertNotEquals(hashCode1, hashCode2);
     }
 
     @SuppressWarnings({"ConstantConditions", "ResultOfMethodCallIgnored"})
@@ -149,5 +233,47 @@ class CommandResultTest {
 
         verify(executor).sendMessage("message");
         verifyNoMoreInteractions(executor);
+    }
+
+    @Test
+    void Given_ErrorCommandResult_When_EqualsCompareWithEqual_Then_IsEqual() {
+
+        final CommandResult error1 = CommandResult.error("message");
+        final CommandResult error2 = CommandResult.error("message");
+
+        assertEquals(error1, error2);
+    }
+
+    @Test
+    void Given_ErrorCommandResult_When_EqualsCompareWithNotEqual_Then_IsNotEqual() {
+
+        final CommandResult error1 = CommandResult.error("message");
+        final CommandResult error2 = CommandResult.error("message2");
+
+        assertNotEquals(error1, error2);
+    }
+
+    @Test
+    void Given_ErrorCommandResult_When_HashCode_Then_IsEqual() {
+
+        final CommandResult error1 = CommandResult.error("message");
+        final CommandResult error2 = CommandResult.error("message");
+
+        final int hashCode1 = error1.hashCode();
+        final int hashCode2 = error2.hashCode();
+
+        assertEquals(hashCode1, hashCode2);
+    }
+
+    @Test
+    void Given_ErrorCommandResult_When_HashCodeWithNotEqual_Then_IsNotEqual() {
+
+        final CommandResult error1 = CommandResult.error("message");
+        final CommandResult error2 = CommandResult.error("message2");
+
+        final int hashCode1 = error1.hashCode();
+        final int hashCode2 = error2.hashCode();
+
+        assertNotEquals(hashCode1, hashCode2);
     }
 }

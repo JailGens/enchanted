@@ -3,6 +3,7 @@ package net.jailgens.enchanted;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 
 abstract class AbstractCommandResult implements CommandResult {
@@ -29,9 +30,18 @@ abstract class AbstractCommandResult implements CommandResult {
         executor.sendMessage(message);
     }
 
-    static final class SuccessImpl extends AbstractCommandResult implements CommandResult.Success {
+    @Override
+    public abstract boolean equals(final Object o);
 
-        static final SuccessImpl SUCCESS = new SuccessImpl(null);
+    @Override
+    public int hashCode() {
+
+        return Objects.hashCode(message);
+    }
+
+    static final class SuccessImpl extends AbstractCommandResult implements Success {
+
+        static final Success SUCCESS = new SuccessImpl(null);
 
         SuccessImpl(final @Nullable String message) {
 
@@ -49,9 +59,22 @@ abstract class AbstractCommandResult implements CommandResult {
 
             return false;
         }
+
+        @Override
+        public boolean equals(final @Nullable Object o) {
+
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof CommandResult.Success)) {
+                return false;
+            }
+            final Success success = (Success) o;
+            return success.getMessage().equals(getMessage());
+        }
     }
 
-    static final class ErrorImpl extends AbstractCommandResult implements CommandResult.Error {
+    static final class ErrorImpl extends AbstractCommandResult implements Error {
 
         ErrorImpl(final @Nullable String message) {
 
@@ -68,6 +91,19 @@ abstract class AbstractCommandResult implements CommandResult {
         public boolean isError() {
 
             return true;
+        }
+
+        @Override
+        public boolean equals(final @Nullable Object o) {
+
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof CommandResult.Error)) {
+                return false;
+            }
+            final Error error = (Error) o;
+            return error.getMessage().equals(getMessage());
         }
     }
 }
