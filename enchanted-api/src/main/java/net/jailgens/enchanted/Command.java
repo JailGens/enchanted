@@ -131,5 +131,5 @@ public interface Command {
      * @param arguments the arguments.
      * @since 0.0.0
      */
-    void execute(@NotNull Object sender, List<String> arguments);
+    void execute(@NotNull Object sender, @NotNull List<@NotNull String> arguments);
 }
