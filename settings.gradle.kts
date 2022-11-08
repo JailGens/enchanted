@@ -6,5 +6,6 @@ dependencyResolutionManagement {
 
 sequenceOf(
         "enchanted-api",
-        "enchanted-shared"
+        "enchanted-shared",
+        "enchanted-paper"
 ).forEach { include(it) }

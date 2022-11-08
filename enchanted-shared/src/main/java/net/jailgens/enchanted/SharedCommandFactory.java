@@ -16,7 +16,7 @@ final class SharedCommandFactory implements CommandFactory {
 
     private final @NotNull Mirror mirror;
     private final @NotNull UsageGenerator usageGenerator;
-    private final @NotNull MethodCommandFactory methodFactory;;
+    private final @NotNull MethodCommandFactory methodFactory;
 
     @Contract(pure = true)
     SharedCommandFactory(final @NotNull Mirror mirror,
@@ -45,6 +45,6 @@ final class SharedCommandFactory implements CommandFactory {
 
         final TypeDefinition<? extends T> type = mirror.reflect((Class<? extends T>) command.getClass());
 
-        return new ClassCommand<T>(command, type, usageGenerator, methodFactory);
+        return new ClassCommand<>(command, type, usageGenerator, methodFactory);
     }
 }

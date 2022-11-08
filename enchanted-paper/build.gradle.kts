@@ -8,6 +8,6 @@ repositories {
 
 dependencies {
     api(project(":enchanted-api"))
-    api(libs.mirror)
+    implementation(project(":enchanted-shared"))
     testImplementation(libs.mockito)
 }
