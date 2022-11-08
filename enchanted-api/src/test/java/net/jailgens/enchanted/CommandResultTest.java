@@ -4,7 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -71,6 +75,14 @@ class CommandResultTest {
     }
 
     @Test
+    void Given_SuccessCommandResult_When_EqualsCompareWithSame_Then_IsEqual() {
+
+        final CommandResult success = CommandResult.success("message");
+
+        assertEquals(success, success);
+    }
+
+    @Test
     void Given_SuccessCommandResult_When_EqualsCompareWithNotEqual_Then_IsNotEqual() {
 
         final CommandResult success1 = CommandResult.success("message");
@@ -78,6 +90,16 @@ class CommandResultTest {
 
         assertNotEquals(success1, success2);
     }
+
+    @Test
+    void Given_SuccessCommandResult_When_EqualsCompareWithDifferentType_Then_IsNotEqual() {
+
+        final CommandResult success = CommandResult.success("message");
+        final Object object = new Object();
+
+        assertNotEquals(success, object);
+    }
+
 
     @Test
     void Given_SuccessCommandResult_When_HashCode_Then_IsEqual() {
@@ -245,12 +267,29 @@ class CommandResultTest {
     }
 
     @Test
+    void Given_ErrorCommandResult_When_EqualsCompareWithSelf_Then_IsEqual() {
+
+        final CommandResult error = CommandResult.error("message");
+
+        assertEquals(error, error);
+    }
+
+    @Test
     void Given_ErrorCommandResult_When_EqualsCompareWithNotEqual_Then_IsNotEqual() {
 
         final CommandResult error1 = CommandResult.error("message");
         final CommandResult error2 = CommandResult.error("message2");
 
         assertNotEquals(error1, error2);
+    }
+
+    @Test
+    void Given_ErrorCommandResult_When_EqualsCompareWithDifferentType_Then_IsNotEqual() {
+
+        final CommandResult error = CommandResult.error("message");
+        final Object object = new Object();
+
+        assertNotEquals(error, object);
     }
 
     @Test
