@@ -23,9 +23,13 @@ final class SharedCommandFactory implements CommandFactory {
                          final @NotNull UsageGenerator usageGenerator,
                          final @NotNull MethodCommandFactory methodFactory) {
 
-        this.mirror = Objects.requireNonNull(mirror, "mirror cannot be null");
-        this.usageGenerator = Objects.requireNonNull(usageGenerator, "usageGenerator cannot be null");
-        this.methodFactory = Objects.requireNonNull(methodFactory, "methodFactory cannot be null");
+        Objects.requireNonNull(mirror, "mirror cannot be null");
+        Objects.requireNonNull(usageGenerator, "usageGenerator cannot be null");
+        Objects.requireNonNull(methodFactory, "methodFactory cannot be null");
+
+        this.mirror = mirror;
+        this.usageGenerator = usageGenerator;
+        this.methodFactory = methodFactory;
     }
 
     @Override
