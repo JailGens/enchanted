@@ -1,29 +1,42 @@
 package net.jailgens.enchanted;
 
+import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
+import org.bukkit.command.CommandMap;
+import org.bukkit.plugin.Plugin;
 import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
 final class PaperCommandManagerImpl implements PaperCommandManager {
 
-    private final CommandFactory commandFactory;
-    private final CommandRegistry commandRegistry;
-    private final ConverterRegistry converterRegistry;
+    private final @NotNull Plugin plugin;
+    private final @NotNull CommandMap commandMap;
+    private final @NotNull CommandFactory commandFactory;
+    private final @NotNull CommandRegistry commandRegistry;
+    private final @NotNull ConverterRegistry converterRegistry;
 
     @Contract(pure = true)
-    PaperCommandManagerImpl(final @NotNull CommandFactory commandFactory,
+    PaperCommandManagerImpl(final @NotNull Plugin plugin,
+                            final @NotNull CommandMap commandMap,
+                            final @NotNull CommandFactory commandFactory,
                             final @NotNull CommandRegistry commandRegistry,
                             final @NotNull ConverterRegistry converterRegistry) {
 
+        Objects.requireNonNull(plugin, "plugin cannot be null");
+        Objects.requireNonNull(commandMap, "commandMap cannot be null");
         Objects.requireNonNull(commandFactory, "commandFactory cannot be null");
         Objects.requireNonNull(commandRegistry, "commandRegistry cannot be null");
         Objects.requireNonNull(converterRegistry, "converterRegistry cannot be null");
 
+        this.plugin = plugin;
+        this.commandMap = commandMap;
         this.commandFactory = commandFactory;
         this.commandRegistry = commandRegistry;
         this.converterRegistry = converterRegistry;
@@ -38,7 +51,11 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     @Override
     public @NotNull Command registerCommand(final @NotNull Object command) {
 
-        return commandFactory.createCommand(command);
+        final Command commandInstance = commandFactory.createCommand(command);
+
+        commandMap.register(plugin.getName().toLowerCase(Locale.ROOT), new PaperCommand(commandInstance));
+
+        return commandInstance;
     }
 
     @Override

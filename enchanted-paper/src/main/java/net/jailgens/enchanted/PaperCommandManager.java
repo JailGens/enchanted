@@ -1,7 +1,10 @@
 package net.jailgens.enchanted;
 
 import net.jailgens.mirror.Mirror;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * The paper implementation of {@link CommandManager}.
@@ -15,10 +18,13 @@ public interface PaperCommandManager extends CommandManager {
     /**
      * Creates a new command manager.
      *
+     * @param plugin the plugin.
      * @return the command manager.
      * @since 0.0.0
      */
-    static @NotNull PaperCommandManager create() {
+    static @NotNull PaperCommandManager create(final Plugin plugin) {
+
+        Objects.requireNonNull(plugin, "plugin cannot be null");
 
         final Mirror mirror = Mirror.builder().build();
         final ConverterRegistry converterRegistry = new SharedConverterRegistry();
@@ -28,6 +34,8 @@ public interface PaperCommandManager extends CommandManager {
                 new MethodCommandFactoryImpl(converterRegistry, usageGenerator));
 
         return new PaperCommandManagerImpl(
+                plugin,
+                plugin.getServer().getCommandMap(),
                 commandFactory,
                 new SharedCommandRegistry(commandFactory),
                 converterRegistry);
