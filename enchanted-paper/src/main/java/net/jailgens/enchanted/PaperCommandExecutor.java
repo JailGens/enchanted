@@ -11,22 +11,28 @@ import net.kyori.adventure.sound.SoundStop;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.title.Title;
+import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-final class AdventureCommandExecutor implements CommandExecutor, Audience {
+public final class PaperCommandExecutor implements CommandExecutor, Audience {
 
-    private final @NotNull Audience sender;
+    private final @NotNull CommandSender sender;
 
     @Contract(pure = true)
-    AdventureCommandExecutor(final @NotNull Audience sender) {
+    PaperCommandExecutor(final @NotNull CommandSender sender) {
 
         Objects.requireNonNull(sender, "sender cannot be null");
 
         this.sender = sender;
+    }
+
+    public @NotNull String getName() {
+
+        return sender.getName();
     }
 
     @Override

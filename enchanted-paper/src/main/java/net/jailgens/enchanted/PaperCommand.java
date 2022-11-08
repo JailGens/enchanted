@@ -24,7 +24,7 @@ final class PaperCommand extends org.bukkit.command.Command {
                            final @NotNull String commandLabel,
                            final @NotNull String @NotNull [] args) {
 
-        command.execute(new AdventureCommandExecutor(sender), List.of(args));
+        command.execute(new PaperCommandExecutor(sender), List.of(args));
         return true;
     }
 }
