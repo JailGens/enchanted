@@ -1,5 +1,5 @@
 plugins {
-    id("enchanted.java-library-conventions")
+    id("enchanted.java-conventions")
 }
 
 repositories {
