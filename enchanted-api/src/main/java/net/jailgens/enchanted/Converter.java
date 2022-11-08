@@ -13,7 +13,6 @@ public interface Converter<T extends @NotNull Object> {
      * @param string the string.
      * @return an optional containing the converted object or {@code Optional.empty()} if the string
      * was unable to be converted.
-     * @throws NullPointerException if the string is {@code null}.
      * @since 0.0.0
      */
     @NotNull Optional<@NotNull T> convert(@NotNull String string);
