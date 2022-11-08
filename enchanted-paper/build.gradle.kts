@@ -2,6 +2,11 @@ plugins {
     id("enchanted.java-library-conventions")
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.sparky983.me/releases")
