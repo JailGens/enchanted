@@ -4,7 +4,7 @@ dependencyResolutionManagement {
     includeBuild("build-logic")
 }
 
-
 sequenceOf(
-        "enchanted-api"
+        "enchanted-api",
+        "enchanted-shared"
 ).forEach { include(it) }
