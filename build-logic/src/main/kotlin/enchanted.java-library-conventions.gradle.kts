@@ -11,8 +11,6 @@ java {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            artifactId = "enchanted"
-
             from(components["java"])
         }
     }
