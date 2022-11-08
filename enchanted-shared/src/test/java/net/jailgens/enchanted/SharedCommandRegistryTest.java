@@ -24,21 +24,21 @@ class SharedCommandRegistryTest {
 
     @SuppressWarnings("ConstantConditions")
     @Test
-    void Given_NullCommand_When_RegisterCommand_Then_ThrowsNullPointerException() {
+    void Given_NullCommand_When_RegisterCommand_Then_Throws() {
 
         assertThrows(NullPointerException.class, () -> registry.registerCommand(null));
     }
 
     @SuppressWarnings("ConstantConditions")
     @Test
-    void Given_NullCommand_When_UnregisterCommand_Then_ThrowsNullPointerException() {
+    void Given_NullCommand_When_UnregisterCommand_Then_Throws() {
 
         assertThrows(NullPointerException.class, () -> registry.unregisterCommand(null));
     }
 
     @SuppressWarnings("ConstantConditions")
     @Test
-    void Given_NullCommand_When_GetCommand_Then_ThrowsNullPointerException() {
+    void Given_NullCommand_When_GetCommand_Then_Throws() {
 
         assertThrows(NullPointerException.class, () -> registry.getCommand(null));
     }
@@ -70,7 +70,7 @@ class SharedCommandRegistryTest {
     }
 
     @Test
-    void Given_Command_When_RegisterCommandTwice_Then_ThrowsIllegalArgumentException() {
+    void Given_Command_When_RegisterCommandTwice_Then_Throws() {
 
         final Object command = new Object();
         final Command commandInstance = mock(Command.class);
@@ -108,6 +108,34 @@ class SharedCommandRegistryTest {
 
 
         assertFalse(registry.getRegisteredCommands().contains(commandInstance));
+    }
+
+    @Test
+    void Given_UnregisteredCommand_When_UnregisterCommand_Then_Throws() {
+
+        final Object command = new Object();
+        final Command commandInstance = mock(Command.class);
+        when(commandInstance.getLabels()).thenReturn(List.of("test"));
+        when(commandFactory.createCommand(command)).thenReturn(commandInstance);
+
+        assertThrows(IllegalArgumentException.class, () -> registry.unregisterCommand(commandInstance));
+    }
+
+    @Test
+    void Given_CommandRegistryWithRegisteredCommand_When_UnregisterCommandWithSameName_Then_Throws() {
+
+        final Object command = new Object();
+        final Command commandInstance = mock(Command.class);
+        final Object otherCommand = new Object();
+        final Command otherCommandInstance = mock(Command.class);
+        when(otherCommandInstance.getLabels()).thenReturn(List.of("test"));
+        when(commandInstance.getLabels()).thenReturn(List.of("test"));
+        when(commandFactory.createCommand(otherCommand)).thenReturn(otherCommandInstance);
+        when(commandFactory.createCommand(command)).thenReturn(commandInstance);
+
+        registry.registerCommand(otherCommand);
+
+        assertThrows(IllegalArgumentException.class, () -> registry.unregisterCommand(commandInstance));
     }
 
     @Test
