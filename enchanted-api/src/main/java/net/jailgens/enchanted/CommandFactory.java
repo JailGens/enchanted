@@ -2,6 +2,8 @@ package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.annotations.Aliases;
 import net.jailgens.enchanted.annotations.Description;
+import net.jailgens.enchanted.annotations.Join;
+import net.jailgens.enchanted.annotations.Optional;
 import net.jailgens.enchanted.annotations.Usage;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -36,8 +38,8 @@ public interface CommandFactory {
      *     <li>Have sub-commands of all methods, and nested classes (command groups) annotated with
      *     {@link net.jailgens.enchanted.annotations.Command}. The way methods created is defined
      *     <a href="methods">here</a></li>
-     *     <li>The {@link Command#execute(Object, List)} method invokes the sub-command with the
-     *     label {@code arguments[0]}'s {@link Command#execute(Object, List)} with a sub-list
+     *     <li>The {@link Command#execute(CommandExecutor, List)} method invokes the sub-command with the
+     *     label {@code arguments[0]}'s {@link Command#execute(CommandExecutor, List)} with a sub-list
      *     without the first ({@code arguments[0]}) argument. If no sub-command was found, the
      *     default command (marked with {@link net.jailgens.enchanted.annotations.Command.Default}
      *     is invoked with {@code arguments}, and if no default command exists, an error message
@@ -56,8 +58,15 @@ public interface CommandFactory {
      * a sub-command. The returned {@link net.jailgens.enchanted.annotations.Command sub-command}
      * of each method follows the same contract as for root-commands except:
      * <ul>
-     *     <li>The {@link Command#execute(Object, List)} method calls the method with the argument
+     *     <li>The {@link Command#execute(CommandExecutor, List)} method calls the method with the argument
      *     resolvers applied to each argument depending on the method's parameter.</li>
+     *     <li>Parameters annotated with {@link Join} be the last parameter, or 
+     *     {@link IllegalArgumentException} will be thrown. The {@link Join} annotation makes consumes all the rest of
+     *     the input arguments, and joins them by the {@link Join#value()} delimiter.</li>
+     *     <li>Parameters annotated with {@link Optional} are not required, and if no argument for 
+     *     that parameter exists, the value will be {@code null}. No other required parameters may
+     *     follow an optional parameter. Required parameters are parameters that aren't annotated 
+     *     with {@link Join} or {@link Optional}.</li>
      * </ul>
      *
      * @param command the user-defined command.
