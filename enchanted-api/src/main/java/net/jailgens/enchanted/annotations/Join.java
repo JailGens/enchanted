@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>
  * If no other arguments are after this parameter, a {@link CommandResult#error(String)} will be
  * returned.
- * 
+ *
  * @author Sparky983
  * @since 0.0.0
  */
@@ -23,7 +23,7 @@ public @interface Join {
 
     /**
      * The delimiter to use.
-     * 
+     *
      * @return the delimiter.
      * @since 0.0.0
      */
