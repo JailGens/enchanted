@@ -4,7 +4,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 /**
  * A registry of converters.
@@ -19,31 +18,36 @@ public interface ConverterRegistry {
      * <p>
      * If a converter for the specified type is already registered, it will be replaced.
      *
-     * @param converter the converter.
      * @param type the type.
+     * @param converter the converter.
      * @param <T> the type of the converter converts to.
      * @throws NullPointerException if the converter is {@code null}.
      * @since 0.0.0
      */
     @Contract(mutates = "this")
     <T extends @NotNull Object> void registerConverter(
-            @NotNull Function<? super @NotNull String, ? extends @NotNull T> converter,
+            @NotNull Class<@NotNull T> type,
+            @NotNull Converter<@NotNull T> converter);
+
+    /**
+     * Gets the converter for the specified type.
+     *
+     * @param type the type.
+     * @param <T> the type of the converter converts to.
+     * @return the converter.
+     * @throws NullPointerException if the type is {@code null}.
+     * @since 0.0.0
+     */
+    <T extends @NotNull Object> Optional<@NotNull Converter<@NotNull T>> getConverter(
             @NotNull Class<@NotNull T> type);
 
     /**
-     * Converts the specified string to an instance of the specified type.
-     * <p>
-     * If a converter for the specified type is not registered, {@code Optional.empty()} is
-     * returned.
+     * Checks if a converter for the specified type is registered.
      *
-     * @param string the string.
      * @param type the type.
-     * @param <T> the type of the converter converts to.
-     * @return an optional containing the converted value, or {@code Optional.empty()} if no
-     * converter was found.
-     * @throws NullPointerException if the string or type is {@code null}.
+     * @return {@code true} if a converter for the specified type is registered, {@code false} otherwise.
+     * @throws NullPointerException if the type is {@code null}.
      * @since 0.0.0
      */
-    @NotNull <T extends @NotNull Object> Optional<? extends @NotNull T> convert(
-            @NotNull String string, @NotNull Class<? extends @NotNull T> type);
+    boolean hasConverter(@NotNull Class<? extends @NotNull Object> type);
 }
