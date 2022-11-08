@@ -1,9 +1,11 @@
 [versions]
 jetbrains-annotations = "23.0.0"
+mirror = "0.0.1"
 
 junit = "5.9.1"
 
 [libraries]
+mirror = { module = "net.jailgens:mirror", version.ref = "mirror" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
 
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
