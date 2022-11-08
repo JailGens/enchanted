@@ -53,8 +53,8 @@ public interface Command {
      * <p>
      * Here are some examples using common conventions:
      * <ol>
-     *     <li>Shortened names (e.g. make -> mk)</li>
-     *     <li>Alternative names (e.g. make -> create)</li>
+     *     <li>Shortened names (e.g. make {@literal ->} mk)</li>
+     *     <li>Alternative names (e.g. make {@literal ->} create)</li>
      * </ol>
      *
      * @return the aliases of this command.
@@ -81,7 +81,7 @@ public interface Command {
      * The returned usage, will only show the syntax for the parameters.
      * <p>
      * By default, the usage has the following syntax:
-     * <pre>
+     * <pre>{@literal
      * usage :== ((param ' ')* param)?
      * name :== /[\w-]+/
      * param :== optional-param |
@@ -96,7 +96,7 @@ public interface Command {
      * required-enum-param :== '<' (name '|')* name '>'
      * literal-param :== name
      * context-required :== '...'
-     * </pre>
+     * }</pre>
      * This syntax is only a convention, this method does not guarantee that the returned usage will
      * follow this syntax.
      *

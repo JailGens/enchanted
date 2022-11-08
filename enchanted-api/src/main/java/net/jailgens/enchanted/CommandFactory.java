@@ -52,7 +52,6 @@ public interface CommandFactory {
      * instance argument must be the specified command (or the enclosing command group instance).
      * The returned {@link net.jailgens.enchanted.annotations.Command} object for the nested class
      * follow the same restrictions as ones created with this method.
-     * <p>
      * <h2><a id="methods">Methods</a></h2>
      * Each method annotated with {@link net.jailgens.enchanted.annotations.Command} is turned into
      * a sub-command. The returned {@link net.jailgens.enchanted.annotations.Command sub-command}
