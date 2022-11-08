@@ -1,6 +1,3 @@
-import org.gradle.api.tasks.testing.Test
-import org.gradle.kotlin.dsl.getByName
-
 plugins {
     `java-library`
     `maven-publish`
@@ -22,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains:annotations:23.0.0")
+    implementation(libs.jetbrains.annotations)
 
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
