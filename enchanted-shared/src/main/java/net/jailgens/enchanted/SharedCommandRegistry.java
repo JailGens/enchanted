@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-final class SharedCommandRegistry implements CommandRegistry {
+public final class SharedCommandRegistry implements CommandRegistry {
 
     private final @NotNull CommandFactory commandFactory;
     private final @NotNull Map<@NotNull String, @NotNull Command> commands = new HashMap<>();

@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-final class SharedConverterRegistry implements ConverterRegistry {
+public final class SharedConverterRegistry implements ConverterRegistry {
 
     private final Map<Class<?>, Converter<?>> converters = new HashMap<>();
 
-    SharedConverterRegistry() {
+    public SharedConverterRegistry() {
 
         registerConverter(String.class, new StringConverter());
         registerConverter(Integer.class, new IntegerConverter());

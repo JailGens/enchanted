@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-final class MethodCommandFactoryImpl implements MethodCommandFactory {
+public final class MethodCommandFactoryImpl implements MethodCommandFactory {
 
     private final @NotNull ConverterRegistry converterRegistry;
     private final @NotNull UsageGenerator usageGenerator;

@@ -1,6 +1,30 @@
 plugins {
     id("enchanted.java-conventions")
+    `java-library`
+    jacoco
     `maven-publish`
+}
+
+val libs = extensions.getByType(org.gradle.accessors.dm.LibrariesForLibs::class)
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(libs.jetbrains.annotations)
+
+    testImplementation(libs.junit.api)
+    testRuntimeOnly(libs.junit.engine)
+    testImplementation(libs.junit.params)
 }
 
 publishing {
@@ -23,4 +47,18 @@ publishing {
             }
         }
     }
+}
+
+tasks.getByName<JavaCompile>("compileTestJava") {
+    options.compilerArgs.add("-parameters")
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+    }
+}
+
+tasks.getByName<Test>("test") {
+    useJUnitPlatform()
 }

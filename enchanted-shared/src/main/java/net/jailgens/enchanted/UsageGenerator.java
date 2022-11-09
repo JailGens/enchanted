@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Sparky983
  * @since 0.0.0
  */
-interface UsageGenerator {
+public interface UsageGenerator {
 
     /**
      * Generates the usage for the specified command.

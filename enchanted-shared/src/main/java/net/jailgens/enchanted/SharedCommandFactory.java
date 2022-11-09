@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Sparky983
  */
-final class SharedCommandFactory implements CommandFactory {
+public final class SharedCommandFactory implements CommandFactory {
 
     private final @NotNull Mirror mirror;
     private final @NotNull UsageGenerator usageGenerator;

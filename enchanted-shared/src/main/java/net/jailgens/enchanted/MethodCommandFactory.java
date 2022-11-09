@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Sparky983
  */
-interface MethodCommandFactory {
+public interface MethodCommandFactory {
 
     /**
      * Creates a method command for the specified method.
