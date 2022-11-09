@@ -1,7 +1,5 @@
 package net.jailgens.enchanted;
 
-import org.bukkit.NamespacedKey;
-import org.bukkit.Server;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.Plugin;
 import org.intellij.lang.annotations.Subst;
