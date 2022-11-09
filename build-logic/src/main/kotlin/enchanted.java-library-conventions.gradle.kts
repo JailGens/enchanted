@@ -1,5 +1,4 @@
 plugins {
-    id("enchanted.java-conventions")
     `java-library`
     jacoco
     `maven-publish`
