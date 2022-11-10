@@ -5,6 +5,7 @@ import org.intellij.lang.annotations.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -19,6 +20,7 @@ import static net.jailgens.enchanted.Command.NAME_PATTERN;
  * @author Sparky983
  * @since 0.0.0
  */
+@Documented
 @Retention(RUNTIME)
 @Target({METHOD, TYPE})
 public @interface Command {

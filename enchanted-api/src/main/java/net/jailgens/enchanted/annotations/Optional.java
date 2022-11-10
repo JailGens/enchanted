@@ -1,5 +1,6 @@
 package net.jailgens.enchanted.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -12,6 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Sparky983
  * @since 0.0.0
  */
+@Documented
 @Retention(RUNTIME)
 @Target(PARAMETER)
 public @interface Optional {
