@@ -26,11 +26,12 @@ abstract class AnnotatedCommand implements Command {
     private static final @NotNull AnnotationElement DESCRIPTION = AnnotationElement.value(Description.class);
     private static final @NotNull AnnotationElement USAGE = AnnotationElement.value(Usage.class);
 
-    @Subst("name")
+    @org.intellij.lang.annotations.Pattern(NAME_PATTERN)
     private final @NotNull String name;
     private final @NotNull @Unmodifiable List<String> aliases;
     private final @NotNull @Unmodifiable List<String> labels;
     private final @NotNull String usage;
+    @org.intellij.lang.annotations.Pattern(DESCRIPTION_PATTERN)
     private final @NotNull String description;
 
     AnnotatedCommand(final @NotNull String name,
@@ -109,6 +110,7 @@ abstract class AnnotatedCommand implements Command {
         return usage;
     }
 
+    @org.intellij.lang.annotations.Pattern(DESCRIPTION_PATTERN)
     @Override
     public @NotNull String getDescription(final @NotNull Locale locale) {
 
