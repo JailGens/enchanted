@@ -114,7 +114,8 @@ public interface Command {
      * @since 0.0.0
      */
     @Contract(pure = true)
-    @Pattern(DESCRIPTION_PATTERN) @NotNull String getDescription(@NotNull Locale locale);
+    @Pattern(DESCRIPTION_PATTERN)
+    @NotNull String getDescription(@NotNull Locale locale);
 
     /**
      * Gets the description of this command for the default locale.
@@ -123,6 +124,7 @@ public interface Command {
      * @since 0.0.0
      */
     @Contract(pure = true)
+    @Pattern(DESCRIPTION_PATTERN)
     @NotNull String getDescription();
 
     /**
