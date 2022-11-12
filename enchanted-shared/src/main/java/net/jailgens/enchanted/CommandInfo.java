@@ -39,6 +39,16 @@ public interface CommandInfo {
     @Unmodifiable @NotNull List<@NotNull String> getAliases();
 
     /**
+     * Returns the raw, user-defined labels list.
+     * <p>
+     * In the future, since these labels are user-defined, they may include templates.
+     *
+     * @see Command#getLabels()
+     */
+    @Contract(pure = true)
+    @Unmodifiable @NotNull List<@NotNull String> getLabels();
+
+    /**
      * Returns the raw, user-defined usage.
      * <p>
      * In the future, since this is a user-defined usage, it may include templates.

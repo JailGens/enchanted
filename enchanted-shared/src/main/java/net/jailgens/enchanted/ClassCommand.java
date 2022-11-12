@@ -72,7 +72,7 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
 
         this.aliases = CommandValidator.validateAliases(name, commandInfo.getAliases());
 
-        this.labels = createLabelsList(this.name, aliases);
+        this.labels = commandInfo.getLabels();
         this.usage = commandInfo.getUsage().orElseGet(() -> usageGenerator.generateUsage(this));
 
         this.description = CommandValidator.validateDescription(commandInfo.getDescription().orElse(""));
@@ -128,23 +128,6 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
         }
 
         return methods.isEmpty() ? null : methods.get(0);
-    }
-
-    /**
-     * A helper method to create the list of labels for this command.
-     *
-     * @param name the name.
-     * @param aliases the aliases.
-     * @return the list of labels.
-     */
-    private static @NotNull @Unmodifiable List<@NotNull String> createLabelsList(
-            final @NotNull String name,
-            final @NotNull List<@NotNull String> aliases) {
-
-        final List<String> labels = new ArrayList<>(aliases.size() + 1);
-        labels.add(name);
-        labels.addAll(aliases);
-        return List.copyOf(labels);
     }
 
     @Pattern(NAME_PATTERN)

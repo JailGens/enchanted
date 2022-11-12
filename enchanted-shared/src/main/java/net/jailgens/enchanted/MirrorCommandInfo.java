@@ -10,6 +10,7 @@ import net.jailgens.mirror.Mirror;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,6 +46,22 @@ final class MirrorCommandInfo implements CommandInfo {
     public @Unmodifiable @NotNull List<@NotNull String> getAliases() {
 
         return annotations.getStrings(ALIASES);
+    }
+
+    @Override
+    public @Unmodifiable @NotNull List<@NotNull String> getLabels() {
+
+        final Optional<String> name = getName();
+
+        if (name.isEmpty()) {
+            return getAliases();
+        }
+
+        final List<String> aliases = getAliases();
+        final List<String> labels = new ArrayList<>(aliases.size() + 1);
+        labels.add(name.get());
+        labels.addAll(aliases);
+        return List.copyOf(labels);
     }
 
     @Override
