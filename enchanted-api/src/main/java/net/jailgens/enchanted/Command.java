@@ -17,7 +17,7 @@ import java.util.Locale;
  * @author Sparky983
  * @since 0.0.0
  */
-public interface Command {
+public interface Command extends Executable {
 
     /**
      * The pattern that all names must match.
@@ -126,15 +126,4 @@ public interface Command {
     @Contract(pure = true)
     @Pattern(DESCRIPTION_PATTERN)
     @NotNull String getDescription();
-
-    /**
-     * Executes this command.
-     *
-     * @param sender the sender.
-     * @param arguments the arguments.
-     * @return the result of the execution.
-     * @since 0.0.0
-     */
-    @NotNull CommandResult execute(@NotNull CommandExecutor sender,
-                                   @NotNull List<@NotNull String> arguments);
 }
