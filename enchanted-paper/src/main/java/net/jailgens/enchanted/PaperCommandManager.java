@@ -1,5 +1,6 @@
 package net.jailgens.enchanted;
 
+import net.jailgens.enchanted.converter.SharedConverterRegistry;
 import net.jailgens.mirror.Mirror;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;

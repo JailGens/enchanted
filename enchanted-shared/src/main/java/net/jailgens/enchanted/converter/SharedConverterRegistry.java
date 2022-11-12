@@ -1,5 +1,7 @@
-package net.jailgens.enchanted;
+package net.jailgens.enchanted.converter;
 
+import net.jailgens.enchanted.Converter;
+import net.jailgens.enchanted.ConverterRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

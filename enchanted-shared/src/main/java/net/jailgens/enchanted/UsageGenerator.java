@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
  * Generates command usages.
  *
  * @author Sparky983
- * @since 0.0.0
  */
 public interface UsageGenerator {
 

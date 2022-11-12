@@ -1,5 +1,6 @@
-package net.jailgens.enchanted;
+package net.jailgens.enchanted.converter;
 
+import net.jailgens.enchanted.Converter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
