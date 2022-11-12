@@ -3,7 +3,7 @@ package net.jailgens.enchanted;
 import net.jailgens.enchanted.annotations.Command.Default;
 import net.jailgens.mirror.Method;
 import net.jailgens.mirror.TypeDefinition;
-import org.intellij.lang.annotations.Subst;
+import org.intellij.lang.annotations.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -24,22 +23,20 @@ import java.util.stream.Collectors;
  *
  * @author Sparky983
  */
+@SuppressWarnings("PatternValidation") // for @Subst annotations
+// The strings are already annotated with @Pattern, no need to substitute them
 final class ClassCommand<T extends @NotNull Object> implements Command {
-
-    private static final @NotNull Pattern COMPILED_NAME_PATTERN = Pattern.compile(NAME_PATTERN);
-    private static final @NotNull Pattern COMPILED_DESCRIPTION_PATTERN = Pattern.compile(DESCRIPTION_PATTERN);
 
     private static final @NotNull Class<? extends @NotNull Annotation> DEFAULT = Default.class;
     private static final @NotNull Class<? extends @NotNull Annotation> COMMAND = net.jailgens.enchanted.annotations.Command.class;
 
-    @Subst("name")
-    @org.intellij.lang.annotations.Pattern(NAME_PATTERN)
+    @Pattern(NAME_PATTERN)
     private final @NotNull String name;
-    private final @NotNull List</* @org.intellij.lang.annotations.Pattern(NAME_PATTERN) */String> aliases;
-    private final @NotNull List</* @org.intellij.lang.annotations.Pattern(NAME_PATTERN) */String> labels;
+    private final @NotNull List</* @org.intellij.lang.annotations.Pattern(NAME_PATTERN) */@NotNull String> aliases;
+    private final @NotNull List</* @org.intellij.lang.annotations.Pattern(NAME_PATTERN) */@NotNull String> labels;
     private final @NotNull String usage;
-    @Subst("description")
-    @org.intellij.lang.annotations.Pattern(DESCRIPTION_PATTERN)
+
+    @Pattern(DESCRIPTION_PATTERN)
     private final @NotNull String description;
 
     private final @NotNull T command;
@@ -70,35 +67,15 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
             this.defaultCommand = commandFactory.createCommand(command, defaultCommandMethod);
         }
 
-        @Subst("name") final String name =
-                commandInfo.getName().orElseThrow(IllegalArgumentException::new);
-        this.name = name;
+        this.name = CommandValidator.validateName(
+                commandInfo.getName().orElseThrow(IllegalArgumentException::new));
 
-        if (!COMPILED_NAME_PATTERN.matcher(this.name).matches()) {
-            throw new IllegalArgumentException("Command name must match " + NAME_PATTERN);
-        }
-
-        this.aliases = commandInfo.getAliases();
-
-        for (final String alias : this.aliases) {
-            if (!COMPILED_NAME_PATTERN.matcher(alias).matches()) {
-                throw new IllegalArgumentException("Command aliases must match " + NAME_PATTERN);
-            }
-        }
-
-        if (aliases.contains(name)) {
-            throw new IllegalArgumentException("command name cannot be an alias");
-        }
+        this.aliases = CommandValidator.validateAliases(name, commandInfo.getAliases());
 
         this.labels = createLabelsList(this.name, aliases);
         this.usage = commandInfo.getUsage().orElseGet(() -> usageGenerator.generateUsage(this));
 
-        @Subst("description") final String description = commandInfo.getDescription().orElse("");
-        this.description = description;
-
-        if (!COMPILED_DESCRIPTION_PATTERN.matcher(this.description).matches()) {
-            throw new IllegalArgumentException("Command description must match " + DESCRIPTION_PATTERN);
-        }
+        this.description = CommandValidator.validateDescription(commandInfo.getDescription().orElse(""));
     }
 
     /**
@@ -170,7 +147,7 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
         return List.copyOf(labels);
     }
 
-    @org.intellij.lang.annotations.Pattern(NAME_PATTERN)
+    @Pattern(NAME_PATTERN)
     @Override
     public @NotNull String getName() {
 
@@ -195,7 +172,7 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
         return usage;
     }
 
-    @org.intellij.lang.annotations.Pattern(DESCRIPTION_PATTERN)
+    @Pattern(DESCRIPTION_PATTERN)
     @Override
     public @NotNull String getDescription(final @NotNull Locale locale) {
 
@@ -204,7 +181,7 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
         return description;
     }
 
-    @org.intellij.lang.annotations.Pattern(DESCRIPTION_PATTERN)
+    @Pattern(DESCRIPTION_PATTERN)
     @Override
     public @NotNull String getDescription() {
 

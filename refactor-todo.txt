@@ -1,5 +1,4 @@
 - Remove annotated command
-- Add utility class for validating names - efficient checking looks messy
  (Pattern.matcher("").matches()) and is not very readable
 - Separate class for default commands
 - Executable - essentially an anonymous command, like Command.Default because it has no name
