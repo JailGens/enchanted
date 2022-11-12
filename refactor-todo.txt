@@ -1,5 +1,3 @@
-- Remove annotated command
- (Pattern.matcher("").matches()) and is not very readable
 - Separate class for default commands
 - Executable - essentially an anonymous command, like Command.Default because it has no name
 - CommandMap - maps command labels to commands, basically like CommandRegistry without the factory

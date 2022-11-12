@@ -28,6 +28,10 @@ public final class MethodCommandFactoryImpl implements MethodCommandFactory {
         Objects.requireNonNull(method, "method cannot be null");
         Objects.requireNonNull(command, "command cannot be null");
 
-        return new MethodCommand<>(command, method, converterRegistry, usageGenerator);
+        return new MethodCommand<>(command,
+                new MirrorCommandInfo(method.getAnnotations()),
+                method,
+                converterRegistry,
+                usageGenerator);
     }
 }
