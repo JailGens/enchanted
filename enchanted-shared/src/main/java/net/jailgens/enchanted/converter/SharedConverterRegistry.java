@@ -11,27 +11,37 @@ import java.util.Optional;
 
 public final class SharedConverterRegistry implements ConverterRegistry {
 
-    private final Map<Class<?>, Converter<?>> converters = new HashMap<>();
+    private static final @NotNull Converter<@NotNull String> STRING_CONVERTER = new StringConverter();
+    private static final @NotNull Converter<@NotNull Integer> INTEGER_CONVERTER = new IntegerConverter();
+    private static final @NotNull Converter<@NotNull Double> DOUBLE_CONVERTER = new DoubleConverter();
+    private static final @NotNull Converter<@NotNull Float> FLOAT_CONVERTER = new FloatConverter();
+    private static final @NotNull Converter<@NotNull Boolean> BOOLEAN_CONVERTER = new BooleanConverter();
+    private static final @NotNull Converter<@NotNull Long> LONG_CONVERTER = new LongConverter();
+    private static final @NotNull Converter<@NotNull Short> SHORT_CONVERTER = new ShortConverter();
+    private static final @NotNull Converter<@NotNull Byte> BYTE_CONVERTER = new ByteConverter();
+    private static final @NotNull Converter<@NotNull Character> CHARACTER_CONVERTER = new CharacterConverter();
+
+    private final @NotNull Map<@NotNull Class<? extends @NotNull Object>, Converter<? extends @NotNull Object>> converters = new HashMap<>();
 
     public SharedConverterRegistry() {
 
-        registerConverter(String.class, new StringConverter());
-        registerConverter(Integer.class, new IntegerConverter());
-        registerConverter(int.class, new IntegerConverter());
-        registerConverter(Double.class, new DoubleConverter());
-        registerConverter(double.class, new DoubleConverter());
-        registerConverter(Float.class, new FloatConverter());
-        registerConverter(float.class, new FloatConverter());
-        registerConverter(Boolean.class, new BooleanConverter());
-        registerConverter(boolean.class, new BooleanConverter());
-        registerConverter(Long.class, new LongConverter());
-        registerConverter(long.class, new LongConverter());
-        registerConverter(Short.class, new ShortConverter());
-        registerConverter(short.class, new ShortConverter());
-        registerConverter(Byte.class, new ByteConverter());
-        registerConverter(byte.class, new ByteConverter());
-        registerConverter(Character.class, new CharacterConverter());
-        registerConverter(char.class, new CharacterConverter());
+        registerConverter(String.class, STRING_CONVERTER);
+        registerConverter(Integer.class, INTEGER_CONVERTER);
+        registerConverter(int.class, INTEGER_CONVERTER);
+        registerConverter(Double.class, DOUBLE_CONVERTER);
+        registerConverter(double.class, DOUBLE_CONVERTER);
+        registerConverter(Float.class, FLOAT_CONVERTER);
+        registerConverter(float.class, FLOAT_CONVERTER);
+        registerConverter(Boolean.class, BOOLEAN_CONVERTER);
+        registerConverter(boolean.class, BOOLEAN_CONVERTER);
+        registerConverter(Long.class, LONG_CONVERTER);
+        registerConverter(long.class, LONG_CONVERTER);
+        registerConverter(Short.class, SHORT_CONVERTER);
+        registerConverter(short.class, SHORT_CONVERTER);
+        registerConverter(Byte.class, BYTE_CONVERTER);
+        registerConverter(byte.class, BYTE_CONVERTER);
+        registerConverter(Character.class, CHARACTER_CONVERTER);
+        registerConverter(char.class, CHARACTER_CONVERTER);
     }
 
     @Override
