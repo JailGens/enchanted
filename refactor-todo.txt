@@ -1,2 +1,1 @@
 - Separate class for default commands
-- command map decorator that adds commands to paper's command map
