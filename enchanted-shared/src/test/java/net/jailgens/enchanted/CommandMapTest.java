@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class CommandMapTest {
+class CommandMapTest {
 
     CommandMap commandMap;
 
@@ -86,7 +86,6 @@ public class CommandMapTest {
         commandMap.registerCommand(command);
         commandMap.unregisterCommand(command);
 
-
         assertFalse(commandMap.getRegisteredCommands().contains(command));
     }
 
@@ -109,6 +108,7 @@ public class CommandMapTest {
         commandMap.registerCommand(command1);
 
         assertThrows(IllegalArgumentException.class, () -> commandMap.unregisterCommand(command2));
+        assertEquals(Optional.of(command1), commandMap.getCommand("test"));
     }
 
     @Test
