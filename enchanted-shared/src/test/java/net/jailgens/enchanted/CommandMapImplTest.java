@@ -13,14 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class CommandMapTest {
+class CommandMapImplTest {
 
     CommandMap commandMap;
 
     @BeforeEach
     void setUp() {
 
-        commandMap = new CommandMap();
+        commandMap = CommandMap.create();
     }
 
     @SuppressWarnings("ConstantConditions")
