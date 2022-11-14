@@ -4,22 +4,23 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 public final class SharedCommandRegistry implements CommandRegistry {
 
     private final @NotNull CommandFactory commandFactory;
-    private final @NotNull Map<@NotNull String, @NotNull Command> commands = new HashMap<>();
+    private final @NotNull CommandMap commandMap;
 
-    SharedCommandRegistry(@NotNull final CommandFactory commandFactory) {
+    SharedCommandRegistry(final @NotNull CommandFactory commandFactory,
+                          final @NotNull CommandMap commandMap) {
 
         Objects.requireNonNull(commandFactory, "commandFactory cannot be null");
+        Objects.requireNonNull(commandMap, "commandMap cannot be null");
 
         this.commandFactory = commandFactory;
+        this.commandMap = commandMap;
     }
 
     @Override
@@ -29,18 +30,7 @@ public final class SharedCommandRegistry implements CommandRegistry {
 
         final Command commandInstance = commandFactory.createCommand(command);
 
-        assert commandInstance.getLabels().size() > 0;
-
-        for (final String label : commandInstance.getLabels()) {
-            if (commands.containsKey(label)) {
-                throw new IllegalArgumentException("Multiple sub commands with label \"" + label + "\"");
-            }
-        }
-
-        for (final String label : commandInstance.getLabels()) {
-            commands.put(label, commandInstance);
-        }
-
+        commandMap.registerCommand(commandInstance);
         return commandInstance;
     }
 
@@ -49,11 +39,7 @@ public final class SharedCommandRegistry implements CommandRegistry {
 
         Objects.requireNonNull(command, "command cannot be null");
 
-        for (final String label : command.getLabels()) {
-            if (!commands.remove(label, command)) {
-                throw new IllegalArgumentException("Command with label \"" + label + "\" is not registered");
-            }
-        }
+        commandMap.unregisterCommand(command);
     }
 
     @Override
@@ -61,12 +47,12 @@ public final class SharedCommandRegistry implements CommandRegistry {
 
         Objects.requireNonNull(label, "label cannot be null");
 
-        return Optional.ofNullable(commands.get(label));
+        return commandMap.getCommand(label);
     }
 
     @Override
     public @NotNull @Unmodifiable Collection<? extends @NotNull Command> getRegisteredCommands() {
 
-        return List.copyOf(commands.values());
+        return commandMap.getRegisteredCommands();
     }
 }
