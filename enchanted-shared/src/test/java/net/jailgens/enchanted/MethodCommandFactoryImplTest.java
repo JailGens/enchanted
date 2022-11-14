@@ -32,13 +32,15 @@ import static org.mockito.Mockito.when;
 @SuppressWarnings({"unused", "ResultOfMethodCallIgnored"})
 class MethodCommandFactoryImplTest {
 
-    final Mirror mirror = Mirror.builder().build();
+    Mirror mirror;
     MethodCommandFactory factory;
     ConverterRegistry converterRegistry;
     UsageGenerator usageGenerator;
 
     @BeforeEach
     void setUp() {
+
+        mirror = Mirror.builder().build();
         usageGenerator = mock(UsageGenerator.class);
         converterRegistry = mock(ConverterRegistry.class);
         factory = new MethodCommandFactoryImpl(converterRegistry, usageGenerator);
