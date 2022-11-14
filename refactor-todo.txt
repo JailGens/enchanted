@@ -1,0 +1,2 @@
+- Separate class for default commands
+- Integration tests
