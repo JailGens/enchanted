@@ -1,2 +1,5 @@
 - Separate class for default commands
+  - Make CommandInfo already validated
 - Integration tests
+- Remove method command factory - class command and method command are so related to the point where
+  it's easier to test them together
