@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A map of commands.
+ * A map of command labels to commands.
  *
  * @author Sparky983
  */
@@ -20,6 +20,14 @@ public final class CommandMap {
 
     private final @NotNull Map<@NotNull String, @NotNull Command> commands = new HashMap<>();
 
+    /**
+     * Registers the command.
+     *
+     * @param command the command.
+     * @throws NullPointerException if the command is {@code null}.
+     * @throws IllegalArgumentException if a command with one of the command's labels has already
+     * been registered.
+     */
     @Contract(mutates = "this")
     public void registerCommand(final @NotNull Command command) {
 
@@ -29,7 +37,7 @@ public final class CommandMap {
 
         for (final String label : command.getLabels()) {
             if (commands.containsKey(label)) {
-                throw new IllegalArgumentException("Multiple sub commands with label \"" + label + "\"");
+                throw new IllegalArgumentException("Command with label \"" + label + "\" already exists");
             }
         }
 
@@ -38,6 +46,12 @@ public final class CommandMap {
         }
     }
 
+    /**
+     * Unregisters the command.
+     *
+     * @param command the command.
+     * @throws IllegalArgumentException if
+     */
     @Contract(mutates = "this")
     public void unregisterCommand(final @NotNull Command command) {
 
@@ -50,6 +64,13 @@ public final class CommandMap {
         }
     }
 
+    /**
+     * Gets the command with the specified label.
+     *
+     * @param label the label.
+     * @return an optional containing the command if it exists, otherwise {@code Optional.empty()}.
+     * @throws NullPointerException if the label is {@code null}.
+     */
     public @NotNull Optional<? extends @NotNull Command> getCommand(final @NotNull String label) {
 
         Objects.requireNonNull(label, "label cannot be null");
@@ -57,6 +78,11 @@ public final class CommandMap {
         return Optional.ofNullable(commands.get(label));
     }
 
+    /**
+     * Gets all the registered commands.
+     *
+     * @return an unmodifiable collection of all the registered commands.
+     */
     public @NotNull @Unmodifiable Collection<? extends @NotNull Command> getRegisteredCommands() {
 
         return List.copyOf(commands.values());
