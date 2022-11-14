@@ -1,2 +1,4 @@
 - Separate class for default commands
 - CommandMap - maps command labels to commands, basically like CommandRegistry without the factory
+  - add to registry
+  - add to class command
