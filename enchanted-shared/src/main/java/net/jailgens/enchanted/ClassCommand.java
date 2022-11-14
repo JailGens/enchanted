@@ -39,7 +39,7 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
     private final @NotNull String description;
 
     private final @NotNull T command;
-    private final @NotNull Map<@NotNull String, @NotNull Command> subCommands;
+    private final @NotNull CommandMap subCommands = CommandMap.create();
     private final @Nullable Command defaultCommand;
 
     @Contract(pure = true)
@@ -56,7 +56,10 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
 
         this.command = command;
 
-        this.subCommands = findSubCommands(type, commandFactory);
+        type.getMethods().stream()
+                .filter((method) -> method.getAnnotations().hasAnnotation(COMMAND))
+                .map((method) -> commandFactory.createCommand(command, method))
+                .forEach(subCommands::registerCommand);
 
         final Method<? extends T, ?> defaultCommandMethod = findDefaultCommand(type);
 
@@ -75,36 +78,6 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
         this.usage = commandInfo.getUsage().orElseGet(() -> usageGenerator.generateUsage(this));
 
         this.description = CommandValidator.validateDescription(commandInfo.getDescription().orElse(""));
-    }
-
-    /**
-     * A helper method to find all sub commands.
-     *
-     * @param type the type.
-     * @return a map of sub command labels to sub command.
-     * @throws IllegalArgumentException if a sub command failed validation.
-     */
-    private @NotNull Map<@NotNull String, @NotNull  Command> findSubCommands(
-            final @NotNull TypeDefinition<? extends @NotNull T> type,
-            final @NotNull MethodCommandFactory factory) {
-
-        final List<Command> commands = type.getMethods().stream()
-                .filter((method) -> method.getAnnotations().hasAnnotation(COMMAND))
-                .map((method) -> factory.createCommand(command, method))
-                .collect(Collectors.toUnmodifiableList());
-
-        final Map<String, Command> commandsMap = new HashMap<>();
-
-        for (final Command command : commands) {
-            for (final String label : command.getLabels()) {
-                if (commandsMap.containsKey(label)) {
-                    throw new IllegalArgumentException("Multiple sub commands with label \"" + label + "\"");
-                }
-                commandsMap.put(label, command);
-            }
-        }
-
-        return commandsMap;
     }
 
     /**
@@ -184,7 +157,7 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
         final Command command;
 
         if (arguments.size() > 1) {
-            command = subCommands.get(arguments.get(0));
+            command = subCommands.getCommand(arguments.get(0)).orElse(null);
         } else {
             command = null;
         }

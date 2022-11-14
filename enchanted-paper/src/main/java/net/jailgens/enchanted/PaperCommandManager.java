@@ -38,7 +38,7 @@ public interface PaperCommandManager extends CommandManager {
                 plugin,
                 plugin.getServer().getCommandMap(),
                 commandFactory,
-                new SharedCommandRegistry(commandFactory),
+                new SharedCommandRegistry(commandFactory, CommandMap.create()),
                 converterRegistry);
     }
 }

@@ -358,6 +358,7 @@ class SharedCommandFactoryTest {
         final CommandExecutor executor = mock(CommandExecutor.class);
         final net.jailgens.enchanted.Command defaultCommand =
                 mock(net.jailgens.enchanted.Command.class);
+        when(defaultCommand.getLabels()).thenReturn(List.of("default"));
         when(defaultCommand.execute(any(), any())).thenReturn(CommandResult.success("success message"));
         when(methodFactory.createCommand(any(), any()))
                 .thenReturn(defaultCommand);
