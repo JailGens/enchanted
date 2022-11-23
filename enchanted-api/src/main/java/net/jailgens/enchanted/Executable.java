@@ -1,5 +1,6 @@
 package net.jailgens.enchanted;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -27,4 +28,35 @@ public interface Executable {
      */
     @NotNull CommandResult execute(@NotNull CommandExecutor sender,
                                    @NotNull List<@NotNull String> arguments);
+
+    /**
+     * Gets the usage of this command.
+     * <p>
+     * The returned usage, will only show the syntax for the parameters.
+     * <p>
+     * By default, the usage has the following syntax:
+     * <pre>{@literal
+     * usage :== ((param ' ')* param)?
+     * name :== /[\w-]+/
+     * param :== optional-param |
+     *           required-param |
+     *           literal-param |
+     *           optional-enum-param |
+     *           required-enum-param |
+     *           context-required
+     * optional-param :== '[' name ']'
+     * required-param :== '<' name '>'
+     * optional-enum-param :== '[' (name '|')* name ']'
+     * required-enum-param :== '<' (name '|')* name '>'
+     * literal-param :== name
+     * context-required :== '...'
+     * }</pre>
+     * This syntax is only a convention, this method does not guarantee that the returned usage will
+     * follow this syntax.
+     *
+     * @return the usage of this command
+     * @since 0.0.0
+     */
+    @Contract(pure = true)
+    @NotNull String getUsage();
 }
