@@ -31,9 +31,8 @@ public interface PaperCommandManager extends CommandManager {
         final Mirror mirror = Mirror.builder().build();
         final ConverterRegistry converterRegistry = new SharedConverterRegistry();
         final UsageGenerator usageGenerator = new EmptyUsageGenerator();
-        final CommandFactory commandFactory = new SharedCommandFactory(mirror,
-                usageGenerator,
-                new MethodCommandFactoryImpl(converterRegistry, usageGenerator));
+        final CommandFactory commandFactory = new SharedCommandFactory(mirror, usageGenerator,
+                converterRegistry);
 
         return new PaperCommandManagerImpl(
                 plugin,

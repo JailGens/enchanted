@@ -1,6 +1,8 @@
 package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.annotations.Command.Default;
+import net.jailgens.enchanted.annotations.Usage;
+import net.jailgens.mirror.AnnotationElement;
 import net.jailgens.mirror.Method;
 import net.jailgens.mirror.TypeDefinition;
 import org.intellij.lang.annotations.Pattern;
@@ -10,10 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -24,41 +24,37 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("PatternValidation") // for @Subst annotations
 // The strings are already annotated with @Pattern, no need to substitute them
-final class ClassCommand<T extends @NotNull Object> implements Command {
+final class ClassCommand implements Command {
+
+    static final @NotNull AnnotationElement USAGE = AnnotationElement.value(Usage.class);
 
     private static final @NotNull Class<? extends @NotNull Annotation> DEFAULT = Default.class;
     private static final @NotNull Class<? extends @NotNull Annotation> COMMAND = net.jailgens.enchanted.annotations.Command.class;
 
-    @Pattern(NAME_PATTERN)
-    private final @NotNull String name;
-    private final @NotNull List</* @org.intellij.lang.annotations.Pattern(NAME_PATTERN) */@NotNull String> aliases;
-    private final @NotNull List</* @org.intellij.lang.annotations.Pattern(NAME_PATTERN) */@NotNull String> labels;
+    private final @NotNull CommandMap subCommands = CommandMap.create();
+    private final @Nullable Executable defaultCommand;
+
+    private final @NotNull CommandInfo commandInfo;
     private final @NotNull String usage;
 
-    @Pattern(DESCRIPTION_PATTERN)
-    private final @NotNull String description;
-
-    private final @NotNull T command;
-    private final @NotNull CommandMap subCommands = CommandMap.create();
-    private final @Nullable Command defaultCommand;
-
     @Contract(pure = true)
-    ClassCommand(final @NotNull T command,
-                 final @NotNull TypeDefinition<? extends @NotNull T> type,
-                 final @NotNull CommandInfo commandInfo,
-                 final @NotNull UsageGenerator usageGenerator,
-                 final @NotNull MethodCommandFactory commandFactory) {
+    <T extends @NotNull Object> ClassCommand(final @NotNull T command,
+                                             final @NotNull TypeDefinition<? extends @NotNull T> type,
+                                             final @NotNull CommandInfo commandInfo,
+                                             final @NotNull ConverterRegistry converterRegistry,
+                                             final @NotNull UsageGenerator usageGenerator) {
 
         Objects.requireNonNull(command, "command cannot be null");
         Objects.requireNonNull(type, "type cannot be null");
         Objects.requireNonNull(commandInfo, "commandInfo cannot be null");
-        Objects.requireNonNull(commandFactory, "commandFactory cannot be null");
-
-        this.command = command;
+        Objects.requireNonNull(converterRegistry, "converterRegistry cannot be null");
 
         type.getMethods().stream()
                 .filter((method) -> method.getAnnotations().hasAnnotation(COMMAND))
-                .map((method) -> commandFactory.createCommand(command, method))
+                .map((method) -> new SharedCommand(
+                        new MethodExecutable<>(command, method, converterRegistry),
+                        new AnnotationCommandInfo(method.getAnnotations())
+                ))
                 .forEach(subCommands::registerCommand);
 
         final Method<? extends T, ?> defaultCommandMethod = findDefaultCommand(type);
@@ -66,18 +62,13 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
         if (defaultCommandMethod == null) {
             this.defaultCommand = null;
         } else {
-            this.defaultCommand = commandFactory.createCommand(command, defaultCommandMethod);
+            this.defaultCommand = new MethodExecutable<>(command, defaultCommandMethod, converterRegistry);
         }
 
-        this.name = CommandValidator.validateName(
-                commandInfo.getName().orElseThrow(IllegalArgumentException::new));
-
-        this.aliases = CommandValidator.validateAliases(name, commandInfo.getAliases());
-
-        this.labels = commandInfo.getLabels();
-        this.usage = commandInfo.getUsage().orElseGet(() -> usageGenerator.generateUsage(this));
-
-        this.description = CommandValidator.validateDescription(commandInfo.getDescription().orElse(""));
+        this.commandInfo = commandInfo;
+        this.usage = type.getAnnotations()
+                .getString(USAGE)
+                .orElseGet(() -> usageGenerator.generateUsage(this));
     }
 
     /**
@@ -106,19 +97,19 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
     @Override
     public @NotNull String getName() {
 
-        return name;
+        return commandInfo.getName();
     }
 
     @Override
     public @Unmodifiable @NotNull List<String> getAliases() {
 
-        return aliases;
+        return commandInfo.getAliases();
     }
 
     @Override
     public @Unmodifiable @NotNull List<String> getLabels() {
 
-        return labels;
+        return commandInfo.getLabels();
     }
 
     @Override
@@ -133,14 +124,14 @@ final class ClassCommand<T extends @NotNull Object> implements Command {
 
         Objects.requireNonNull(locale, "locale cannot be null");
 
-        return description;
+        return getDescription();
     }
 
     @Pattern(DESCRIPTION_PATTERN)
     @Override
     public @NotNull String getDescription() {
 
-        return description;
+        return commandInfo.getDescription();
     }
 
     @Override
