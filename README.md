@@ -38,5 +38,5 @@ more in-depth.
 ## Credit
 
 - This project was inspired by [ACF](https://github.com/aikar/commands)
-- Credit to [triumph-cmds](https://triumphteam.dev/library/triumph-cmds/introduction) for the idea 
-of `@Join`
+- Credit to [triumph-cmds](https://triumphteam.dev/library/triumph-cmds/introduction) for the idea
+  of `@Join`

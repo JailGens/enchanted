@@ -3,7 +3,6 @@ package net.jailgens.enchanted;
 import net.jailgens.enchanted.annotations.Aliases;
 import net.jailgens.enchanted.annotations.Command;
 import net.jailgens.enchanted.annotations.Description;
-import net.jailgens.enchanted.annotations.Usage;
 import net.jailgens.mirror.AnnotationElement;
 import net.jailgens.mirror.AnnotationValues;
 import net.jailgens.mirror.Mirror;
@@ -13,7 +12,6 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 import static net.jailgens.enchanted.Command.DESCRIPTION_PATTERN;
@@ -65,12 +63,14 @@ final class AnnotationCommandInfo implements CommandInfo {
     }
 
     private static void validateName(final @NotNull String name) {
+
         if (!COMPILED_NAME_PATTERN.matcher(name).matches()) {
             throw new IllegalArgumentException("Command name must match the pattern " + NAME_PATTERN);
         }
     }
 
     private static void validateDescription(final @NotNull String description) {
+
         if (!COMPILED_DESCRIPTION_PATTERN.matcher(description).matches()) {
             throw new IllegalArgumentException("Command description must match the pattern " + DESCRIPTION_PATTERN);
         }
