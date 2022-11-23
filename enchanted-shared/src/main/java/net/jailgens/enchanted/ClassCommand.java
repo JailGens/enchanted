@@ -41,8 +41,7 @@ final class ClassCommand implements Command {
     <T extends @NotNull Object> ClassCommand(final @NotNull T command,
                                              final @NotNull TypeDefinition<? extends @NotNull T> type,
                                              final @NotNull CommandInfo commandInfo,
-                                             final @NotNull ConverterRegistry converterRegistry,
-                                             final @NotNull UsageGenerator usageGenerator) {
+                                             final @NotNull ConverterRegistry converterRegistry) {
 
         Objects.requireNonNull(command, "command cannot be null");
         Objects.requireNonNull(type, "type cannot be null");
@@ -68,7 +67,7 @@ final class ClassCommand implements Command {
         this.commandInfo = commandInfo;
         this.usage = type.getAnnotations()
                 .getString(USAGE)
-                .orElseGet(() -> usageGenerator.generateUsage(this));
+                .orElse("");
     }
 
     /**
