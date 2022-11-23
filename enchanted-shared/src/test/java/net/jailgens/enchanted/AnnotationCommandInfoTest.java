@@ -5,24 +5,14 @@ import net.jailgens.enchanted.annotations.Command;
 import net.jailgens.enchanted.annotations.Description;
 import net.jailgens.mirror.AnnotationElement;
 import net.jailgens.mirror.AnnotationValues;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
 
 class AnnotationCommandInfoTest {
-
-    UsageGenerator usageGenerator;
-
-    @BeforeEach
-    void setUp() {
-
-        usageGenerator = mock(UsageGenerator.class);
-    }
 
     @SuppressWarnings("ConstantConditions")
     @Test
