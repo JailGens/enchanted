@@ -5,7 +5,6 @@ import net.jailgens.mirror.Mirror;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.print.Paper;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -30,9 +29,7 @@ public interface PaperCommandManager extends CommandManager {
 
         final Mirror mirror = Mirror.builder().build();
         final ConverterRegistry converterRegistry = new SharedConverterRegistry();
-        final UsageGenerator usageGenerator = new EmptyUsageGenerator();
-        final CommandFactory commandFactory = new SharedCommandFactory(mirror, usageGenerator,
-                converterRegistry);
+        final CommandFactory commandFactory = new SharedCommandFactory(mirror, converterRegistry);
 
         return new PaperCommandManagerImpl(
                 plugin,
