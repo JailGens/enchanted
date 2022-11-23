@@ -76,37 +76,6 @@ public interface Command extends Executable {
     @Unmodifiable @NotNull List</* @Pattern(NAME_PATTERN) */String> getLabels();
 
     /**
-     * Gets the usage of this command.
-     * <p>
-     * The returned usage, will only show the syntax for the parameters.
-     * <p>
-     * By default, the usage has the following syntax:
-     * <pre>{@literal
-     * usage :== ((param ' ')* param)?
-     * name :== /[\w-]+/
-     * param :== optional-param |
-     *           required-param |
-     *           literal-param |
-     *           optional-enum-param |
-     *           required-enum-param |
-     *           context-required
-     * optional-param :== '[' name ']'
-     * required-param :== '<' name '>'
-     * optional-enum-param :== '[' (name '|')* name ']'
-     * required-enum-param :== '<' (name '|')* name '>'
-     * literal-param :== name
-     * context-required :== '...'
-     * }</pre>
-     * This syntax is only a convention, this method does not guarantee that the returned usage will
-     * follow this syntax.
-     *
-     * @return the usage of this command
-     * @since 0.0.0
-     */
-    @Contract(pure = true)
-    @NotNull String getUsage();
-
-    /**
      * Gets the description of this command for the specified locale.
      *
      * @param locale the locale.
