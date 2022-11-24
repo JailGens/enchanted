@@ -18,7 +18,14 @@ import java.util.stream.Collectors;
 
 import static net.jailgens.enchanted.ClassCommand.USAGE;
 
-final class MethodExecutable<T> implements Executable {
+/**
+ * A method executable, as defined in {@link CommandFactory#createCommand(Object)} under theMethods
+ * heading.
+ *
+ * @author Sparky983
+ * @param <T> the type of the declaring class.
+ */
+final class MethodExecutable<T extends @NotNull Object> implements Executable {
 
     private static final @NotNull Class<? extends @NotNull Annotation> OPTIONAL =
             net.jailgens.enchanted.annotations.Optional.class;

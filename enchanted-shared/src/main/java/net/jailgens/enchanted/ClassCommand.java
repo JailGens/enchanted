@@ -18,7 +18,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * The {@link Command} implementation used by {@link SharedCommandFactory}.
+ * The {@link Command} implementation used by {@link SharedCommandFactory} as defined by
+ * {@link CommandFactory#createCommand(Object)}.
  *
  * @author Sparky983
  */

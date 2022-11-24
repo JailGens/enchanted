@@ -7,6 +7,11 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * A shared implementation of {@link CommandRegistry}.
+ *
+ * @author Sparky983
+ */
 public final class SharedCommandRegistry implements CommandRegistry {
 
     private final @NotNull CommandFactory commandFactory;

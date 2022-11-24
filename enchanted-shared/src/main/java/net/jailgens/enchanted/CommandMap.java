@@ -7,6 +7,11 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * A high-level map of command labels to commands.
+ *
+ * @author Sparky983
+ */
 public interface CommandMap {
 
     @Contract(value = "-> new", pure = true)

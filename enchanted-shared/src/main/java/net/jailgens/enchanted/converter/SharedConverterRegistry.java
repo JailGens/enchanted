@@ -9,6 +9,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * The shared implementation of {@link ConverterRegistry}.
+ *
+ * @author Sparky983
+ */
 public final class SharedConverterRegistry implements ConverterRegistry {
 
     private static final @NotNull Converter<@NotNull String> STRING_CONVERTER = new StringConverter();

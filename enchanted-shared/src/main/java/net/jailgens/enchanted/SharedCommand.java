@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * Combines an {@link Executable} and {@link CommandInfo} to make a {@link Command}.
+ *
+ * @author Sparky983
+ */
 @SuppressWarnings("PatternValidation")
 final class SharedCommand implements Command {
 
