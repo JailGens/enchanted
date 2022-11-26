@@ -80,6 +80,7 @@ public interface Command extends Executable {
      *
      * @param locale the locale.
      * @return the description for the specified locale.
+     * @throws NullPointerException if the locale is {@code null}.
      * @since 0.0.0
      */
     @Contract(pure = true)
