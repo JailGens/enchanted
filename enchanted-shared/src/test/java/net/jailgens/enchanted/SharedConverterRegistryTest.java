@@ -1,5 +1,6 @@
 package net.jailgens.enchanted;
 
+import net.jailgens.enchanted.converter.SharedConverterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

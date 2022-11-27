@@ -3,26 +3,30 @@ package net.jailgens.enchanted;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class SharedCommandRegistryTest {
 
     CommandFactory commandFactory;
+    CommandMap commandMap;
     CommandRegistry registry;
 
     @BeforeEach
     void setUp() {
 
         commandFactory = mock(CommandFactory.class);
-        registry = new SharedCommandRegistry(commandFactory);
+        commandMap = mock(CommandMap.class);
+        registry = new SharedCommandRegistry(commandFactory, commandMap);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -56,101 +60,71 @@ class SharedCommandRegistryTest {
 
         final Command createdCommand = registry.registerCommand(command);
 
+        verify(commandFactory).createCommand(command);
+        verify(commandMap).registerCommand(commandInstance);
         assertEquals(commandInstance, createdCommand);
     }
 
     @Test
-    void Given_Command_When_RegisterCommand_Then_CommandIsRegisteredWithLabels() {
+    void Given_CommandRegistry_When_RegisterCommand_Then_RegistersCommand() {
 
-        final Object command = new Object();
-        final Command commandInstance = mock(Command.class);
-        when(commandInstance.getLabels()).thenReturn(List.of("test"));
-        when(commandFactory.createCommand(command)).thenReturn(commandInstance);
+        final Command command = mock(Command.class);
+        when(commandFactory.createCommand(any())).thenReturn(command);
 
-        registry.registerCommand(command);
+        registry.registerCommand(new Object());
 
-        assertTrue(registry.getCommand("test").isPresent());
+        verify(commandMap).registerCommand(command);
     }
 
     @Test
-    void Given_Command_When_RegisterCommandTwice_Then_Throws() {
+    void Given_CommandRegistry_When_UnregisterCommand_Then_UnregistersCommand() {
 
-        final Object command = new Object();
-        final Command commandInstance = mock(Command.class);
-        when(commandInstance.getLabels()).thenReturn(List.of("test"));
-        when(commandFactory.createCommand(command)).thenReturn(commandInstance);
+        final Command command = mock(Command.class);
 
-        registry.registerCommand(command);
+        registry.unregisterCommand(command);
 
-        assertThrows(IllegalArgumentException.class, () -> registry.registerCommand(command));
+        verify(commandMap).unregisterCommand(command);
     }
 
     @Test
-    void Given_Command_When_RegisterCommand_Then_CommandIsRegisteredWithAliases() {
+    void Given_CommandRegistry_When_GetCommand_Then_ReturnsCommand() {
 
-        final Object command = new Object();
-        final Command commandInstance = mock(Command.class);
-        when(commandInstance.getLabels()).thenReturn(List.of("test"));
-        when(commandFactory.createCommand(command)).thenReturn(commandInstance);
+        final Command command = mock(Command.class);
+        when(commandMap.getCommand("label")).thenAnswer((__) -> Optional.of(command));
 
-        registry.registerCommand(command);
+        final Optional<? extends Command> foundCommand = registry.getCommand("label");
 
-        assertEquals(Optional.of(commandInstance), registry.getCommand("test"));
+        assertEquals(Optional.of(command), foundCommand);
     }
 
     @Test
-    void Given_Command_When_UnregisterCommand_Then_CommandIsUnregistered() {
+    void Given_CommandRegistry_When_GetCommand_Then_ReturnsEmpty() {
 
-        final Object command = new Object();
-        final Command commandInstance = mock(Command.class);
-        when(commandInstance.getLabels()).thenReturn(List.of("test"));
-        when(commandFactory.createCommand(command)).thenReturn(commandInstance);
+        when(commandMap.getCommand("label")).thenAnswer((__) -> Optional.empty());
 
-        registry.registerCommand(command);
-        registry.unregisterCommand(commandInstance);
+        final Optional<? extends Command> foundCommand = registry.getCommand("not-label");
 
-
-        assertFalse(registry.getRegisteredCommands().contains(commandInstance));
+        assertEquals(Optional.empty(), foundCommand);
     }
 
     @Test
-    void Given_UnregisteredCommand_When_UnregisterCommand_Then_Throws() {
+    void Given_CommandRegistry_When_GetRegisteredCommands_Then_ReturnsCommands() {
 
-        final Object command = new Object();
-        final Command commandInstance = mock(Command.class);
-        when(commandInstance.getLabels()).thenReturn(List.of("test"));
-        when(commandFactory.createCommand(command)).thenReturn(commandInstance);
+        final Command command = mock(Command.class);
+        when(commandMap.getRegisteredCommands()).thenAnswer((__) -> List.of(command));
 
-        assertThrows(IllegalArgumentException.class, () -> registry.unregisterCommand(commandInstance));
+        final Collection<? extends Command> registeredCommands = registry.getRegisteredCommands();
+
+        assertEquals(List.of(command), registeredCommands);
     }
 
     @Test
-    void Given_CommandRegistryWithRegisteredCommand_When_UnregisterCommandWithSameName_Then_Throws() {
+    void Given_EmptyCommandRegistry_When_GetRegisteredCommands_Then_ReturnsEmpty() {
 
-        final Object command = new Object();
-        final Command commandInstance = mock(Command.class);
-        final Object otherCommand = new Object();
-        final Command otherCommandInstance = mock(Command.class);
-        when(otherCommandInstance.getLabels()).thenReturn(List.of("test"));
-        when(commandInstance.getLabels()).thenReturn(List.of("test"));
-        when(commandFactory.createCommand(otherCommand)).thenReturn(otherCommandInstance);
-        when(commandFactory.createCommand(command)).thenReturn(commandInstance);
+        when(commandMap.getRegisteredCommands()).thenAnswer((__) -> List.of());
 
-        registry.registerCommand(otherCommand);
+        final Collection<? extends Command> registeredCommands = registry.getRegisteredCommands();
 
-        assertThrows(IllegalArgumentException.class, () -> registry.unregisterCommand(commandInstance));
-    }
-
-    @Test
-    void Given_Command_When_GetRegisteredCommands_Then_ReturnsRegisteredCommands() {
-
-        final Object command = new Object();
-        final Command commandInstance = mock(Command.class);
-        when(commandInstance.getLabels()).thenReturn(List.of("label"));
-        when(commandFactory.createCommand(command)).thenReturn(commandInstance);
-
-        registry.registerCommand(command);
-
-        assertEquals(List.of(commandInstance), registry.getRegisteredCommands());
+        assertTrue(registeredCommands.isEmpty());
     }
 }

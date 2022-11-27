@@ -1,6 +1,5 @@
 package net.jailgens.enchanted;
 
-import net.jailgens.enchanted.annotations.Command;
 import net.jailgens.enchanted.annotations.Join;
 import net.jailgens.mirror.AnnotationElement;
 import net.jailgens.mirror.AnnotationValues;
@@ -17,13 +16,23 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-final class MethodCommand<T extends @NotNull Object> extends AnnotatedCommand {
+import static net.jailgens.enchanted.ClassCommand.USAGE;
 
-    private static final @NotNull Class<? extends @NotNull Annotation> DEFAULT = Command.Default.class;
+/**
+ * A method executable, as defined in {@link CommandFactory#createCommand(Object)} under theMethods
+ * heading.
+ *
+ * @author Sparky983
+ * @param <T> the type of the declaring class.
+ */
+final class MethodExecutable<T extends @NotNull Object> implements Executable {
+
     private static final @NotNull Class<? extends @NotNull Annotation> OPTIONAL =
             net.jailgens.enchanted.annotations.Optional.class;
     private static final @NotNull Class<? extends @NotNull Annotation> JOIN = Join.class;
     private static final @NotNull AnnotationElement DELIMITER = AnnotationElement.value(JOIN);
+
+    private final @NotNull String usage;
 
     private final @NotNull T command;
     private final @NotNull Class<? extends @NotNull CommandExecutor> executorType;
@@ -33,28 +42,20 @@ final class MethodCommand<T extends @NotNull Object> extends AnnotatedCommand {
     private final @NotNull Method<@NotNull T, @NotNull Void> method;
 
     @SuppressWarnings("unchecked")
-    MethodCommand(final @NotNull T command,
-                  final @NotNull Method<? extends @NotNull T, ? extends @NotNull Object> method,
-                  final @NotNull ConverterRegistry converterRegistry,
-                  final @NotNull UsageGenerator usageGenerator) {
+    MethodExecutable(final @NotNull T command,
+                     final @NotNull Method<? extends @NotNull T, ? extends @NotNull Object> method,
+                     final @NotNull ConverterRegistry converterRegistry) {
 
-        super(method.getAnnotations().getString(COMMAND_NAME)
-                .orElseGet(() -> {
-                    if (method.getAnnotations().hasAnnotation(DEFAULT)) {
-                        return "default";
-                    } else {
-                        throw new IllegalArgumentException("method must be annotated with @" + COMMAND + " or @" + DEFAULT);
-                    }
-                }), method.getAnnotations(), usageGenerator);
-
+        Objects.requireNonNull(command, "command cannot be null");
+        Objects.requireNonNull(method, "method cannot be null");
         Objects.requireNonNull(converterRegistry, "converterRegistry cannot be null");
-        Objects.requireNonNull(usageGenerator, "usageGenerator cannot be null");
 
         if (method.getRawType() != void.class) {
             throw new IllegalArgumentException("method must return void");
         }
 
         this.command = command;
+        this.usage = method.getAnnotations().getString(USAGE).orElse("");
         this.method = (Method<T, Void>) method;
         this.methodParameters = method.getParameters();
 
@@ -137,7 +138,7 @@ final class MethodCommand<T extends @NotNull Object> extends AnnotatedCommand {
 
 
         if (!Collections.nCopies(unusedArguments.size(), null).equals(unusedArguments)) {
-            return CommandResult.error("Invalid usage, try: " + getUsage());
+            return CommandResult.error("Invalid usage");
         }
 
         try {
@@ -146,5 +147,11 @@ final class MethodCommand<T extends @NotNull Object> extends AnnotatedCommand {
         } catch (final InvocationException e) {
             return CommandResult.error("An internal error occurred while executing the command");
         }
+    }
+
+    @Override
+    public @NotNull String getUsage() {
+
+        return usage;
     }
 }

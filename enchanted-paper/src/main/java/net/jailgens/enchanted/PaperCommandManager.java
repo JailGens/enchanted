@@ -1,9 +1,11 @@
 package net.jailgens.enchanted;
 
+import net.jailgens.enchanted.converter.SharedConverterRegistry;
 import net.jailgens.mirror.Mirror;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -14,7 +16,6 @@ import java.util.Objects;
  */
 public interface PaperCommandManager extends CommandManager {
 
-
     /**
      * Creates a new command manager.
      *
@@ -22,22 +23,22 @@ public interface PaperCommandManager extends CommandManager {
      * @return the command manager.
      * @since 0.0.0
      */
-    static @NotNull PaperCommandManager create(final Plugin plugin) {
+    static @NotNull PaperCommandManager create(final @NotNull Plugin plugin) {
 
         Objects.requireNonNull(plugin, "plugin cannot be null");
 
         final Mirror mirror = Mirror.builder().build();
         final ConverterRegistry converterRegistry = new SharedConverterRegistry();
-        final UsageGenerator usageGenerator = new EmptyUsageGenerator();
-        final CommandFactory commandFactory = new SharedCommandFactory(mirror,
-                usageGenerator,
-                new MethodCommandFactoryImpl(converterRegistry, usageGenerator));
+        final CommandFactory commandFactory = new SharedCommandFactory(mirror, converterRegistry);
 
         return new PaperCommandManagerImpl(
                 plugin,
-                plugin.getServer().getCommandMap(),
+                new PaperCommandMap(
+                        CommandMap.create(),
+                        plugin.getName().toLowerCase(Locale.ROOT),
+                        plugin.getServer().getCommandMap()),
                 commandFactory,
-                new SharedCommandRegistry(commandFactory),
+                new SharedCommandRegistry(commandFactory, CommandMap.create()),
                 converterRegistry);
     }
 }
