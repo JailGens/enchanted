@@ -74,7 +74,7 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     }
 
     @Override
-    public <T> Optional<@NotNull Converter<@NotNull T>> getConverter(final @NotNull Class<@NotNull T> type) {
+    public <T> Optional<? extends @NotNull Converter<@NotNull T>> getConverter(final @NotNull Class<@NotNull T> type) {
 
         return converterRegistry.getConverter(type);
     }

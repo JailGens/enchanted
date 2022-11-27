@@ -38,7 +38,7 @@ public interface ConverterRegistry {
      * @throws NullPointerException if the type is {@code null}.
      * @since 0.0.0
      */
-    <T extends @NotNull Object> Optional<@NotNull Converter<@NotNull T>> getConverter(
+    <T extends @NotNull Object> Optional<? extends @NotNull Converter<@NotNull T>> getConverter(
             @NotNull Class<@NotNull T> type);
 
     /**

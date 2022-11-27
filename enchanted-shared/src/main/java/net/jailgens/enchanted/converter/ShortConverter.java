@@ -8,7 +8,7 @@ import java.util.Optional;
 final class ShortConverter implements Converter<@NotNull Short> {
 
     @Override
-    public @NotNull Optional<@NotNull Short> convert(final @NotNull String value) {
+    public @NotNull Optional<? extends @NotNull Short> convert(final @NotNull String value) {
 
         try {
             return Optional.of(Short.parseShort(value));

@@ -8,7 +8,7 @@ import java.util.Optional;
 final class BooleanConverter implements Converter<@NotNull Boolean> {
 
     @Override
-    public Optional<@NotNull Boolean> convert(final @NotNull String value) {
+    public Optional<? extends @NotNull Boolean> convert(final @NotNull String value) {
 
         if (value.equalsIgnoreCase("true")) {
             return Optional.of(true);

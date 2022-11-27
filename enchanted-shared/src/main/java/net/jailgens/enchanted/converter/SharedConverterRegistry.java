@@ -61,7 +61,7 @@ public final class SharedConverterRegistry implements ConverterRegistry {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> Optional<@NotNull Converter<@NotNull T>> getConverter(final @NotNull Class<@NotNull T> type) {
+    public <T> Optional<? extends @NotNull Converter<@NotNull T>> getConverter(final @NotNull Class<@NotNull T> type) {
 
         Objects.requireNonNull(type, "type cannot be null");
 
