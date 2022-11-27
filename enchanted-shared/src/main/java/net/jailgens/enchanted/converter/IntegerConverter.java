@@ -8,7 +8,7 @@ import java.util.Optional;
 final class IntegerConverter implements Converter<@NotNull Integer> {
 
     @Override
-    public @NotNull Optional<@NotNull Integer> convert(final @NotNull String value) {
+    public @NotNull Optional<? extends @NotNull Integer> convert(final @NotNull String value) {
 
         try {
             return Optional.of(Integer.parseInt(value));

@@ -17,5 +17,5 @@ public interface Converter<T extends @NotNull Object> {
      * is {@code null}.
      * @since 0.0.0
      */
-    @NotNull Optional<@NotNull T> convert(@NotNull String string);
+    @NotNull Optional<? extends @NotNull T> convert(@NotNull String string);
 }

@@ -58,7 +58,7 @@ class SharedConverterRegistryTest {
     @Test
     void Given_ConverterRegistry_When_GetConverter_Then_ReturnsEmptyOptional() {
 
-        final Optional<Converter<Object>> converter = converterRegistry.getConverter(Object.class);
+        final Optional<? extends Converter<Object>> converter = converterRegistry.getConverter(Object.class);
 
         assertTrue(converter.isEmpty());
     }
@@ -78,7 +78,7 @@ class SharedConverterRegistryTest {
         final Converter<Object> converter = mock(Converter.class);
         converterRegistry.registerConverter(Object.class, converter);
 
-        final Optional<Converter<Object>> converterOptional = converterRegistry.getConverter(Object.class);
+        final Optional<? extends Converter<Object>> converterOptional = converterRegistry.getConverter(Object.class);
 
         assertEquals(Optional.of(converter), converterOptional);
     }
@@ -106,7 +106,7 @@ class SharedConverterRegistryTest {
         converterRegistry.registerConverter(Object.class, converter1);
         converterRegistry.registerConverter(Object.class, converter2);
 
-        final Optional<Converter<Object>> converter = converterRegistry.getConverter(Object.class);
+        final Optional<? extends Converter<Object>> converter = converterRegistry.getConverter(Object.class);
 
         assertEquals(Optional.of(converter2), converter);
     }
@@ -116,7 +116,7 @@ class SharedConverterRegistryTest {
 
         final String string = "test";
 
-        final Optional<Converter<String>> converter = converterRegistry.getConverter(String.class);
+        final Optional<? extends Converter<String>> converter = converterRegistry.getConverter(String.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of("test"), converter.get().convert(string));
@@ -127,7 +127,7 @@ class SharedConverterRegistryTest {
 
         final String string = "1";
 
-        final Optional<Converter<Integer>> converter = converterRegistry.getConverter(Integer.class);
+        final Optional<? extends Converter<Integer>> converter = converterRegistry.getConverter(Integer.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(1), converter.get().convert(string));
@@ -138,7 +138,7 @@ class SharedConverterRegistryTest {
 
         final String string = "-1";
 
-        final Optional<Converter<Integer>> converter = converterRegistry.getConverter(Integer.class);
+        final Optional<? extends Converter<Integer>> converter = converterRegistry.getConverter(Integer.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(-1), converter.get().convert(string));
@@ -149,7 +149,7 @@ class SharedConverterRegistryTest {
 
         final String string = "0";
 
-        final Optional<Converter<Integer>> converter = converterRegistry.getConverter(Integer.class);
+        final Optional<? extends Converter<Integer>> converter = converterRegistry.getConverter(Integer.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(0), converter.get().convert(string));
@@ -160,7 +160,7 @@ class SharedConverterRegistryTest {
 
         final String string = "test";
 
-        final Optional<Converter<Integer>> converter = converterRegistry.getConverter(Integer.class);
+        final Optional<? extends Converter<Integer>> converter = converterRegistry.getConverter(Integer.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));
@@ -171,7 +171,7 @@ class SharedConverterRegistryTest {
 
         final String string = Integer.MAX_VALUE + "0";
 
-        final Optional<Converter<Integer>> converter = converterRegistry.getConverter(Integer.class);
+        final Optional<? extends Converter<Integer>> converter = converterRegistry.getConverter(Integer.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));
@@ -183,7 +183,7 @@ class SharedConverterRegistryTest {
 
         final String string = "1.1";
 
-        final Optional<Converter<Double>> converter = converterRegistry.getConverter(Double.class);
+        final Optional<? extends Converter<Double>> converter = converterRegistry.getConverter(Double.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(1.1), converter.get().convert(string));
@@ -195,7 +195,7 @@ class SharedConverterRegistryTest {
 
         final String string = "-1.1";
 
-        final Optional<Converter<Double>> converter = converterRegistry.getConverter(Double.class);
+        final Optional<? extends Converter<Double>> converter = converterRegistry.getConverter(Double.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(-1.1), converter.get().convert(string));
@@ -206,7 +206,7 @@ class SharedConverterRegistryTest {
 
         final String string = "0.0";
 
-        final Optional<Converter<Double>> converter = converterRegistry.getConverter(Double.class);
+        final Optional<? extends Converter<Double>> converter = converterRegistry.getConverter(Double.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(0.0), converter.get().convert(string));
@@ -217,7 +217,7 @@ class SharedConverterRegistryTest {
 
         final String string = "1";
 
-        final Optional<Converter<Double>> converter = converterRegistry.getConverter(Double.class);
+        final Optional<? extends Converter<Double>> converter = converterRegistry.getConverter(Double.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(1.0), converter.get().convert(string));
@@ -228,7 +228,7 @@ class SharedConverterRegistryTest {
 
         final String string = "test";
 
-        final Optional<Converter<Double>> converter = converterRegistry.getConverter(Double.class);
+        final Optional<? extends Converter<Double>> converter = converterRegistry.getConverter(Double.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));
@@ -239,7 +239,7 @@ class SharedConverterRegistryTest {
 
         final String string = "1.0";
 
-        final Optional<Converter<Float>> converter = converterRegistry.getConverter(Float.class);
+        final Optional<? extends Converter<Float>> converter = converterRegistry.getConverter(Float.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(1.0f), converter.get().convert(string));
@@ -250,7 +250,7 @@ class SharedConverterRegistryTest {
 
         final String string = "-1.0";
 
-        final Optional<Converter<Float>> converter = converterRegistry.getConverter(Float.class);
+        final Optional<? extends Converter<Float>> converter = converterRegistry.getConverter(Float.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(-1.0f), converter.get().convert(string));
@@ -261,7 +261,7 @@ class SharedConverterRegistryTest {
 
         final String string = "0.0";
 
-        final Optional<Converter<Float>> converter = converterRegistry.getConverter(Float.class);
+        final Optional<? extends Converter<Float>> converter = converterRegistry.getConverter(Float.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(0.0f), converter.get().convert(string));
@@ -272,7 +272,7 @@ class SharedConverterRegistryTest {
 
         final String string = "1";
 
-        final Optional<Converter<Float>> converter = converterRegistry.getConverter(Float.class);
+        final Optional<? extends Converter<Float>> converter = converterRegistry.getConverter(Float.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(1.0f), converter.get().convert(string));
@@ -283,7 +283,7 @@ class SharedConverterRegistryTest {
 
         final String string = "test";
 
-        final Optional<Converter<Float>> converter = converterRegistry.getConverter(Float.class);
+        final Optional<? extends Converter<Float>> converter = converterRegistry.getConverter(Float.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));
@@ -294,7 +294,7 @@ class SharedConverterRegistryTest {
 
         final String string = "1";
 
-        final Optional<Converter<Long>> converter = converterRegistry.getConverter(Long.class);
+        final Optional<? extends Converter<Long>> converter = converterRegistry.getConverter(Long.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(1L), converter.get().convert(string));
@@ -305,7 +305,7 @@ class SharedConverterRegistryTest {
 
         final String string = "-1";
 
-        final Optional<Converter<Long>> converter = converterRegistry.getConverter(Long.class);
+        final Optional<? extends Converter<Long>> converter = converterRegistry.getConverter(Long.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(-1L), converter.get().convert(string));
@@ -316,7 +316,7 @@ class SharedConverterRegistryTest {
 
         final String string = "0";
 
-        final Optional<Converter<Long>> converter = converterRegistry.getConverter(Long.class);
+        final Optional<? extends Converter<Long>> converter = converterRegistry.getConverter(Long.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(0L), converter.get().convert(string));
@@ -327,7 +327,7 @@ class SharedConverterRegistryTest {
 
         final String string = "test";
 
-        final Optional<Converter<Long>> converter = converterRegistry.getConverter(Long.class);
+        final Optional<? extends Converter<Long>> converter = converterRegistry.getConverter(Long.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));
@@ -338,7 +338,7 @@ class SharedConverterRegistryTest {
 
         final String string = Long.MAX_VALUE + "0";
 
-        final Optional<Converter<Long>> converter = converterRegistry.getConverter(Long.class);
+        final Optional<? extends Converter<Long>> converter = converterRegistry.getConverter(Long.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));
@@ -349,7 +349,7 @@ class SharedConverterRegistryTest {
 
         final String string = "true";
 
-        final Optional<Converter<Boolean>> converter = converterRegistry.getConverter(Boolean.class);
+        final Optional<? extends Converter<Boolean>> converter = converterRegistry.getConverter(Boolean.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(true), converter.get().convert(string));
@@ -360,7 +360,7 @@ class SharedConverterRegistryTest {
 
         final String string = "false";
 
-        final Optional<Converter<Boolean>> converter = converterRegistry.getConverter(Boolean.class);
+        final Optional<? extends Converter<Boolean>> converter = converterRegistry.getConverter(Boolean.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of(false), converter.get().convert(string));
@@ -371,7 +371,7 @@ class SharedConverterRegistryTest {
 
         final String string = "test";
 
-        final Optional<Converter<Boolean>> converter = converterRegistry.getConverter(Boolean.class);
+        final Optional<? extends Converter<Boolean>> converter = converterRegistry.getConverter(Boolean.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));
@@ -382,7 +382,7 @@ class SharedConverterRegistryTest {
 
         final String string = "a";
 
-        final Optional<Converter<Character>> converter = converterRegistry.getConverter(Character.class);
+        final Optional<? extends Converter<Character>> converter = converterRegistry.getConverter(Character.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of('a'), converter.get().convert(string));
@@ -393,7 +393,7 @@ class SharedConverterRegistryTest {
 
         final String string = "test";
 
-        final Optional<Converter<Character>> converter = converterRegistry.getConverter(Character.class);
+        final Optional<? extends Converter<Character>> converter = converterRegistry.getConverter(Character.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));
@@ -404,7 +404,7 @@ class SharedConverterRegistryTest {
 
         final String string = "1";
 
-        final Optional<Converter<Byte>> converter = converterRegistry.getConverter(Byte.class);
+        final Optional<? extends Converter<Byte>> converter = converterRegistry.getConverter(Byte.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of((byte) 1), converter.get().convert(string));
@@ -415,7 +415,7 @@ class SharedConverterRegistryTest {
 
         final String string = "-1";
 
-        final Optional<Converter<Byte>> converter = converterRegistry.getConverter(Byte.class);
+        final Optional<? extends Converter<Byte>> converter = converterRegistry.getConverter(Byte.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of((byte) -1), converter.get().convert(string));
@@ -426,7 +426,7 @@ class SharedConverterRegistryTest {
 
         final String string = "0";
 
-        final Optional<Converter<Byte>> converter = converterRegistry.getConverter(Byte.class);
+        final Optional<? extends Converter<Byte>> converter = converterRegistry.getConverter(Byte.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of((byte) 0), converter.get().convert(string));
@@ -437,7 +437,7 @@ class SharedConverterRegistryTest {
 
         final String string = "test";
 
-        final Optional<Converter<Byte>> converter = converterRegistry.getConverter(Byte.class);
+        final Optional<? extends Converter<Byte>> converter = converterRegistry.getConverter(Byte.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));
@@ -448,7 +448,7 @@ class SharedConverterRegistryTest {
 
         final String string = String.valueOf(Short.MAX_VALUE) + "0";
 
-        final Optional<Converter<Short>> converter = converterRegistry.getConverter(Short.class);
+        final Optional<? extends Converter<Short>> converter = converterRegistry.getConverter(Short.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));
@@ -459,7 +459,7 @@ class SharedConverterRegistryTest {
 
         final String string = "1";
 
-        final Optional<Converter<Short>> converter = converterRegistry.getConverter(Short.class);
+        final Optional<? extends Converter<Short>> converter = converterRegistry.getConverter(Short.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of((short) 1), converter.get().convert(string));
@@ -470,7 +470,7 @@ class SharedConverterRegistryTest {
 
         final String string = "-1";
 
-        final Optional<Converter<Short>> converter = converterRegistry.getConverter(Short.class);
+        final Optional<? extends Converter<Short>> converter = converterRegistry.getConverter(Short.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of((short) -1), converter.get().convert(string));
@@ -481,7 +481,7 @@ class SharedConverterRegistryTest {
 
         final String string = "0";
 
-        final Optional<Converter<Short>> converter = converterRegistry.getConverter(Short.class);
+        final Optional<? extends Converter<Short>> converter = converterRegistry.getConverter(Short.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.of((short) 0), converter.get().convert(string));
@@ -492,7 +492,7 @@ class SharedConverterRegistryTest {
 
         final String string = "test";
 
-        final Optional<Converter<Short>> converter = converterRegistry.getConverter(Short.class);
+        final Optional<? extends Converter<Short>> converter = converterRegistry.getConverter(Short.class);
 
         assertTrue(converter.isPresent());
         assertEquals(Optional.empty(), converter.get().convert(string));

@@ -8,7 +8,7 @@ import java.util.Optional;
 final class DoubleConverter implements Converter<@NotNull Double> {
 
     @Override
-    public Optional<@NotNull Double> convert(final @NotNull String value) {
+    public Optional<? extends @NotNull Double> convert(final @NotNull String value) {
 
         try {
             return Optional.of(Double.parseDouble(value));

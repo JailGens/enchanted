@@ -8,7 +8,7 @@ import java.util.Optional;
 final class ByteConverter implements Converter<@NotNull Byte> {
 
     @Override
-    public @NotNull Optional<@NotNull Byte> convert(final @NotNull String value) {
+    public @NotNull Optional<? extends @NotNull Byte> convert(final @NotNull String value) {
 
         try {
             return Optional.of(Byte.parseByte(value));

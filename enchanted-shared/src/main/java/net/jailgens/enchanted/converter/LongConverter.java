@@ -8,7 +8,7 @@ import java.util.Optional;
 final class LongConverter implements Converter<@NotNull Long> {
 
     @Override
-    public Optional<@NotNull Long> convert(final @NotNull String value) {
+    public Optional<? extends @NotNull Long> convert(final @NotNull String value) {
 
         try {
             return Optional.of(Long.parseLong(value));

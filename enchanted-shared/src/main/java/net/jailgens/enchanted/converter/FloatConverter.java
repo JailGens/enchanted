@@ -8,7 +8,7 @@ import java.util.Optional;
 final class FloatConverter implements Converter<@NotNull Float> {
 
     @Override
-    public Optional<@NotNull Float> convert(final @NotNull String value) {
+    public Optional<? extends @NotNull Float> convert(final @NotNull String value) {
 
         try {
             return Optional.of(Float.parseFloat(value));

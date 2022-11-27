@@ -8,7 +8,7 @@ import java.util.Optional;
 final class StringConverter implements Converter<@NotNull String> {
 
     @Override
-    public @NotNull Optional<@NotNull String> convert(final @NotNull String value) {
+    public @NotNull Optional<? extends @NotNull String> convert(final @NotNull String value) {
 
         return Optional.of(value);
     }
