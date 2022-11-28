@@ -48,13 +48,13 @@ public interface CommandGroup extends Subcommand {
     @NotNull Optional<? extends @NotNull Subcommand> getCommand(@Pattern(NAME_PATTERN) @NotNull String label);
 
     /**
-     * Gets all the registered commands of this registry.
+     * Gets all the subcommands of this group.
      * <p>
      * The returned list is an unmodifiable collection of subcommands.
      *
-     * @return all the registered commands of this registry.
+     * @return all the subcommands of this group.
      * @since 0.0.0
      */
     @Contract(pure = true)
-    @NotNull @Unmodifiable Collection<? extends @NotNull Subcommand> getRegisteredCommands();
+    @NotNull @Unmodifiable Collection<? extends @NotNull Subcommand> getSubcommands();
 }
