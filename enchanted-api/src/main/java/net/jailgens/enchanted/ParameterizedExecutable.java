@@ -7,23 +7,19 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.util.List;
 
 /**
- * Represents a command that is capable of being used as a subcommand.
- * <p>
- * For example an {@link CommandGroup} may be used as either a top level command, or in an inner
- * class.
+ * Represents an executable with inspectable parameters.
  *
  * @author Sparky983
  * @since 0.0
  */
-public interface Subcommand extends ParameterizedExecutable, Command {
+public interface ParameterizedExecutable extends Executable {
 
     /**
-     * Gets all this subcommand's parameters.
+     * Gets all this executable's parameters.
      *
-     * @return this subcommand's parameters.
+     * @return this executable's parameters.
      * @since 0.0
      */
-    @Override
     @Contract(pure = true)
     @NotNull @Unmodifiable List<? extends @NotNull CommandParameter> getParameters();
 }
