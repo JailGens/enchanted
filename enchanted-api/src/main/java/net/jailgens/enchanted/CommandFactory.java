@@ -75,5 +75,5 @@ public interface CommandFactory {
      * @since 0.0.0
      */
     @Contract(value = "_ -> new", pure = true)
-    @NotNull Command createCommand(@NotNull Object command);
+    @NotNull CommandGroup createCommand(@NotNull Object command);
 }
