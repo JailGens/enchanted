@@ -4,6 +4,7 @@ import net.jailgens.enchanted.annotations.Command.Default;
 import net.jailgens.enchanted.annotations.Usage;
 import net.jailgens.mirror.AnnotationElement;
 import net.jailgens.mirror.Method;
+import net.jailgens.mirror.Modifier;
 import net.jailgens.mirror.TypeDefinition;
 import org.intellij.lang.annotations.Pattern;
 import org.jetbrains.annotations.Contract;
@@ -41,12 +42,14 @@ final class ClassCommand implements Command {
     <T extends @NotNull Object> ClassCommand(final @NotNull T command,
                                              final @NotNull TypeDefinition<? extends @NotNull T> type,
                                              final @NotNull CommandInfo commandInfo,
-                                             final @NotNull ConverterRegistry converterRegistry) {
+                                             final @NotNull ConverterRegistry converterRegistry,
+                                             final @NotNull CommandFactory commandGroupFactory) {
 
         Objects.requireNonNull(command, "command cannot be null");
         Objects.requireNonNull(type, "type cannot be null");
         Objects.requireNonNull(commandInfo, "commandInfo cannot be null");
         Objects.requireNonNull(converterRegistry, "converterRegistry cannot be null");
+        Objects.requireNonNull(commandGroupFactory, "commandGroupFactory cannot be null");
 
         type.getMethods().stream()
                 .filter((method) -> method.getAnnotations().hasAnnotation(COMMAND))
@@ -55,6 +58,26 @@ final class ClassCommand implements Command {
                         new AnnotationCommandInfo(method.getAnnotations())
                 ))
                 .forEach(subCommands::registerCommand);
+
+        type.getInnerTypes().stream()
+                .filter((subcommandType) -> subcommandType.getAnnotations().hasAnnotation(COMMAND))
+                .map((subcommandType) -> {
+                    final Object subcommand;
+                    if (subcommandType.getModifiers().contains(Modifier.STATIC)) {
+                        subcommand = subcommandType.getConstructors().stream()
+                                .filter((constructor) -> constructor.getParameters().size() == 0)
+                                .findAny()
+                                .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for static subcommand \"" + subcommandType.getName() + "\""))
+                                .construct();
+                    } else {
+                        subcommand = subcommandType.getConstructors().stream()
+                                .filter((constructor) -> constructor.getParameters().size() == 1) // synthetic outer class parameter
+                                .findAny()
+                                .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for subcommand \"" + subcommandType.getName() + "\""))
+                                .construct(command);
+                    }
+                    return commandGroupFactory.createCommand(subcommand);
+                }).forEach(subCommands::registerCommand);
 
         final Method<? extends T, ?> defaultCommandMethod = type.getMethods().stream()
                 .filter((method) -> method.getAnnotations().hasAnnotation(DEFAULT))
