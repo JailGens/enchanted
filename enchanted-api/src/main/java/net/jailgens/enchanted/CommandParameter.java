@@ -38,7 +38,7 @@ public interface CommandParameter {
     boolean isOptional();
 
     /**
-     * Returns string that separates multiple arguments to this single parameter.
+     * Returns delimiter that separates multiple arguments to this single parameter.
      * <p>
      * If this parameter does not join multiple arguments together, {@code Optional.empty()} is
      * returned.
@@ -48,5 +48,5 @@ public interface CommandParameter {
      * @since 0.0
      */
     @Contract(pure = true)
-    @NotNull Optional<@NotNull String> getSeparator();
+    @NotNull Optional<@NotNull String> getDelimiter();
 }
