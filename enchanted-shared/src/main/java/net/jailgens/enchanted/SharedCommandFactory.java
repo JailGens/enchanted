@@ -29,13 +29,13 @@ public final class SharedCommandFactory implements CommandFactory {
     }
 
     @Override
-    public @NotNull Command createCommand(final @NotNull Object command) {
+    public @NotNull CommandGroup createCommand(final @NotNull Object command) {
 
         return createCommand0(command);
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends @NotNull Object> @NotNull Command createCommand0(final @NotNull T command) {
+    private <T extends @NotNull Object> @NotNull CommandGroup createCommand0(final @NotNull T command) {
 
         Objects.requireNonNull(command, "command cannot be null");
 

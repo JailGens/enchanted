@@ -36,13 +36,13 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     }
 
     @Override
-    public @NotNull Command createCommand(final @NotNull Object command) {
+    public @NotNull CommandGroup createCommand(final @NotNull Object command) {
 
         return commandFactory.createCommand(command);
     }
 
     @Override
-    public @NotNull Command registerCommand(final @NotNull Object command) {
+    public @NotNull CommandGroup registerCommand(final @NotNull Object command) {
 
         return commandRegistry.registerCommand(command);
     }

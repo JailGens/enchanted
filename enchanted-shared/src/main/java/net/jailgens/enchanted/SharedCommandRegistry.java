@@ -28,11 +28,11 @@ public final class SharedCommandRegistry implements CommandRegistry {
     }
 
     @Override
-    public @NotNull Command registerCommand(final @NotNull Object command) {
+    public @NotNull CommandGroup registerCommand(final @NotNull Object command) {
 
         Objects.requireNonNull(command, "command cannot be null");
 
-        final Command commandInstance = commandFactory.createCommand(command);
+        final CommandGroup commandInstance = commandFactory.createCommand(command);
 
         commandMap.registerCommand(commandInstance);
         return commandInstance;

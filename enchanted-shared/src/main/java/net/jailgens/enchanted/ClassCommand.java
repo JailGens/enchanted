@@ -13,9 +13,12 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.lang.annotation.Annotation;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * The {@link Command} implementation used by {@link SharedCommandFactory} as defined by
@@ -25,7 +28,7 @@ import java.util.Objects;
  */
 @SuppressWarnings("PatternValidation") // for @Subst annotations
 // The strings are already annotated with @Pattern, no need to substitute them
-final class ClassCommand implements Command {
+final class ClassCommand implements CommandGroup {
 
     static final @NotNull AnnotationElement USAGE = AnnotationElement.value(Usage.class);
 
@@ -33,7 +36,7 @@ final class ClassCommand implements Command {
     private static final @NotNull Class<? extends @NotNull Annotation> COMMAND = net.jailgens.enchanted.annotations.Command.class;
 
     private final @NotNull CommandMap subCommands = CommandMap.create();
-    private final @Nullable Executable defaultCommand;
+    private final @Nullable ParameterizedExecutable defaultCommand;
 
     private final @NotNull CommandInfo commandInfo;
     private final @NotNull String usage;
@@ -165,5 +168,36 @@ final class ClassCommand implements Command {
         }
 
         return command.execute(sender, arguments.subList(1, arguments.size()));
+    }
+
+    @Override
+    public @NotNull @Unmodifiable List<? extends @NotNull CommandParameter> getParameters() {
+
+        if (defaultCommand == null) {
+            return List.of();
+        }
+
+        return defaultCommand.getParameters();
+    }
+
+    @Override
+    public @NotNull Optional<? extends @NotNull Subcommand> getCommand(final @NotNull String label) {
+
+        Objects.requireNonNull(label, "label cannot be null");
+
+        return subCommands.getCommand(label)
+                .map(Subcommand.class::cast);
+        // all commands going into it are subcommands, so we can assume the ones coming out are also
+        // subcommands
+    }
+
+    @Override
+    public @NotNull @Unmodifiable Collection<? extends @NotNull Subcommand> getSubcommands() {
+
+        return subCommands.getRegisteredCommands().stream()
+                .map(Subcommand.class::cast)
+                .collect(Collectors.toUnmodifiableList());
+        // all commands going into it are subcommands, so we can assume the ones coming out are also
+        // subcommands
     }
 }
