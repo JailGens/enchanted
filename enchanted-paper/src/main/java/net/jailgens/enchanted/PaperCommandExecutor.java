@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public final class PaperCommandExecutor implements CommandExecutor, Audience {
+final class PaperCommandExecutor implements CommandExecutor, Audience {
 
     private final @NotNull CommandSender sender;
 
