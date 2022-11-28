@@ -28,6 +28,5 @@ thanks to its annotation processor.
 
 ## Credit
 
-- This project was inspired by [ACF](https://github.com/aikar/commands)
-- Credit to [triumph-cmds](https://triumphteam.dev/library/triumph-cmds/introduction) for the idea
-  of `@Join`
+- This project was inspired by [ACF](https://github.com/aikar/commands) and 
+  [triumph-cmds](https://triumphteam.dev/library/triumph-cmds/introduction)
