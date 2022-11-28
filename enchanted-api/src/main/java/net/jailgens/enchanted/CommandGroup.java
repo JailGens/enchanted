@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Represents an immutable group of subcommands.
+ * Represents an immutable, inspectable group of subcommands.
  * <p>
  * This class represents the commands that are created via
  * {@link CommandFactory#createCommand(Object)} and {@link CommandRegistry#registerCommand(Object)}.
