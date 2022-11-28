@@ -15,7 +15,6 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * The {@link Command} implementation used by {@link SharedCommandFactory} as defined by
@@ -57,7 +56,12 @@ final class ClassCommand implements Command {
                 ))
                 .forEach(subCommands::registerCommand);
 
-        final Method<? extends T, ?> defaultCommandMethod = findDefaultCommand(type);
+        final Method<? extends T, ?> defaultCommandMethod = type.getMethods().stream()
+                .filter((method) -> method.getAnnotations().hasAnnotation(DEFAULT))
+                .reduce((__, ____) -> {
+                    // if the accumulator is called, we can know there is 2+ default commands
+                    throw new IllegalArgumentException("command cannot have more than one default command");
+                }).orElse(null);
 
         if (defaultCommandMethod == null) {
             this.defaultCommand = null;
@@ -69,28 +73,6 @@ final class ClassCommand implements Command {
         this.usage = type.getAnnotations()
                 .getString(USAGE)
                 .orElse("");
-    }
-
-    /**
-     * A helper method to find the default command for this command.
-     *
-     * @param type the type.
-     * @throws IllegalArgumentException if there are multiple default commands.
-     */
-    private static <T extends @NotNull Object> @Nullable Method<
-            ? extends @NotNull T,
-            ? extends @NotNull Object
-            > findDefaultCommand(final @NotNull TypeDefinition<? extends @NotNull T> type) {
-
-        final List<Method<? extends T, ?>> methods = type.getMethods().stream()
-                .filter((method) -> method.getAnnotations().hasAnnotation(DEFAULT))
-                .collect(Collectors.toList());
-
-        if (methods.size() > 1) {
-            throw new IllegalArgumentException("command cannot have more than one default command");
-        }
-
-        return methods.isEmpty() ? null : methods.get(0);
     }
 
     @Pattern(NAME_PATTERN)
