@@ -44,6 +44,7 @@ public final class SharedCommandFactory implements CommandFactory {
         return new ClassCommand(command,
                 type,
                 new AnnotationCommandInfo(type.getAnnotations()),
-                converterRegistry);
+                converterRegistry,
+                this);
     }
 }
