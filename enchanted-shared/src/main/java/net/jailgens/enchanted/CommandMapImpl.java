@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,13 +28,13 @@ final class CommandMapImpl implements CommandMap {
         assert command.getLabels().size() > 0;
 
         for (final String label : command.getLabels()) {
-            if (commands.containsKey(label)) {
-                throw new IllegalArgumentException("Command with label \"" + label + "\" already exists");
+            if (commands.containsKey(label.toLowerCase(Locale.ROOT))) {
+                throw new IllegalArgumentException("Command with label \"" + label.toLowerCase(Locale.ROOT) + "\" already exists");
             }
         }
 
         for (final String label : command.getLabels()) {
-            commands.put(label, command);
+            commands.put(label.toLowerCase(Locale.ROOT), command);
         }
     }
 
@@ -43,7 +44,7 @@ final class CommandMapImpl implements CommandMap {
         Objects.requireNonNull(command, "command cannot be null");
 
         for (final String label : command.getLabels()) {
-            if (!commands.remove(label, command)) {
+            if (!commands.remove(label.toLowerCase(Locale.ROOT), command)) {
                 throw new IllegalArgumentException("Command with label \"" + label + "\" is not registered");
             }
         }
@@ -54,7 +55,7 @@ final class CommandMapImpl implements CommandMap {
 
         Objects.requireNonNull(label, "label cannot be null");
 
-        return Optional.ofNullable(commands.get(label));
+        return Optional.ofNullable(commands.get(label.toLowerCase(Locale.ROOT)));
     }
 
     @Override
