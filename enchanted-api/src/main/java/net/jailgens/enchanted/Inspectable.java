@@ -10,7 +10,7 @@ import java.util.List;
  * Represents an executable with inspectable parameters.
  *
  * @author Sparky983
- * @since 0.0
+ * @since 0.1.0
  */
 public interface Inspectable extends Executable {
 
@@ -27,7 +27,7 @@ public interface Inspectable extends Executable {
      * {@code this.execute(..., List.of("1")} must be parsable.
      *
      * @return this executable's parameters.
-     * @since 0.0
+     * @since 0.1.0
      */
     @Contract(pure = true)
     @NotNull @Unmodifiable List<? extends @NotNull CommandParameter> getParameters();

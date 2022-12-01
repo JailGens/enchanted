@@ -13,7 +13,7 @@ import java.util.List;
  * class.
  *
  * @author Sparky983
- * @since 0.0
+ * @since 0.1.0
  */
 public interface Subcommand extends Inspectable, Command {
 
@@ -21,7 +21,7 @@ public interface Subcommand extends Inspectable, Command {
      * Gets all this subcommand's parameters.
      *
      * @return this subcommand's parameters.
-     * @since 0.0
+     * @since 0.1.0
      */
     @Override
     @Contract(pure = true)

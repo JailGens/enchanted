@@ -16,7 +16,7 @@ import java.util.Optional;
  * {@link CommandFactory#createCommand(Object)} and {@link CommandRegistry#registerCommand(Object)}.
  *
  * @author Sparky983
- * @since 0.0.0
+ * @since 0.1.0
  */
 public interface CommandGroup extends Subcommand {
 
@@ -24,7 +24,7 @@ public interface CommandGroup extends Subcommand {
      * Returns a list of this command group's default command's parameters.
      *
      * @return this command group's default command's parameters.
-     * @since 0.0
+     * @since 0.1.0
      */
     @Override
     @NotNull @Unmodifiable List<? extends @NotNull CommandParameter> getParameters();
@@ -42,7 +42,7 @@ public interface CommandGroup extends Subcommand {
      * @param label the label.
      * @return an optional containing the command that was found, or {@code Optional.empty()}.
      * @throws NullPointerException if the label is {@code null}
-     * @since 0.0.0
+     * @since 0.1.0
      */
     @Contract(pure = true)
     @NotNull Optional<? extends @NotNull Subcommand> getCommand(@Pattern(NAME_PATTERN) @NotNull String label);
@@ -53,7 +53,7 @@ public interface CommandGroup extends Subcommand {
      * The returned list is an unmodifiable collection of subcommands.
      *
      * @return all the subcommands of this group.
-     * @since 0.0.0
+     * @since 0.1.0
      */
     @Contract(pure = true)
     @NotNull @Unmodifiable Collection<? extends @NotNull Subcommand> getSubcommands();
