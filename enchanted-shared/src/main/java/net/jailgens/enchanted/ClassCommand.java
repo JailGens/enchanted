@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * The {@link Command} implementation used by {@link SharedCommandFactory} as defined by
@@ -35,7 +34,7 @@ final class ClassCommand implements CommandGroup {
     private static final @NotNull Class<? extends @NotNull Annotation> DEFAULT = Default.class;
     private static final @NotNull Class<? extends @NotNull Annotation> COMMAND = net.jailgens.enchanted.annotations.Command.class;
 
-    private final @NotNull CommandMap<@NotNull Subcommand> subCommands = CommandMap.create();
+    private final @NotNull CommandMap<@NotNull Subcommand> subcommands = CommandMap.create();
     private final @Nullable ParameterizedExecutable defaultCommand;
 
     private final @NotNull CommandInfo commandInfo;
@@ -60,7 +59,7 @@ final class ClassCommand implements CommandGroup {
                         new MethodExecutable<>(command, method, converterRegistry),
                         new AnnotationCommandInfo(method.getAnnotations())
                 ))
-                .forEach(subCommands::registerCommand);
+                .forEach(subcommands::registerCommand);
 
         type.getInnerTypes().stream()
                 .filter((subcommandType) -> subcommandType.getAnnotations().hasAnnotation(COMMAND))
@@ -80,7 +79,7 @@ final class ClassCommand implements CommandGroup {
                                 .construct(command);
                     }
                     return commandGroupFactory.createCommand(subcommand);
-                }).forEach(subCommands::registerCommand);
+                }).forEach(subcommands::registerCommand);
 
         final Method<? extends T, ?> defaultCommandMethod = type.getMethods().stream()
                 .filter((method) -> method.getAnnotations().hasAnnotation(DEFAULT))
@@ -156,7 +155,7 @@ final class ClassCommand implements CommandGroup {
         final Command command;
 
         if (arguments.size() > 1) {
-            command = subCommands.getCommand(arguments.get(0)).orElse(null);
+            command = subcommands.getCommand(arguments.get(0)).orElse(null);
         } else {
             command = null;
         }
@@ -185,13 +184,12 @@ final class ClassCommand implements CommandGroup {
 
         Objects.requireNonNull(label, "label cannot be null");
 
-        return subCommands.getCommand(label);
+        return subcommands.getCommand(label);
     }
 
     @Override
     public @NotNull @Unmodifiable Collection<? extends @NotNull Subcommand> getSubcommands() {
 
-        return subCommands.getRegisteredCommands().stream()
-                .collect(Collectors.toUnmodifiableList());
+        return subcommands.getRegisteredCommands();
     }
 }
