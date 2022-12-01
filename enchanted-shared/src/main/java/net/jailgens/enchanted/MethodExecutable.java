@@ -23,7 +23,7 @@ import static net.jailgens.enchanted.ClassCommand.USAGE;
  * @author Sparky983
  * @param <T> the type of the declaring class.
  */
-final class MethodExecutable<T extends @NotNull Object> implements ParameterizedExecutable {
+final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
 
     private final @NotNull String usage;
 

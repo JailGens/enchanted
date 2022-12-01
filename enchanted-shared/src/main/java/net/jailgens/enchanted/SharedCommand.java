@@ -16,10 +16,10 @@ import java.util.Objects;
 @SuppressWarnings("PatternValidation")
 final class SharedCommand implements Subcommand {
 
-    private final ParameterizedExecutable executable;
+    private final Inspectable executable;
     private final CommandInfo commandInfo;
 
-    SharedCommand(final @NotNull ParameterizedExecutable executable,
+    SharedCommand(final @NotNull Inspectable executable,
                   final @NotNull CommandInfo commandInfo) {
 
         Objects.requireNonNull(executable, "executable cannot be null");

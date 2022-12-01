@@ -15,7 +15,7 @@ import java.util.List;
  * @author Sparky983
  * @since 0.0
  */
-public interface Subcommand extends ParameterizedExecutable, Command {
+public interface Subcommand extends Inspectable, Command {
 
     /**
      * Gets all this subcommand's parameters.
