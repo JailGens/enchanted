@@ -18,9 +18,10 @@ import static org.mockito.Mockito.when;
 class SharedCommandRegistryTest {
 
     CommandFactory commandFactory;
-    CommandMap commandMap;
+    CommandMap<Command> commandMap;
     CommandRegistry registry;
 
+    @SuppressWarnings("unchecked")
     @BeforeEach
     void setUp() {
 

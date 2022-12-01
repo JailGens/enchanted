@@ -35,7 +35,7 @@ final class ClassCommand implements CommandGroup {
     private static final @NotNull Class<? extends @NotNull Annotation> DEFAULT = Default.class;
     private static final @NotNull Class<? extends @NotNull Annotation> COMMAND = net.jailgens.enchanted.annotations.Command.class;
 
-    private final @NotNull CommandMap<Subcommand> subCommands = CommandMap.create();
+    private final @NotNull CommandMap<@NotNull Subcommand> subCommands = CommandMap.create();
     private final @Nullable ParameterizedExecutable defaultCommand;
 
     private final @NotNull CommandInfo commandInfo;
