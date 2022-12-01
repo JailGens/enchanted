@@ -13,9 +13,11 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.lang.annotation.Annotation;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The {@link Command} implementation used by {@link SharedCommandFactory} as defined by
@@ -25,15 +27,15 @@ import java.util.Objects;
  */
 @SuppressWarnings("PatternValidation") // for @Subst annotations
 // The strings are already annotated with @Pattern, no need to substitute them
-final class ClassCommand implements Command {
+final class ClassCommand implements CommandGroup {
 
     static final @NotNull AnnotationElement USAGE = AnnotationElement.value(Usage.class);
 
     private static final @NotNull Class<? extends @NotNull Annotation> DEFAULT = Default.class;
     private static final @NotNull Class<? extends @NotNull Annotation> COMMAND = net.jailgens.enchanted.annotations.Command.class;
 
-    private final @NotNull CommandMap subCommands = CommandMap.create();
-    private final @Nullable Executable defaultCommand;
+    private final @NotNull CommandMap<@NotNull Subcommand> subcommands = CommandMap.create();
+    private final @Nullable Inspectable defaultCommand;
 
     private final @NotNull CommandInfo commandInfo;
     private final @NotNull String usage;
@@ -57,7 +59,7 @@ final class ClassCommand implements Command {
                         new MethodExecutable<>(command, method, converterRegistry),
                         new AnnotationCommandInfo(method.getAnnotations())
                 ))
-                .forEach(subCommands::registerCommand);
+                .forEach(subcommands::registerCommand);
 
         type.getInnerTypes().stream()
                 .filter((subcommandType) -> subcommandType.getAnnotations().hasAnnotation(COMMAND))
@@ -67,17 +69,17 @@ final class ClassCommand implements Command {
                         subcommand = subcommandType.getConstructors().stream()
                                 .filter((constructor) -> constructor.getParameters().size() == 0)
                                 .findAny()
-                                .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for static subcommand \"" + subcommandType.getName() + "\""))
+                                .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for static inner command group \"" + subcommandType.getName() + "\""))
                                 .construct();
                     } else {
                         subcommand = subcommandType.getConstructors().stream()
                                 .filter((constructor) -> constructor.getParameters().size() == 1) // synthetic outer class parameter
                                 .findAny()
-                                .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for subcommand \"" + subcommandType.getName() + "\""))
+                                .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for inner command group \"" + subcommandType.getName() + "\""))
                                 .construct(command);
                     }
                     return commandGroupFactory.createCommand(subcommand);
-                }).forEach(subCommands::registerCommand);
+                }).forEach(subcommands::registerCommand);
 
         final Method<? extends T, ?> defaultCommandMethod = type.getMethods().stream()
                 .filter((method) -> method.getAnnotations().hasAnnotation(DEFAULT))
@@ -153,7 +155,7 @@ final class ClassCommand implements Command {
         final Command command;
 
         if (arguments.size() > 1) {
-            command = subCommands.getCommand(arguments.get(0)).orElse(null);
+            command = subcommands.getCommand(arguments.get(0)).orElse(null);
         } else {
             command = null;
         }
@@ -165,5 +167,29 @@ final class ClassCommand implements Command {
         }
 
         return command.execute(sender, arguments.subList(1, arguments.size()));
+    }
+
+    @Override
+    public @NotNull @Unmodifiable List<? extends @NotNull CommandParameter> getParameters() {
+
+        if (defaultCommand == null) {
+            return List.of();
+        }
+
+        return defaultCommand.getParameters();
+    }
+
+    @Override
+    public @NotNull Optional<? extends @NotNull Subcommand> getCommand(final @NotNull String label) {
+
+        Objects.requireNonNull(label, "label cannot be null");
+
+        return subcommands.getCommand(label);
+    }
+
+    @Override
+    public @NotNull @Unmodifiable Collection<? extends @NotNull Subcommand> getSubcommands() {
+
+        return subcommands.getRegisteredCommands();
     }
 }

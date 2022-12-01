@@ -15,16 +15,16 @@ import java.util.Optional;
  *
  * @author Sparky983
  */
-final class PaperCommandMap implements CommandMap {
+final class PaperCommandMap implements CommandMap<@NotNull Command> {
 
-    private final @NotNull CommandMap commandMap;
+    private final @NotNull CommandMap<@NotNull Command> commandMap;
     private final @NotNull String namespace;
     private final org.bukkit.command.@NotNull CommandMap bukkitCommandMap;
     private final @NotNull Map<@NotNull Command, org.bukkit.command.@NotNull Command>
             bukkitCommands = new HashMap<>();
 
     @Contract(pure = true)
-    PaperCommandMap(final @NotNull CommandMap commandMap,
+    PaperCommandMap(final @NotNull CommandMap<@NotNull Command> commandMap,
                     final @NotNull String namespace,
                     final org.bukkit.command.@NotNull CommandMap bukkitCommandMap) {
 

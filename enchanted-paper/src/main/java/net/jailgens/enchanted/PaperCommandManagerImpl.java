@@ -19,7 +19,6 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
 
     @Contract(pure = true)
     PaperCommandManagerImpl(final @NotNull Plugin plugin,
-                            final @NotNull CommandMap commandMap,
                             final @NotNull CommandFactory commandFactory,
                             final @NotNull CommandRegistry commandRegistry,
                             final @NotNull ConverterRegistry converterRegistry) {
@@ -36,13 +35,13 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     }
 
     @Override
-    public @NotNull Command createCommand(final @NotNull Object command) {
+    public @NotNull CommandGroup createCommand(final @NotNull Object command) {
 
         return commandFactory.createCommand(command);
     }
 
     @Override
-    public @NotNull Command registerCommand(final @NotNull Object command) {
+    public @NotNull CommandGroup registerCommand(final @NotNull Object command) {
 
         return commandRegistry.registerCommand(command);
     }

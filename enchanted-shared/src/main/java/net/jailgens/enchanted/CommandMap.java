@@ -11,13 +11,14 @@ import java.util.Optional;
  * A high-level map of command labels to commands.
  *
  * @author Sparky983
+ * @param <T> the type of the command this command map maps.
  */
-public interface CommandMap {
+public interface CommandMap<T extends @NotNull Command> {
 
     @Contract(value = "-> new", pure = true)
-    static @NotNull CommandMap create() {
+    static <T extends @NotNull Command> @NotNull CommandMap<@NotNull T> create() {
 
-        return new CommandMapImpl();
+        return new CommandMapImpl<>();
     }
 
     /**
@@ -29,7 +30,7 @@ public interface CommandMap {
      * been registered.
      */
     @Contract(mutates = "this")
-    void registerCommand(final @NotNull Command command);
+    void registerCommand(final @NotNull T command);
 
     /**
      * Unregisters the command.
@@ -38,7 +39,7 @@ public interface CommandMap {
      * @throws IllegalArgumentException if
      */
     @Contract(mutates = "this")
-    void unregisterCommand(final @NotNull Command command);
+    void unregisterCommand(final @NotNull T command);
 
     /**
      * Gets the command with the specified label.
@@ -47,12 +48,12 @@ public interface CommandMap {
      * @return an optional containing the command if it exists, otherwise {@code Optional.empty()}.
      * @throws NullPointerException if the label is {@code null}.
      */
-    @NotNull Optional<? extends @NotNull Command> getCommand(final @NotNull String label);
+    @NotNull Optional<? extends @NotNull T> getCommand(final @NotNull String label);
 
     /**
      * Gets all the registered commands.
      *
      * @return an unmodifiable collection of all the registered commands.
      */
-    @NotNull @Unmodifiable Collection<? extends @NotNull Command> getRegisteredCommands();
+    @NotNull @Unmodifiable Collection<? extends @NotNull T> getRegisteredCommands();
 }

@@ -31,7 +31,7 @@ public interface CommandRegistry {
      * @since 0.0.0
      */
     @Contract(value = "_ -> new", mutates = "this")
-    @NotNull Command registerCommand(@NotNull Object command);
+    @NotNull CommandGroup registerCommand(@NotNull Object command);
 
     /**
      * Removes the specified command from this registry.

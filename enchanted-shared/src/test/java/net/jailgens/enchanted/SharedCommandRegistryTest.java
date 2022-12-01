@@ -18,9 +18,10 @@ import static org.mockito.Mockito.when;
 class SharedCommandRegistryTest {
 
     CommandFactory commandFactory;
-    CommandMap commandMap;
+    CommandMap<Command> commandMap;
     CommandRegistry registry;
 
+    @SuppressWarnings("unchecked")
     @BeforeEach
     void setUp() {
 
@@ -54,7 +55,7 @@ class SharedCommandRegistryTest {
     void Given_Command_When_RegisterCommand_Then_ReturnsCommand() {
 
         final Object command = new Object();
-        final Command commandInstance = mock(Command.class);
+        final CommandGroup commandInstance = mock(CommandGroup.class);
         when(commandInstance.getLabels()).thenReturn(List.of("label"));
         when(commandFactory.createCommand(command)).thenReturn(commandInstance);
 
@@ -68,7 +69,7 @@ class SharedCommandRegistryTest {
     @Test
     void Given_CommandRegistry_When_RegisterCommand_Then_RegistersCommand() {
 
-        final Command command = mock(Command.class);
+        final CommandGroup command = mock(CommandGroup.class);
         when(commandFactory.createCommand(any())).thenReturn(command);
 
         registry.registerCommand(new Object());
