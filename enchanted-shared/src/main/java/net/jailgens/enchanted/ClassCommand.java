@@ -35,7 +35,7 @@ final class ClassCommand implements CommandGroup {
     private static final @NotNull Class<? extends @NotNull Annotation> DEFAULT = Default.class;
     private static final @NotNull Class<? extends @NotNull Annotation> COMMAND = net.jailgens.enchanted.annotations.Command.class;
 
-    private final @NotNull CommandMap subCommands = CommandMap.create();
+    private final @NotNull CommandMap<Subcommand> subCommands = CommandMap.create();
     private final @Nullable ParameterizedExecutable defaultCommand;
 
     private final @NotNull CommandInfo commandInfo;
@@ -70,13 +70,13 @@ final class ClassCommand implements CommandGroup {
                         subcommand = subcommandType.getConstructors().stream()
                                 .filter((constructor) -> constructor.getParameters().size() == 0)
                                 .findAny()
-                                .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for static subcommand \"" + subcommandType.getName() + "\""))
+                                .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for static inner command group \"" + subcommandType.getName() + "\""))
                                 .construct();
                     } else {
                         subcommand = subcommandType.getConstructors().stream()
                                 .filter((constructor) -> constructor.getParameters().size() == 1) // synthetic outer class parameter
                                 .findAny()
-                                .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for subcommand \"" + subcommandType.getName() + "\""))
+                                .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for inner command group \"" + subcommandType.getName() + "\""))
                                 .construct(command);
                     }
                     return commandGroupFactory.createCommand(subcommand);
@@ -185,19 +185,13 @@ final class ClassCommand implements CommandGroup {
 
         Objects.requireNonNull(label, "label cannot be null");
 
-        return subCommands.getCommand(label)
-                .map(Subcommand.class::cast);
-        // all commands going into it are subcommands, so we can assume the ones coming out are also
-        // subcommands
+        return subCommands.getCommand(label);
     }
 
     @Override
     public @NotNull @Unmodifiable Collection<? extends @NotNull Subcommand> getSubcommands() {
 
         return subCommands.getRegisteredCommands().stream()
-                .map(Subcommand.class::cast)
                 .collect(Collectors.toUnmodifiableList());
-        // all commands going into it are subcommands, so we can assume the ones coming out are also
-        // subcommands
     }
 }

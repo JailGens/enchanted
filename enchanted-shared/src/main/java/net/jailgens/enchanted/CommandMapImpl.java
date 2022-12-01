@@ -14,13 +14,14 @@ import java.util.Optional;
  * A map of command labels to commands.
  *
  * @author Sparky983
+ * @param <T> the type of the command this command map maps.
  */
-final class CommandMapImpl implements CommandMap {
+final class CommandMapImpl<T extends @NotNull Command> implements CommandMap<@NotNull T> {
 
-    private final @NotNull Map<@NotNull String, @NotNull Command> commands = new HashMap<>();
+    private final @NotNull Map<@NotNull String, @NotNull T> commands = new HashMap<>();
 
     @Override
-    public void registerCommand(final @NotNull Command command) {
+    public void registerCommand(final @NotNull T command) {
 
         Objects.requireNonNull(command, "command cannot be null");
 
@@ -38,7 +39,7 @@ final class CommandMapImpl implements CommandMap {
     }
 
     @Override
-    public void unregisterCommand(final @NotNull Command command) {
+    public void unregisterCommand(final @NotNull T command) {
 
         Objects.requireNonNull(command, "command cannot be null");
 
@@ -50,7 +51,7 @@ final class CommandMapImpl implements CommandMap {
     }
 
     @Override
-    public @NotNull Optional<? extends @NotNull Command> getCommand(final @NotNull String label) {
+    public @NotNull Optional<? extends @NotNull T> getCommand(final @NotNull String label) {
 
         Objects.requireNonNull(label, "label cannot be null");
 
@@ -58,7 +59,7 @@ final class CommandMapImpl implements CommandMap {
     }
 
     @Override
-    public @NotNull @Unmodifiable Collection<? extends @NotNull Command> getRegisteredCommands() {
+    public @NotNull @Unmodifiable Collection<? extends @NotNull T> getRegisteredCommands() {
 
         return List.copyOf(commands.values());
     }

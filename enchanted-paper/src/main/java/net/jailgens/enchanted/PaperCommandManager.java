@@ -33,12 +33,16 @@ public interface PaperCommandManager extends CommandManager {
 
         return new PaperCommandManagerImpl(
                 plugin,
-                new PaperCommandMap(
-                        CommandMap.create(),
-                        plugin.getName().toLowerCase(Locale.ROOT),
-                        plugin.getServer().getCommandMap()),
                 commandFactory,
-                new SharedCommandRegistry(commandFactory, CommandMap.create()),
-                converterRegistry);
+                new SharedCommandRegistry(
+                        commandFactory,
+                        new PaperCommandMap(
+                                CommandMap.create(),
+                                plugin.getName().toLowerCase(Locale.ROOT),
+                                plugin.getServer().getCommandMap()
+                        )
+                ),
+                converterRegistry
+        );
     }
 }

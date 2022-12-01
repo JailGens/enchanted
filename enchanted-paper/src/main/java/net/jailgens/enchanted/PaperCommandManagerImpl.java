@@ -19,7 +19,6 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
 
     @Contract(pure = true)
     PaperCommandManagerImpl(final @NotNull Plugin plugin,
-                            final @NotNull CommandMap commandMap,
                             final @NotNull CommandFactory commandFactory,
                             final @NotNull CommandRegistry commandRegistry,
                             final @NotNull ConverterRegistry converterRegistry) {

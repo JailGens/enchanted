@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 
 class CommandMapImplTest {
 
-    CommandMap commandMap;
+    CommandMap<Command> commandMap;
 
     @BeforeEach
     void setUp() {

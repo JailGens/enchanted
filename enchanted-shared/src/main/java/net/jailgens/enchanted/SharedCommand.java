@@ -14,12 +14,12 @@ import java.util.Objects;
  * @author Sparky983
  */
 @SuppressWarnings("PatternValidation")
-final class SharedCommand implements Command {
+final class SharedCommand implements Subcommand {
 
-    private final Executable executable;
+    private final ParameterizedExecutable executable;
     private final CommandInfo commandInfo;
 
-    SharedCommand(final @NotNull Executable executable, final @NotNull CommandInfo commandInfo) {
+    SharedCommand(final @NotNull ParameterizedExecutable executable, final @NotNull CommandInfo commandInfo) {
 
         Objects.requireNonNull(executable, "executable cannot be null");
         Objects.requireNonNull(commandInfo, "commandInfo cannot be null");
@@ -77,5 +77,11 @@ final class SharedCommand implements Command {
     public @NotNull String getDescription() {
 
         return commandInfo.getDescription();
+    }
+
+    @Override
+    public @NotNull @Unmodifiable List<? extends @NotNull CommandParameter> getParameters() {
+
+        return executable.getParameters();
     }
 }
