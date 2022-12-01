@@ -19,7 +19,8 @@ final class SharedCommand implements Subcommand {
     private final ParameterizedExecutable executable;
     private final CommandInfo commandInfo;
 
-    SharedCommand(final @NotNull ParameterizedExecutable executable, final @NotNull CommandInfo commandInfo) {
+    SharedCommand(final @NotNull ParameterizedExecutable executable,
+                  final @NotNull CommandInfo commandInfo) {
 
         Objects.requireNonNull(executable, "executable cannot be null");
         Objects.requireNonNull(commandInfo, "commandInfo cannot be null");

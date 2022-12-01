@@ -28,8 +28,12 @@ final class MethodExecutable<T extends @NotNull Object> implements Parameterized
     private final @NotNull String usage;
 
     private final @NotNull T command;
-    private final @Nullable("when no executor parameter is specified")
-            Class<? extends @NotNull CommandExecutor> executorType;
+    /**
+     * The executor type.
+     * <p>
+     * Is {@code null} when no executor is specified.
+     */
+    private final @Nullable Class<? extends @NotNull CommandExecutor> executorType;
     private final @NotNull List<@NotNull MethodParameter<?>> commandParameters;
     private final @NotNull Method<@NotNull T, @NotNull Void> method;
 

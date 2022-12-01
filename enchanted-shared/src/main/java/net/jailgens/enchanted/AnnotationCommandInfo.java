@@ -41,7 +41,6 @@ final class AnnotationCommandInfo implements CommandInfo {
     @org.intellij.lang.annotations.Pattern(DESCRIPTION_PATTERN)
     private final @NotNull String description;
 
-
     AnnotationCommandInfo(final @NotNull AnnotationValues annotations) {
 
         Objects.requireNonNull(annotations, "annotations cannot be null");
