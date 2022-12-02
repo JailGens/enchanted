@@ -19,7 +19,7 @@ import java.util.Optional;
  * @param <T> the type of the parameter.
  * @since 0.0
  */
-final class MethodParameter<T extends @NotNull Object> implements CommandParameter {
+final class MethodParameter<T extends @NotNull Object> implements CommandParameter<@NotNull T> {
 
     private static final @NotNull Class<? extends @NotNull Annotation> OPTIONAL =
             net.jailgens.enchanted.annotations.Optional.class;
@@ -78,7 +78,7 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
         return annotations.getString(SEPARATOR);
     }
 
-    @Contract(pure = true)
+    @Override
     public @NotNull Converter<@NotNull T> getConverter() {
 
         return converter;

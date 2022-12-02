@@ -81,7 +81,7 @@ final class SharedCommand implements Subcommand {
     }
 
     @Override
-    public @NotNull @Unmodifiable List<? extends @NotNull CommandParameter> getParameters() {
+    public @NotNull @Unmodifiable List<? extends @NotNull CommandParameter<?>> getParameters() {
 
         return executable.getParameters();
     }

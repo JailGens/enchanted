@@ -27,7 +27,7 @@ public interface CommandGroup extends Subcommand {
      * @since 0.1.0
      */
     @Override
-    @NotNull @Unmodifiable List<? extends @NotNull CommandParameter> getParameters();
+    @NotNull @Unmodifiable List<? extends @NotNull CommandParameter<?>> getParameters();
 
     /**
      * Gets a subcommand with a name that matches the specified label, or contains an alias that
