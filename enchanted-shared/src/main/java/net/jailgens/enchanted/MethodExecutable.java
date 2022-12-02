@@ -26,7 +26,6 @@ import static net.jailgens.enchanted.ClassCommand.USAGE;
 final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
 
     private final @NotNull String usage;
-
     private final @NotNull T command;
     /**
      * The executor type.
@@ -34,7 +33,7 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
      * Is {@code null} when no executor is specified.
      */
     private final @Nullable Class<? extends @NotNull CommandExecutor> executorType;
-    private final @NotNull List<@NotNull MethodParameter<?>> commandParameters;
+    private final @NotNull List<@NotNull CommandParameter<?>> commandParameters;
     private final @NotNull Method<@NotNull T, @NotNull Void> method;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -95,7 +94,7 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
         final List<String> unusedArguments = new ArrayList<>(arguments);
 
         for (int i = 0; i < commandParameters.size(); i++) {
-            final MethodParameter<?> parameter = commandParameters.get(i);
+            final CommandParameter<?> parameter = commandParameters.get(i);
 
             if (i >= arguments.size()) {
                 if (parameter.isOptional()) {
@@ -147,7 +146,7 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
     }
 
     @Override
-    public @NotNull @Unmodifiable List<? extends @NotNull CommandParameter> getParameters() {
+    public @NotNull @Unmodifiable List<? extends @NotNull CommandParameter<?>> getParameters() {
 
         return commandParameters;
     }

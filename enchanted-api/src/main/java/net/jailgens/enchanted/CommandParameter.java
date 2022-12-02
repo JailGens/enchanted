@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author Sparky983
  * @since 0.1.0
  */
-public interface CommandParameter {
+public interface CommandParameter<T extends @NotNull Object> {
 
     /**
      * Gets this parameter's name.
@@ -49,4 +49,15 @@ public interface CommandParameter {
      */
     @Contract(pure = true)
     @NotNull Optional<@NotNull String> getDelimiter();
+
+    /**
+     * Returns this parameter's converter.
+     *
+     * @return this parameter's converter.
+     * @see net.jailgens.enchanted.annotations.Optional
+     * @see Converter
+     * @since 0.1.0
+     */
+    @Contract(pure = true)
+    @NotNull Converter<@NotNull T> getConverter();
 }

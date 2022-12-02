@@ -170,7 +170,7 @@ final class ClassCommand implements CommandGroup {
     }
 
     @Override
-    public @NotNull @Unmodifiable List<? extends @NotNull CommandParameter> getParameters() {
+    public @NotNull @Unmodifiable List<? extends @NotNull CommandParameter<?>> getParameters() {
 
         if (defaultCommand == null) {
             return List.of();
