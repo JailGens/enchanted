@@ -60,4 +60,19 @@ public interface CommandParameter<T extends @NotNull Object> {
      */
     @Contract(pure = true)
     @NotNull Converter<@NotNull T> getConverter();
+
+    /**
+     * Parses the specified argument into a {@link String} that is usable by an {@link Converter}.
+     * <p>
+     * This directly calls the parameter's {@link ArgumentParser} with the annotation on the
+     * parameter.
+     *
+     * @param arguments the arguments.
+     * @return an optional containing the parsed argument or {@code Optional.empty()} if no more
+     * arguments are left.
+     * @throws NullPointerException if the arguments is {@code null}.
+     * @see ArgumentParser
+     * @since 0.1.0
+     */
+    @NotNull Optional<@NotNull String> parse(@NotNull Arguments arguments);
 }

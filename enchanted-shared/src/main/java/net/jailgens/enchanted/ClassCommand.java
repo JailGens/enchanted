@@ -44,19 +44,17 @@ final class ClassCommand implements CommandGroup {
     <T extends @NotNull Object> ClassCommand(final @NotNull T command,
                                              final @NotNull TypeDefinition<? extends @NotNull T> type,
                                              final @NotNull CommandInfo commandInfo,
-                                             final @NotNull ConverterRegistry converterRegistry,
-                                             final @NotNull CommandFactory commandGroupFactory) {
+                                             final @NotNull CommandManager commandManager) {
 
         Objects.requireNonNull(command, "command cannot be null");
         Objects.requireNonNull(type, "type cannot be null");
         Objects.requireNonNull(commandInfo, "commandInfo cannot be null");
-        Objects.requireNonNull(converterRegistry, "converterRegistry cannot be null");
-        Objects.requireNonNull(commandGroupFactory, "commandGroupFactory cannot be null");
+        Objects.requireNonNull(commandManager, "commandManager cannot be null");
 
         type.getMethods().stream()
                 .filter((method) -> method.getAnnotations().hasAnnotation(COMMAND))
                 .map((method) -> new SharedCommand(
-                        new MethodExecutable<>(command, method, converterRegistry),
+                        new MethodExecutable<>(command, method, commandManager),
                         new AnnotationCommandInfo(method.getAnnotations())
                 ))
                 .forEach(subcommands::registerCommand);
@@ -78,20 +76,20 @@ final class ClassCommand implements CommandGroup {
                                 .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for inner command group \"" + subcommandType.getName() + "\""))
                                 .construct(command);
                     }
-                    return commandGroupFactory.createCommand(subcommand);
+                    return commandManager.createCommand(subcommand);
                 }).forEach(subcommands::registerCommand);
 
         final Method<? extends T, ?> defaultCommandMethod = type.getMethods().stream()
                 .filter((method) -> method.getAnnotations().hasAnnotation(DEFAULT))
                 .reduce((__, ____) -> {
-                    // if the accumulator is called, we can know there is 2+ default commands
+                    // if the accumulator is called we know there is at least 2 default commands
                     throw new IllegalArgumentException("command cannot have more than one default command");
                 }).orElse(null);
 
         if (defaultCommandMethod == null) {
             this.defaultCommand = null;
         } else {
-            this.defaultCommand = new MethodExecutable<>(command, defaultCommandMethod, converterRegistry);
+            this.defaultCommand = new MethodExecutable<>(command, defaultCommandMethod, commandManager);
         }
 
         this.commandInfo = commandInfo;

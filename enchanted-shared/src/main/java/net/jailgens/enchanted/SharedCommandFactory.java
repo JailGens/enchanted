@@ -15,17 +15,17 @@ import java.util.Objects;
 public final class SharedCommandFactory implements CommandFactory {
 
     private final @NotNull Mirror mirror;
-    private final @NotNull ConverterRegistry converterRegistry;
+    private final @NotNull CommandManager commandManager;
 
     @Contract(pure = true)
     SharedCommandFactory(final @NotNull Mirror mirror,
-                         final @NotNull ConverterRegistry converterRegistry) {
+                         final @NotNull CommandManager commandManager) {
 
         Objects.requireNonNull(mirror, "mirror cannot be null");
-        Objects.requireNonNull(converterRegistry, "converterRegistry cannot be null");
+        Objects.requireNonNull(commandManager, "commandManager cannot be null");
 
         this.mirror = mirror;
-        this.converterRegistry = converterRegistry;
+        this.commandManager = commandManager;
     }
 
     @Override
@@ -44,7 +44,6 @@ public final class SharedCommandFactory implements CommandFactory {
         return new ClassCommand(command,
                 type,
                 new AnnotationCommandInfo(type.getAnnotations()),
-                converterRegistry,
-                this);
+                commandManager);
     }
 }

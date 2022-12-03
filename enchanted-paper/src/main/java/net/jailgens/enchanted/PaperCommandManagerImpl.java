@@ -1,12 +1,17 @@
 package net.jailgens.enchanted;
 
+import net.jailgens.enchanted.converter.SharedConverterRegistry;
+import net.jailgens.enchanted.parser.SharedArgumentParserRegistry;
+import net.jailgens.mirror.Mirror;
 import org.bukkit.plugin.Plugin;
 import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
+import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -15,23 +20,26 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     private final @NotNull Plugin plugin;
     private final @NotNull CommandFactory commandFactory;
     private final @NotNull CommandRegistry commandRegistry;
-    private final @NotNull ConverterRegistry converterRegistry;
+    private final @NotNull ConverterRegistry converterRegistry = new SharedConverterRegistry();
+    private final @NotNull ArgumentParserRegistry argumentParserRegistry = new SharedArgumentParserRegistry();
 
     @Contract(pure = true)
-    PaperCommandManagerImpl(final @NotNull Plugin plugin,
-                            final @NotNull CommandFactory commandFactory,
-                            final @NotNull CommandRegistry commandRegistry,
-                            final @NotNull ConverterRegistry converterRegistry) {
+    PaperCommandManagerImpl(final @NotNull Plugin plugin) {
 
         Objects.requireNonNull(plugin, "plugin cannot be null");
-        Objects.requireNonNull(commandFactory, "commandFactory cannot be null");
-        Objects.requireNonNull(commandRegistry, "commandRegistry cannot be null");
-        Objects.requireNonNull(converterRegistry, "converterRegistry cannot be null");
 
         this.plugin = plugin;
-        this.commandFactory = commandFactory;
-        this.commandRegistry = commandRegistry;
-        this.converterRegistry = converterRegistry;
+
+        final Mirror mirror = Mirror.builder().build();
+
+        this.commandFactory = new SharedCommandFactory(mirror, this);
+
+        final CommandMap<Command> commandMap = new PaperCommandMap(
+                CommandMap.create(),
+                plugin.getName().toLowerCase(Locale.ROOT),
+                plugin.getServer().getCommandMap());
+
+        this.commandRegistry = new SharedCommandRegistry(commandFactory, commandMap);
     }
 
     @Override
@@ -82,5 +90,20 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     public boolean hasConverter(final @NotNull Class<?> type) {
 
         return converterRegistry.hasConverter(type);
+    }
+
+    @Override
+    public <T extends @NotNull Annotation> void registerArgumentParser(final @NotNull Class<@NotNull T> annotationType,
+                                                                       final @NotNull ArgumentParser<@NotNull T> argumentParser) {
+
+        argumentParserRegistry.registerArgumentParser(annotationType, argumentParser);
+    }
+
+    @Override
+    public <T extends @NotNull Annotation> @NotNull Optional<
+            ? extends @NotNull ArgumentParser<@NotNull T>>
+    getArgumentParser(final @NotNull Class<@NotNull T> annotationType) {
+
+        return argumentParserRegistry.getArgumentParser(annotationType);
     }
 }
