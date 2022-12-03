@@ -30,13 +30,16 @@ changed.
 
 ### Commit types
 
-- **fix**: a non-breaking bug fix (e.g. changing a parameter name, or changing an error message) | patch
+- **fix**: a non-breaking bug fix (e.g. changing a parameter name, or changing an error message) |
+  patch
 - **feat**: a non-breaking addition to the api (e.g. a new class, or method) | minor
 - **refactor**: other code changes that affect any binaries (executable, sources, javadoc)
-(e.g. renaming a variable, or method, updating javadoc, changing implementation) | minor
+  (e.g. renaming a variable, or method, updating javadoc, changing implementation) | minor
 - **test**: adding or updating tests | none
-- **docs**: a non-breaking change to the documentation (e.g. adding a comment, or updating the README) | none
-- **chore**: repetitive tasks (e.g. updating the gradle wrapper, or updating the version number) | none
+- **docs**: a non-breaking change to the documentation (e.g. adding a comment, or updating the
+  README) | none
+- **chore**: repetitive tasks (e.g. updating the gradle wrapper, or updating the version number) |
+  none
 
 ## Pull Request Guidelines
 
@@ -46,7 +49,7 @@ please comment on the existing pull request beforehand.
 ### Testing
 
 Please ensure that all tests pass before opening a pull request. If you have added new
-functionality, it is preferred that you add tests for it. If you have fixed a bug for a component 
+functionality, it is preferred that you add tests for it. If you have fixed a bug for a component
 that is already tested, please add a test that would have caught the bug.
 
 ## Style
