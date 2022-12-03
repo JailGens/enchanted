@@ -2,12 +2,15 @@ package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.annotations.Join;
 import net.jailgens.enchanted.parser.CommandParameterParser;
+import net.jailgens.enchanted.resolver.AnnotationCommandParameterResolver;
+import net.jailgens.enchanted.resolver.CommandParameterResolver;
 import net.jailgens.mirror.AnnotationElement;
 import net.jailgens.mirror.AnnotationValues;
 import net.jailgens.mirror.Parameter;
 import org.intellij.lang.annotations.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.util.Objects;
@@ -31,12 +34,14 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
     private final @NotNull AnnotationValues annotations;
     private final @NotNull Converter<@NotNull T> converter;
     private final @NotNull CommandParameterParser parser;
+    private final @NotNull CommandParameterResolver resolver;
 
     @Contract(pure = true)
     MethodParameter(final @NotNull Parameter<@NotNull T> parameter,
                     final @NotNull AnnotationValues annotations,
                     final @NotNull Converter<@NotNull T> converter,
-                    final @NotNull CommandParameterParser parser) {
+                    final @NotNull CommandParameterParser parser,
+                    final @NotNull CommandParameterResolver resolver) {
 
         Objects.requireNonNull(parameter, "parameter cannot be null");
         Objects.requireNonNull(annotations, "annotations cannot be null");
@@ -47,6 +52,7 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
         this.annotations = annotations;
         this.converter = converter;
         this.parser = parser;
+        this.resolver = resolver;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -69,12 +75,24 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
                 })
                 .orElse(CommandParameterParser.DEFAULT);
 
+        final CommandParameterResolver resolver = parameter.getRawAnnotations().stream()
+                .flatMap((annotation) ->
+                        commandManager.getArgumentResolver(annotation.annotationType())
+                                .<CommandParameterResolver>map((argumentResolver) -> new AnnotationCommandParameterResolver(annotation, argumentResolver))
+                                .stream())
+                .reduce((__, ____) -> {
+                    // if the accumulator is called we know there is at least 2 annotations
+                    throw new IllegalArgumentException("Command cannot have multiple argument resolvers for the same parameter");
+                }).orElse(CommandParameterResolver.DEFAULT);
+
         return new MethodParameter<>(
                 parameter,
                 parameter.getAnnotations(),
                 commandManager.getConverter(parameter.getRawType())
                         .orElseThrow(() -> new IllegalStateException("Required converter for type " + parameter.getRawType() + "not fond")),
-                parser);
+                parser,
+                resolver
+        );
     }
 
     @SuppressWarnings("PatternValidation")
@@ -109,5 +127,11 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
         Objects.requireNonNull(arguments, "arguments cannot be null");
 
         return parser.parse(arguments);
+    }
+
+    @Override
+    public @Nullable @NotNull T resolve(final @NotNull Arguments arguments) {
+
+        return resolver.resolve(this, parameter.getRawType(), arguments);
     }
 }

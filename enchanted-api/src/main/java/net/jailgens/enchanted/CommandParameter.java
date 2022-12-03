@@ -4,6 +4,7 @@ import net.jailgens.enchanted.annotations.Join;
 import org.intellij.lang.annotations.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -75,4 +76,18 @@ public interface CommandParameter<T extends @NotNull Object> {
      * @since 0.1.0
      */
     @NotNull Optional<@NotNull String> parse(@NotNull Arguments arguments);
+
+    /**
+     * Resolves an object value from the specified arguments.
+     * <p>
+     * This directly calls the parameter's {@link ArgumentResolver} with the annotation on the
+     * parameter.
+     *
+     * @param arguments the arguments.
+     * @return the resolved object.
+     * @throws NullPointerException if the arguments is {@code null}.
+     * @see ArgumentResolver
+     * @since 0.1.0
+     */
+    @Nullable T resolve(@NotNull Arguments arguments);
 }

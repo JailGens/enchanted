@@ -3,6 +3,7 @@ package net.jailgens.enchanted.parser;
 import net.jailgens.enchanted.ArgumentParser;
 import net.jailgens.enchanted.Arguments;
 import net.jailgens.enchanted.Converter;
+import net.jailgens.enchanted.resolver.CommandParameterResolver;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.Optional;
  * by adapting {@link ArgumentParser}s (with annotation) to this.
  *
  * @author Sparky983
+ * @see CommandParameterResolver
  */
 @FunctionalInterface
 public interface CommandParameterParser {
