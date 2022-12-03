@@ -1,6 +1,7 @@
 package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.annotations.Join;
+import net.jailgens.enchanted.parser.CommandParameterParser;
 import net.jailgens.mirror.AnnotationElement;
 import net.jailgens.mirror.AnnotationValues;
 import net.jailgens.mirror.Parameter;

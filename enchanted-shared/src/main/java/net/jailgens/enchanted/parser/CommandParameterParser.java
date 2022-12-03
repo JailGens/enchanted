@@ -1,5 +1,8 @@
-package net.jailgens.enchanted;
+package net.jailgens.enchanted.parser;
 
+import net.jailgens.enchanted.ArgumentParser;
+import net.jailgens.enchanted.Arguments;
+import net.jailgens.enchanted.Converter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -9,8 +12,6 @@ import java.util.Optional;
  * <p>
  * This has two implementations: one for the default argument parser (no annotation) and the other
  * by adapting {@link ArgumentParser}s (with annotation) to this.
- * <p>
- * Internally used by the {@link MethodParameter}.
  *
  * @author Sparky983
  */
