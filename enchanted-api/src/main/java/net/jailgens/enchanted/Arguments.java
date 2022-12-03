@@ -81,6 +81,7 @@ public interface Arguments extends Iterable<@NotNull String> {
      * arguments.peek(2); // returns Optional.empty
      * }</pre>
      *
+     * @param indexFromTop the index of the element to peek at.
      * @return an optional containing the top argument otherwise {@code Optional.empty()} if
      * {@code size() - indexFromTop <= 0}.
      * @throws IllegalArgumentException if {@code indexFromTop < 0}.

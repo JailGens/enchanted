@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Parsers an argument into a {@link String} that is usable by an {@link Converter}.
  *
- * @param <T>
+ * @param <T> the type of the annotation that specifies this parser.
  * @since 0.1.0
  */
 public interface ArgumentParser<T extends @NotNull Annotation> {
