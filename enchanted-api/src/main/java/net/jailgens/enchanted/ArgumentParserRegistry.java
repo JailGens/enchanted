@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
+import java.util.Optional;
 
 /**
  * A registry for {@link ArgumentParser}s.
@@ -33,9 +34,10 @@ public interface ArgumentParserRegistry {
      *
      * @param annotationType the annotation type.
      * @param <T> the annotation type.
-     * @return the argument parser.
+     * @return an optional containing the argument parser, otherwise {@code Optional.empty()} if
+     * no argument parser for the specified annotation is registered..
      * @since 0.1.0
      */
-    @NotNull <T extends @NotNull Annotation> ArgumentParser<@NotNull T> getArgumentParser(
-            @NotNull Class<@NotNull T> annotationType);
+    <T extends @NotNull Annotation> @NotNull Optional<? extends @NotNull ArgumentParser<@NotNull T>>
+    getArgumentParser(@NotNull Class<@NotNull T> annotationType);
 }

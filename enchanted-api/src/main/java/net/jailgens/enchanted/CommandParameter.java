@@ -70,7 +70,7 @@ public interface CommandParameter<T extends @NotNull Object> {
      * @param arguments the arguments.
      * @return an optional containing the parsed argument or {@code Optional.empty()} if no more
      * arguments are left.
-     * @throws NullPointerException if the arguments is {@code null}.   
+     * @throws NullPointerException if the arguments is {@code null}.
      * @see ArgumentParser
      * @since 0.1.0
      */

@@ -83,7 +83,7 @@ public interface Arguments extends Iterable<@NotNull String> {
      *
      * @param indexFromTop the index of the element to peek at.
      * @return an optional containing the top argument otherwise {@code Optional.empty()} if
-     * {@code size() - indexFromTop <= 0}.
+     * {@code indexFromTop >= size()}.
      * @throws IllegalArgumentException if {@code indexFromTop < 0}.
      * @since 0.1.0
      */

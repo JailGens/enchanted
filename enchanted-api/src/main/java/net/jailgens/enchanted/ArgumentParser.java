@@ -1,5 +1,6 @@
 package net.jailgens.enchanted;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;
@@ -20,8 +21,9 @@ public interface ArgumentParser<T extends @NotNull Annotation> {
      * @param arguments the arguments.
      * @return an optional containing the parsed argument or {@code Optional.empty()} if no more
      * arguments are left.
-     * @throws NullPointerException if the annotation or the arguments is {@code null}.
+     * @throws NullPointerException if the annotation or the arguments is {@code null} (optional).
      * @since 0.1.0
      */
+    @Contract(mutates = "param")
     @NotNull Optional<@NotNull String> parse(@NotNull T annotation, @NotNull Arguments arguments);
 }

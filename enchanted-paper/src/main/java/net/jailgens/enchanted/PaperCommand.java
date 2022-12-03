@@ -1,5 +1,7 @@
 package net.jailgens.enchanted;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +26,17 @@ final class PaperCommand extends org.bukkit.command.Command {
                            final @NotNull String commandLabel,
                            final @NotNull String @NotNull [] args) {
 
-        command.execute(new PaperCommandExecutor(sender), List.of(args));
+        final CommandResult result = command.execute(new PaperCommandExecutor(sender), List.of(args));
+
+        if (result.isError()) {
+            result.getMessage()
+                    .ifPresent((message) -> sender.sendMessage(Component.text(message, NamedTextColor.RED)));
+        } else {
+            assert result.isSuccess();
+            result.getMessage()
+                    .ifPresent((message) -> sender.sendMessage(Component.text(message)));
+        }
+
         return true;
     }
 }

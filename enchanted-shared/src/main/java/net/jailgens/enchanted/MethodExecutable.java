@@ -7,8 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,11 +37,11 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
     @SuppressWarnings({"unchecked", "rawtypes"})
     MethodExecutable(final @NotNull T command,
                      final @NotNull Method<? extends @NotNull T, ? extends @NotNull Object> method,
-                     final @NotNull ConverterRegistry converterRegistry) {
+                     final @NotNull CommandManager commandManager) {
 
         Objects.requireNonNull(command, "command cannot be null");
         Objects.requireNonNull(method, "method cannot be null");
-        Objects.requireNonNull(converterRegistry, "converterRegistry cannot be null");
+        Objects.requireNonNull(commandManager, "commandManager cannot be null");
 
         if (method.getRawType() != void.class) {
             throw new IllegalArgumentException("method must return void");
@@ -55,7 +53,7 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
         this.commandParameters = method.getParameters()
                 .subList(1, method.getParameters().size())
                 .stream()
-                .map((parameter) -> (MethodParameter<?>) MethodParameter.of(converterRegistry, (Parameter) parameter))
+                .map((parameter) -> (MethodParameter<?>) MethodParameter.of(commandManager, (Parameter) parameter))
                 .collect(Collectors.toUnmodifiableList());
 
         if (commandParameters.size() >= 1) {
@@ -73,10 +71,10 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
 
     @Override
     public @NotNull CommandResult execute(final @NotNull CommandExecutor sender,
-                                          final @NotNull List<@NotNull String> arguments) {
+                                          final @NotNull List<@NotNull String> commandArguments) {
 
         Objects.requireNonNull(sender, "sender cannot be null");
-        Objects.requireNonNull(arguments, "arguments cannot be null");
+        Objects.requireNonNull(commandArguments, "arguments cannot be null");
 
         final boolean hasExecutor = executorType != null;
 
@@ -91,13 +89,14 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
             methodArguments[0] = sender;
         }
 
-        final List<String> unusedArguments = new ArrayList<>(arguments);
+        final Arguments arguments = new ListArguments(commandArguments);
 
         for (int i = 0; i < commandParameters.size(); i++) {
             final CommandParameter<?> parameter = commandParameters.get(i);
 
             if (i >= arguments.size()) {
                 if (parameter.isOptional()) {
+                    // +1 for sender argument
                     methodArguments[i + 1] = null;
                     continue;
                 } else {
@@ -105,30 +104,19 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
                 }
             }
 
-            final String argument;
+            final Optional<String> argument = parameter.parse(arguments);
 
-            if (parameter.getDelimiter().isPresent()) {
-                final String delimiter = parameter.getDelimiter().get();
-                argument = String.join(delimiter, arguments.subList(i, arguments.size()));
-                for (int j = i; j < arguments.size(); j++) {
-                    unusedArguments.set(j, null);
-                }
-            } else {
-                argument = arguments.get(i);
-                unusedArguments.set(i, null);
+            if (argument.isEmpty()) {
+                return CommandResult.error("Invalid argument " + parameter.getName());
             }
 
-            final Optional<?> converted = parameter.getConverter().convert(argument);
+            final Optional<?> converted = parameter.getConverter().convert(argument.get());
             if (converted.isEmpty()) {
                 return CommandResult.error("Invalid argument " + parameter.getName());
             }
 
+            // +1 for sender argument
             methodArguments[i + 1] = converted.get();
-        }
-
-
-        if (!Collections.nCopies(unusedArguments.size(), null).equals(unusedArguments)) {
-            return CommandResult.error("Invalid usage");
         }
 
         try {

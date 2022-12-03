@@ -15,10 +15,10 @@ import java.util.Optional;
 public final class SharedCommandRegistry implements CommandRegistry {
 
     private final @NotNull CommandFactory commandFactory;
-    private final @NotNull CommandMap commandMap;
+    private final @NotNull CommandMap<@NotNull Command> commandMap;
 
     SharedCommandRegistry(final @NotNull CommandFactory commandFactory,
-                          final @NotNull CommandMap commandMap) {
+                          final @NotNull CommandMap<@NotNull Command> commandMap) {
 
         Objects.requireNonNull(commandFactory, "commandFactory cannot be null");
         Objects.requireNonNull(commandMap, "commandMap cannot be null");
