@@ -18,14 +18,17 @@ public interface ArgumentResolver<A extends @NotNull Annotation> {
     /**
      * Resolves the specified argument into an object of type {@link T}.
      *
+     * @param parameter the command parameter.
      * @param annotation the annotation.
      * @param type the type of the object.
      * @param argument the argument after it has been parsed with an {@link ArgumentParser}.
      * @return the resolved object.
-     * @throws NullPointerException if the annotation, type or argument is {@code null} (optional).
+     * @throws NullPointerException if the command parameter, annotation, type or argument is
+     * {@code null} (optional).
      * @since 0.1.0
      */
-    <T extends @Nullable Object> /*@NotNull*/ T resolve(@NotNull A annotation,
+    <T extends @Nullable Object> /*@NotNull*/ T resolve(@NotNull CommandParameter<T> parameter,
+                                                        @NotNull A annotation,
                                                         @NotNull Class<@NotNull T> type,
                                                         @NotNull String argument);
 
