@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  * @author Sparky983
  * @since 0.1.0
  */
-public final class ArgumentParseException extends Exception {
+public final class ArgumentParseException extends RuntimeException {
 
     /**
      * Constructs a new argument parse exception.

@@ -24,6 +24,7 @@ public interface ArgumentResolver<A extends @NotNull Annotation> {
      * @param arguments the arguments after they have been parsed with an {@link ArgumentParser}.
      * @return the resolved object.
      * @param <T> the type of the object.
+     * @throws ArgumentParseException if the arguments could not be resolved.
      * @throws NullPointerException if the command parameter, annotation, type or arguments is
      * {@code null} (optional).
      * @since 0.1.0

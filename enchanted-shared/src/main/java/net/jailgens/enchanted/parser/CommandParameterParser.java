@@ -1,5 +1,6 @@
 package net.jailgens.enchanted.parser;
 
+import net.jailgens.enchanted.ArgumentParseException;
 import net.jailgens.enchanted.ArgumentParser;
 import net.jailgens.enchanted.Arguments;
 import net.jailgens.enchanted.Converter;
@@ -35,7 +36,9 @@ public interface CommandParameterParser {
      * @param arguments the arguments.
      * @return an optional containing the parsed argument or {@code Optional.empty()} if no more
      * arguments are left.
+     * @throws ArgumentParseException if the argument could not be parsed due to the arguments being
+     * unparsable.
      * @throws NullPointerException if the arguments is {@code null} (optional).
      */
-    @NotNull Optional<@NotNull String> parse(@NotNull Arguments arguments);
+    @NotNull Optional<@NotNull String> parse(@NotNull Arguments arguments) throws ArgumentParseException;
 }

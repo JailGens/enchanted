@@ -122,7 +122,8 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
     }
 
     @Override
-    public @NotNull Optional<@NotNull String> parse(final @NotNull Arguments arguments) {
+    public @NotNull Optional<@NotNull String> parse(final @NotNull Arguments arguments)
+            throws ArgumentParseException {
 
         Objects.requireNonNull(arguments, "arguments cannot be null");
 
@@ -130,7 +131,8 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
     }
 
     @Override
-    public @Nullable @NotNull T resolve(final @NotNull Arguments arguments) {
+    public @Nullable @NotNull T resolve(final @NotNull Arguments arguments)
+            throws ArgumentParseException {
 
         return resolver.resolve(this, parameter.getRawType(), arguments);
     }

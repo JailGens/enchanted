@@ -3,10 +3,12 @@ package net.jailgens.enchanted;
 import net.jailgens.mirror.InvocationException;
 import net.jailgens.mirror.Method;
 import net.jailgens.mirror.Parameter;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -91,38 +93,50 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
 
         final Arguments arguments = new ListArguments(commandArguments);
 
+        final List<String> parsedArgumentsList = new LinkedList<>();
+
+        for (final CommandParameter<?> parameter : commandParameters) {
+            final Optional<String> argument;
+            try {
+                argument = parameter.parse(arguments);
+            } catch (final ArgumentParseException e) {
+                final String message = e.getMessage();
+                return message == null ?
+                        createGenericError(parameter) :
+                        createGenericError(parameter, message);
+            }
+
+            if (argument.isEmpty()) {
+                return createGenericError(parameter);
+            }
+
+            parsedArgumentsList.add(argument.get());
+        }
+
+        final Arguments parsedArguments = new ListArguments(parsedArgumentsList);
+
         for (int i = 0; i < commandParameters.size(); i++) {
             final CommandParameter<?> parameter = commandParameters.get(i);
 
-            if (i >= arguments.size()) {
-                if (parameter.isOptional()) {
-                    // +1 for sender argument
-                    methodArguments[i + 1] = null;
-                    continue;
-                } else {
-                    return CommandResult.error("Missing required argument " + parameter.getName());
-                }
-            }
-
-            final Optional<String> argument = parameter.parse(arguments);
-
-            if (argument.isEmpty()) {
-                return CommandResult.error("Invalid argument " + parameter.getName());
-            }
-
-            final Optional<?> converted = parameter.getConverter().convert(argument.get());
-            if (converted.isEmpty()) {
-                return CommandResult.error("Invalid argument " + parameter.getName());
+            final Object resolvedArgument;
+            try {
+                resolvedArgument = parameter.resolve(parsedArguments);
+            } catch (final ArgumentParseException e) {
+                final String message = e.getMessage();
+                return message == null ?
+                        createGenericError(parameter) :
+                        createGenericError(parameter, message);
             }
 
             // +1 for sender argument
-            methodArguments[i + 1] = converted.get();
+            methodArguments[i + 1] = resolvedArgument;
         }
 
         try {
             method.invoke(command, methodArguments);
             return CommandResult.success();
         } catch (final InvocationException e) {
+            e.printStackTrace();
             return CommandResult.error("An internal error occurred while executing the command");
         }
     }
@@ -137,5 +151,41 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
     public @NotNull @Unmodifiable List<? extends @NotNull CommandParameter<?>> getParameters() {
 
         return commandParameters;
+    }
+
+    @Contract(pure = true)
+    private static @NotNull CommandResult createGenericError(
+            final @NotNull CommandParameter<?> parameter) {
+
+        assert parameter != null;
+
+        return createGenericError(parameter.getName());
+    }
+
+    @Contract(pure = true)
+    private static @NotNull CommandResult createGenericError(final @NotNull String parameter) {
+
+        assert parameter != null;
+
+        return CommandResult.error("Error parsing argument \"" + parameter + "\"");
+    }
+
+    @Contract(pure = true)
+    private static @NotNull CommandResult createGenericError(final @NotNull CommandParameter<?> parameter,
+                                                             final @NotNull String message) {
+
+        assert parameter != null;
+
+        return createGenericError(parameter.getName(), message);
+    }
+
+    @Contract(pure = true)
+    private static @NotNull CommandResult createGenericError(final @NotNull String parameter,
+                                                             final @NotNull String message) {
+
+        assert parameter != null;
+        assert message != null;
+
+        return CommandResult.error("Error parsing argument \"" + parameter + "\": " + message);
     }
 }
