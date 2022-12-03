@@ -9,6 +9,8 @@ import java.util.Optional;
 
 /**
  * Represents a stack (first in, first out) of command arguments.
+ * <p>
+ * This interface is only consumed by the user.
  *
  * @author Sparky983
  * @since 0.1.0
