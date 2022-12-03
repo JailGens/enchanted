@@ -26,16 +26,8 @@ final class PaperCommand extends org.bukkit.command.Command {
                            final @NotNull String commandLabel,
                            final @NotNull String @NotNull [] args) {
 
-        final CommandResult result = command.execute(new PaperCommandExecutor(sender), List.of(args));
-
-        if (result.isError()) {
-            result.getMessage()
-                    .ifPresent((message) -> sender.sendMessage(Component.text(message, NamedTextColor.RED)));
-        } else {
-            assert result.isSuccess();
-            result.getMessage()
-                    .ifPresent((message) -> sender.sendMessage(Component.text(message)));
-        }
+        final CommandExecutor executor = new PaperCommandExecutor(sender);
+        final CommandResult result = command.execute(executor, List.of(args));
 
         return true;
     }
