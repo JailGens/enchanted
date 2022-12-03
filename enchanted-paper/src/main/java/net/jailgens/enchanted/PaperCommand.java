@@ -28,6 +28,7 @@ final class PaperCommand extends org.bukkit.command.Command {
 
         final CommandExecutor executor = new PaperCommandExecutor(sender);
         final CommandResult result = command.execute(executor, List.of(args));
+        result.handleResult(executor);
 
         return true;
     }
