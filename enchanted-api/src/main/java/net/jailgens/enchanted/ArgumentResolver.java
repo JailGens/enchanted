@@ -22,7 +22,7 @@ public interface ArgumentResolver<A extends @NotNull Annotation> {
      * @param type the type of the object.
      * @param argument the argument after it has been parsed with an {@link ArgumentParser}.
      * @return the resolved object.
-     * @throws NullPointerException if the argument is {@code null} (optional).
+     * @throws NullPointerException if the annotation, type or argument is {@code null} (optional).
      * @since 0.1.0
      */
     <T extends @Nullable Object> /*@NotNull*/ T resolve(@NotNull A annotation,
