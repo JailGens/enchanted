@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.Optional;
 
-public class JoinArgumentParser implements ArgumentParser<@NotNull Join> {
+public final class JoinArgumentParser implements ArgumentParser<@NotNull Join> {
 
     @Override
     public @NotNull Optional<@NotNull String> parse(final @NotNull Join annotation,
