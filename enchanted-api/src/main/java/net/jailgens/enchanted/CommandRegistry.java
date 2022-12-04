@@ -25,6 +25,7 @@ public interface CommandRegistry {
      * @throws IllegalStateException if the command is currently registered to this registry or
      * another command has been registered with a name or aliases that conflict with the command.
      * @throws NullPointerException if the command is {@code null}.
+     * @see CommandManager#registerCommand(Object)
      * @see #unregisterCommand(Command)
      * @since 0.0.0
      */
@@ -37,7 +38,7 @@ public interface CommandRegistry {
      * @param command the command.
      * @throws IllegalStateException if the command is not currently registered to this registry.
      * @throws NullPointerException if the command is {@code null}.
-     * @see #registerCommand(Object)
+     * @see #registerCommand(Command)
      * @since 0.0.0
      */
     @Contract(mutates = "this")
