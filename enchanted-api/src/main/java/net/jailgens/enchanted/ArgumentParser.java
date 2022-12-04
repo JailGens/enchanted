@@ -21,6 +21,8 @@ public interface ArgumentParser<T extends @NotNull Annotation> {
      * @param arguments the arguments.
      * @return an optional containing the parsed argument or {@code Optional.empty()} if no more
      * arguments are left.
+     * @throws ArgumentParseException if the argument could not be parsed due to the arguments being
+     * unparsable by this argument parser.
      * @throws NullPointerException if the annotation or the arguments is {@code null} (optional).
      * @since 0.1.0
      */

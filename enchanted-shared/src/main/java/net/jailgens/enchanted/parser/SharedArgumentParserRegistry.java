@@ -11,6 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The shared implementation of {@link ArgumentParserRegistry}.
+ *
+ * @author Sparky983
+ */
 public final class SharedArgumentParserRegistry implements ArgumentParserRegistry {
 
     private final @NotNull Map<@NotNull Class<? extends @NotNull Annotation>, @NotNull ArgumentParser<? extends @NotNull Object>> argumentParsers = new HashMap<>();

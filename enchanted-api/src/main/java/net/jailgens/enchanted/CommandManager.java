@@ -9,6 +9,7 @@ package net.jailgens.enchanted;
 public interface CommandManager extends CommandFactory,
         CommandRegistry,
         ConverterRegistry,
-        ArgumentParserRegistry {
+        ArgumentParserRegistry,
+        ArgumentResolverRegistry {
 
 }

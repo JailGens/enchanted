@@ -1,5 +1,10 @@
-package net.jailgens.enchanted;
+package net.jailgens.enchanted.parser;
 
+import net.jailgens.enchanted.ArgumentParseException;
+import net.jailgens.enchanted.ArgumentParser;
+import net.jailgens.enchanted.Arguments;
+import net.jailgens.enchanted.Converter;
+import net.jailgens.enchanted.resolver.CommandParameterResolver;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -9,10 +14,9 @@ import java.util.Optional;
  * <p>
  * This has two implementations: one for the default argument parser (no annotation) and the other
  * by adapting {@link ArgumentParser}s (with annotation) to this.
- * <p>
- * Internally used by the {@link MethodParameter}.
  *
  * @author Sparky983
+ * @see CommandParameterResolver
  */
 @FunctionalInterface
 public interface CommandParameterParser {
@@ -32,7 +36,9 @@ public interface CommandParameterParser {
      * @param arguments the arguments.
      * @return an optional containing the parsed argument or {@code Optional.empty()} if no more
      * arguments are left.
+     * @throws ArgumentParseException if the argument could not be parsed due to the arguments being
+     * unparsable.
      * @throws NullPointerException if the arguments is {@code null} (optional).
      */
-    @NotNull Optional<@NotNull String> parse(@NotNull Arguments arguments);
+    @NotNull Optional<@NotNull String> parse(@NotNull Arguments arguments) throws ArgumentParseException;
 }

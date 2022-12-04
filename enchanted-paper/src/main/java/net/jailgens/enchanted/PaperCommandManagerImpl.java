@@ -2,6 +2,7 @@ package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.converter.SharedConverterRegistry;
 import net.jailgens.enchanted.parser.SharedArgumentParserRegistry;
+import net.jailgens.enchanted.resolver.SharedArgumentResolverRegistry;
 import net.jailgens.mirror.Mirror;
 import org.bukkit.plugin.Plugin;
 import org.intellij.lang.annotations.Subst;
@@ -17,18 +18,16 @@ import java.util.Optional;
 
 final class PaperCommandManagerImpl implements PaperCommandManager {
 
-    private final @NotNull Plugin plugin;
     private final @NotNull CommandFactory commandFactory;
     private final @NotNull CommandRegistry commandRegistry;
     private final @NotNull ConverterRegistry converterRegistry = new SharedConverterRegistry();
     private final @NotNull ArgumentParserRegistry argumentParserRegistry = new SharedArgumentParserRegistry();
+    private final @NotNull ArgumentResolverRegistry argumentResolverRegistry = new SharedArgumentResolverRegistry();
 
     @Contract(pure = true)
     PaperCommandManagerImpl(final @NotNull Plugin plugin) {
 
         Objects.requireNonNull(plugin, "plugin cannot be null");
-
-        this.plugin = plugin;
 
         final Mirror mirror = Mirror.builder().build();
 
@@ -105,5 +104,21 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     getArgumentParser(final @NotNull Class<@NotNull T> annotationType) {
 
         return argumentParserRegistry.getArgumentParser(annotationType);
+    }
+
+    @Override
+    public <T extends @NotNull Annotation> void registerArgumentResolver(
+            final @NotNull Class<@NotNull T> annotationType,
+            final @NotNull ArgumentResolver<T> resolver) {
+
+        argumentResolverRegistry.registerArgumentResolver(annotationType, resolver);
+    }
+
+    @Override
+    public @NotNull <T extends @NotNull Annotation>
+    Optional<? extends @NotNull ArgumentResolver<@NotNull T>>
+    getArgumentResolver(final @NotNull Class<@NotNull T> annotationType) {
+
+        return argumentResolverRegistry.getArgumentResolver(annotationType);
     }
 }
