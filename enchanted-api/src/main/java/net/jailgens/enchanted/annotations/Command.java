@@ -32,7 +32,8 @@ public @interface Command {
      * @since 0.0.0
      */
     @Contract(pure = true)
-    @Pattern(NAME_PATTERN) @NotNull String value();
+    @Pattern(NAME_PATTERN)
+    @NotNull String value();
 
     /**
      * Marks a method as a default command for the {@link CommandFactory}.
