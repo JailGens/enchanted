@@ -13,6 +13,7 @@ import java.util.Optional;
  * Represents a {@link Subcommand}'s parameter.
  *
  * @author Sparky983
+ * @param <T> the type of the parameter
  * @since 0.1.0
  */
 public interface CommandParameter<T extends @NotNull Object> {
