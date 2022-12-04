@@ -24,7 +24,9 @@ final class WorldConverter implements Converter<@NotNull World> {
 
     @Override
     public @NotNull Optional<? extends @NotNull World> convert(final @NotNull String string) {
-        
+
+        Objects.requireNonNull(string, "string cannot be null");
+
         final World worldByName = server.getWorld(string);
 
         if (worldByName != null) {

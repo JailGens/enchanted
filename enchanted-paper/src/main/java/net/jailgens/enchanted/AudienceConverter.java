@@ -22,8 +22,9 @@ final class AudienceConverter implements Converter<@NotNull Audience> {
 
 
     @Override
-    public @NotNull Optional<? extends @NotNull Audience> convert(
-            final @NotNull String string) {
+    public @NotNull Optional<? extends @NotNull Audience> convert(final @NotNull String string) {
+
+        Objects.requireNonNull(string, "string cannot be null");
 
         if (string.equals("*")) {
             return Optional.of(server);
