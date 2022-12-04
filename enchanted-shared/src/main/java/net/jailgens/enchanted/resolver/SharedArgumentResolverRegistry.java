@@ -19,6 +19,12 @@ public final class SharedArgumentResolverRegistry implements ArgumentResolverReg
 
     private final @NotNull Map<@NotNull Class<? extends @NotNull Object>, ArgumentResolver<? extends @NotNull Object>> argumentResolvers = new HashMap<>();
 
+    public SharedArgumentResolverRegistry() {
+
+        registerArgumentResolver(net.jailgens.enchanted.annotations.Optional.class,
+                new OptionalArgumentResolver());
+    }
+
     @Override
     public <T extends @NotNull Annotation> void registerArgumentResolver(
             final @NotNull Class<@NotNull T> annotationType,
