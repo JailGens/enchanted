@@ -3,6 +3,7 @@ package net.jailgens.enchanted;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CommandParameterTest {
@@ -21,12 +22,12 @@ class CommandParameterTest {
         assertTrue(matches);
     }
 
-    @ValueSource(strings = "this has spaces")
+    @ValueSource(strings = {"this has spaces", ""})
     @ParameterizedTest
     void Given_InvalidName_When_MatchingPattern_Then_DoesNotMatch(final String name) {
 
         final boolean matches = name.matches(CommandParameter.NAME_PATTERN);
 
-        assertTrue(matches);
+        assertFalse(matches);
     }
 }
