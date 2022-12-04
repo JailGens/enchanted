@@ -8,6 +8,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * The argument parser for {@link Join}.
+ *
+ * @author Sparky983
+ */
 public final class JoinArgumentParser implements ArgumentParser<@NotNull Join> {
 
     @Override

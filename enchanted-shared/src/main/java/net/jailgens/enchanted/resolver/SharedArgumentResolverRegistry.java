@@ -10,6 +10,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * The shared implementation of {@link ArgumentResolverRegistry}.
+ *
+ * @author Sparky983
+ */
 public final class SharedArgumentResolverRegistry implements ArgumentResolverRegistry {
 
     private final @NotNull Map<@NotNull Class<? extends @NotNull Object>, ArgumentResolver<? extends @NotNull Object>> argumentResolvers = new HashMap<>();

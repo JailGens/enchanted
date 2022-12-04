@@ -4,6 +4,7 @@ import net.jailgens.enchanted.ArgumentParseException;
 import net.jailgens.enchanted.ArgumentResolver;
 import net.jailgens.enchanted.Arguments;
 import net.jailgens.enchanted.CommandParameter;
+import net.jailgens.enchanted.annotations.Optional;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +12,13 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 
+/**
+ * An {@link CommandParameterResolver} from an annotation.
+ *
+ * @author Sparky983
+ * @param <A> the type of the annotation.
+ * @see Optional
+ */
 public final class AnnotationCommandParameterResolver<A extends @NotNull Annotation> implements CommandParameterResolver {
 
     private final @NotNull ArgumentResolver<@NotNull A> resolver;
