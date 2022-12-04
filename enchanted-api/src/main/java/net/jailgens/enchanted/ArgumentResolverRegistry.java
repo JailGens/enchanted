@@ -39,6 +39,6 @@ public interface ArgumentResolverRegistry {
      * @since 0.1.0
      */
     <T extends @NotNull Annotation> @NotNull Optional<
-                ? extends @NotNull ArgumentResolver<@NotNull T>>
+            ? extends @NotNull ArgumentResolver<@NotNull T>>
     getArgumentResolver(@NotNull Class<@NotNull T> annotationType);
 }

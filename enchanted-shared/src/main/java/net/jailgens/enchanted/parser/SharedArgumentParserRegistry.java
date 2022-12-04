@@ -3,7 +3,6 @@ package net.jailgens.enchanted.parser;
 import net.jailgens.enchanted.ArgumentParser;
 import net.jailgens.enchanted.ArgumentParserRegistry;
 import net.jailgens.enchanted.annotations.Join;
-import net.jailgens.enchanted.parser.JoinArgumentParser;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Annotation;

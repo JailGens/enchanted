@@ -1,6 +1,5 @@
 package net.jailgens.enchanted.annotations;
 
-import net.jailgens.enchanted.CommandParameter;
 import org.intellij.lang.annotations.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
