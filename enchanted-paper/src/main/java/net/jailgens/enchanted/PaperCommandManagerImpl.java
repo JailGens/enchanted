@@ -4,6 +4,11 @@ import net.jailgens.enchanted.converter.SharedConverterRegistry;
 import net.jailgens.enchanted.parser.SharedArgumentParserRegistry;
 import net.jailgens.enchanted.resolver.SharedArgumentResolverRegistry;
 import net.jailgens.mirror.Mirror;
+import net.kyori.adventure.audience.Audience;
+import org.bukkit.Material;
+import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.Contract;
@@ -18,6 +23,12 @@ import java.util.Optional;
 
 final class PaperCommandManagerImpl implements PaperCommandManager {
 
+    /**
+     * Cached material converter.
+     */
+    private static final @NotNull Converter<@NotNull Material> MATERIAL_CONVERTER =
+            new MaterialConverter();
+
     private final @NotNull CommandFactory commandFactory;
     private final @NotNull CommandRegistry commandRegistry;
     private final @NotNull ConverterRegistry converterRegistry = new SharedConverterRegistry();
@@ -29,6 +40,7 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
 
         Objects.requireNonNull(plugin, "plugin cannot be null");
 
+        final Server server = plugin.getServer();
         final Mirror mirror = Mirror.builder().build();
 
         this.commandFactory = new SharedCommandFactory(mirror, this);
@@ -36,9 +48,14 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
         final CommandMap<Command> commandMap = new PaperCommandMap(
                 CommandMap.create(),
                 plugin.getName().toLowerCase(Locale.ROOT),
-                plugin.getServer().getCommandMap());
+                server.getCommandMap());
 
         this.commandRegistry = new SharedCommandRegistry(commandFactory, commandMap);
+
+        converterRegistry.registerConverter(Material.class, MATERIAL_CONVERTER);
+        converterRegistry.registerConverter(Audience.class, new AudienceConverter(server));
+        converterRegistry.registerConverter(Player.class, new PlayerConverter(server));
+        converterRegistry.registerConverter(World.class, new WorldConverter(server));
     }
 
     @Override
