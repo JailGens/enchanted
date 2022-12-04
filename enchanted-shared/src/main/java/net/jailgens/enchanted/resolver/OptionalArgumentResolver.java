@@ -1,5 +1,6 @@
 package net.jailgens.enchanted.resolver;
 
+import net.jailgens.enchanted.ArgumentParseException;
 import net.jailgens.enchanted.ArgumentResolver;
 import net.jailgens.enchanted.Arguments;
 import net.jailgens.enchanted.CommandParameter;
@@ -24,8 +25,8 @@ public final class OptionalArgumentResolver implements ArgumentResolver<@NotNull
         Objects.requireNonNull(arguments, "arguments cannot be null");
 
         return arguments.pop()
-                .flatMap((argument) -> parameter.getConverter().convert(argument))
-                // TODO(Sparky983): make this fail if convert returns empty
+                .map((argument) -> parameter.getConverter().convert(argument)
+                        .orElseThrow(ArgumentParseException::new))
                 .orElse(null);
     }
 }
