@@ -13,10 +13,6 @@ final class MaterialConverter implements Converter<@NotNull Material> {
 
         Objects.requireNonNull(string, "string cannot be null");
 
-        try {
-            return Optional.of(Material.valueOf(string));
-        } catch (final IllegalArgumentException __) {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(Material.matchMaterial(string));
     }
 }
