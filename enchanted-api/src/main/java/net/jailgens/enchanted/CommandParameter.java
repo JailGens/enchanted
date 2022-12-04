@@ -1,7 +1,8 @@
 package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.annotations.Join;
-import org.intellij.lang.annotations.Identifier;
+import org.intellij.lang.annotations.Pattern;
+import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,6 +17,9 @@ import java.util.Optional;
  */
 public interface CommandParameter<T extends @NotNull Object> {
 
+    @RegExp
+    String NAME_PATTERN = "[^ ]+";
+
     /**
      * Gets this parameter's name.
      * <p>
@@ -25,7 +29,7 @@ public interface CommandParameter<T extends @NotNull Object> {
      * @since 0.1.0
      */
     @Contract(pure = true)
-    @Identifier
+    @Pattern(NAME_PATTERN)
     @NotNull String getName();
 
     /**

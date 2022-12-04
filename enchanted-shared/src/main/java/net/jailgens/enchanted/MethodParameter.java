@@ -1,13 +1,13 @@
 package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.annotations.Join;
+import net.jailgens.enchanted.annotations.Param;
 import net.jailgens.enchanted.parser.CommandParameterParser;
 import net.jailgens.enchanted.resolver.AnnotationCommandParameterResolver;
 import net.jailgens.enchanted.resolver.CommandParameterResolver;
 import net.jailgens.mirror.AnnotationElement;
 import net.jailgens.mirror.AnnotationValues;
 import net.jailgens.mirror.Parameter;
-import org.intellij.lang.annotations.Identifier;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * A {@link CommandParameter} that is represented by a method {@link Parameter}.
@@ -23,14 +24,18 @@ import java.util.Optional;
  * @param <T> the type of the parameter.
  * @since 0.0
  */
+@SuppressWarnings("PatternValidation")
 final class MethodParameter<T extends @NotNull Object> implements CommandParameter<@NotNull T> {
+
+    private static final @NotNull Pattern COMPILED_NAME_PATTERN = Pattern.compile(NAME_PATTERN);
 
     private static final @NotNull Class<? extends @NotNull Annotation> OPTIONAL =
             net.jailgens.enchanted.annotations.Optional.class;
-    private static final @NotNull AnnotationElement SEPARATOR =
-            AnnotationElement.value(Join.class);
+    private static final @NotNull AnnotationElement SEPARATOR = AnnotationElement.value(Join.class);
+    private static final @NotNull AnnotationElement PARAM = AnnotationElement.value(Param.class);
 
     private final @NotNull Parameter<@NotNull T> parameter;
+    private final @NotNull String name;
     private final @NotNull AnnotationValues annotations;
     private final @NotNull Converter<@NotNull T> converter;
     private final @NotNull CommandParameterParser parser;
@@ -38,17 +43,24 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
 
     @Contract(pure = true)
     MethodParameter(final @NotNull Parameter<@NotNull T> parameter,
+                    final @NotNull String name,
                     final @NotNull AnnotationValues annotations,
                     final @NotNull Converter<@NotNull T> converter,
                     final @NotNull CommandParameterParser parser,
                     final @NotNull CommandParameterResolver resolver) {
 
         Objects.requireNonNull(parameter, "parameter cannot be null");
+        Objects.requireNonNull(name, "name cannot be null");
         Objects.requireNonNull(annotations, "annotations cannot be null");
         Objects.requireNonNull(converter, "converter cannot be null");
         Objects.requireNonNull(parser, "parser cannot be null");
 
+        if (!COMPILED_NAME_PATTERN.matcher(name).matches()) {
+            throw new IllegalArgumentException("Parameter name must match the pattern /" + NAME_PATTERN + "/");
+        }
+
         this.parameter = parameter;
+        this.name = name;
         this.annotations = annotations;
         this.converter = converter;
         this.parser = parser;
@@ -87,6 +99,8 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
 
         return new MethodParameter<>(
                 parameter,
+                parameter.getAnnotations().getString(PARAM)
+                        .orElseGet(() -> parameter.getName().replace(' ', '_')),
                 parameter.getAnnotations(),
                 commandManager.getConverter(parameter.getRawType())
                         .orElseThrow(() -> new IllegalStateException("Required converter for type " + parameter.getRawType() + "not fond")),
@@ -95,12 +109,11 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
         );
     }
 
-    @SuppressWarnings("PatternValidation")
-    @Identifier
+    @org.intellij.lang.annotations.Pattern(NAME_PATTERN)
     @Override
     public @NotNull String getName() {
 
-        return parameter.getName().replace(' ', '_');
+        return name;
     }
 
     @Override
@@ -131,7 +144,7 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
     }
 
     @Override
-    public @Nullable @NotNull T resolve(final @NotNull Arguments arguments)
+    public @Nullable T resolve(final @NotNull Arguments arguments)
             throws ArgumentParseException {
 
         return resolver.resolve(this, parameter.getRawType(), arguments);
