@@ -1,7 +1,6 @@
 package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.annotations.Join;
-import org.intellij.lang.annotations.Identifier;
 import org.intellij.lang.annotations.Pattern;
 import org.intellij.lang.annotations.RegExp;
 import org.jetbrains.annotations.Contract;

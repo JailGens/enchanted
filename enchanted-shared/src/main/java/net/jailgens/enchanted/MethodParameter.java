@@ -1,13 +1,14 @@
 package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.annotations.Join;
+import net.jailgens.enchanted.annotations.Param;
 import net.jailgens.enchanted.parser.CommandParameterParser;
 import net.jailgens.enchanted.resolver.AnnotationCommandParameterResolver;
 import net.jailgens.enchanted.resolver.CommandParameterResolver;
 import net.jailgens.mirror.AnnotationElement;
 import net.jailgens.mirror.AnnotationValues;
 import net.jailgens.mirror.Parameter;
-import org.intellij.lang.annotations.Identifier;
+import org.intellij.lang.annotations.Pattern;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,12 +24,13 @@ import java.util.Optional;
  * @param <T> the type of the parameter.
  * @since 0.0
  */
+@SuppressWarnings("PatternValidation")
 final class MethodParameter<T extends @NotNull Object> implements CommandParameter<@NotNull T> {
 
     private static final @NotNull Class<? extends @NotNull Annotation> OPTIONAL =
             net.jailgens.enchanted.annotations.Optional.class;
-    private static final @NotNull AnnotationElement SEPARATOR =
-            AnnotationElement.value(Join.class);
+    private static final @NotNull AnnotationElement SEPARATOR = AnnotationElement.value(Join.class);
+    private static final @NotNull AnnotationElement PARAM = AnnotationElement.value(Param.class);
 
     private final @NotNull Parameter<@NotNull T> parameter;
     private final @NotNull AnnotationValues annotations;
@@ -95,12 +97,12 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
         );
     }
 
-    @SuppressWarnings("PatternValidation")
-    @Identifier
+    @Pattern(NAME_PATTERN)
     @Override
     public @NotNull String getName() {
 
-        return parameter.getName().replace(' ', '_');
+        return annotations.getString(PARAM)
+                .orElseGet(() -> parameter.getName().replace(' ', '_'));
     }
 
     @Override
