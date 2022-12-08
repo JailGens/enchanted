@@ -36,7 +36,7 @@ public interface CommandMap<T extends @NotNull Command> {
      * Unregisters the command.
      *
      * @param command the command.
-     * @throws IllegalArgumentException if
+     * @throws IllegalArgumentException if the command is not registered.
      */
     @Contract(mutates = "this")
     void unregisterCommand(final @NotNull T command);

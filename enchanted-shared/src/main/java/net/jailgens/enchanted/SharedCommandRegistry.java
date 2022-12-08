@@ -14,28 +14,22 @@ import java.util.Optional;
  */
 public final class SharedCommandRegistry implements CommandRegistry {
 
-    private final @NotNull CommandFactory commandFactory;
     private final @NotNull CommandMap<@NotNull Command> commandMap;
 
-    SharedCommandRegistry(final @NotNull CommandFactory commandFactory,
-                          final @NotNull CommandMap<@NotNull Command> commandMap) {
+    SharedCommandRegistry(final @NotNull CommandMap<@NotNull Command> commandMap) {
 
-        Objects.requireNonNull(commandFactory, "commandFactory cannot be null");
         Objects.requireNonNull(commandMap, "commandMap cannot be null");
 
-        this.commandFactory = commandFactory;
         this.commandMap = commandMap;
     }
 
     @Override
-    public @NotNull CommandGroup registerCommand(final @NotNull Object command) {
+    public @NotNull Command registerCommand(final @NotNull Command command) {
 
         Objects.requireNonNull(command, "command cannot be null");
 
-        final CommandGroup commandInstance = commandFactory.createCommand(command);
-
-        commandMap.registerCommand(commandInstance);
-        return commandInstance;
+        commandMap.registerCommand(command);
+        return command;
     }
 
     @Override

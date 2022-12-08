@@ -13,7 +13,7 @@ import java.util.Optional;
  * Represents an immutable, inspectable group of subcommands.
  * <p>
  * This class represents the commands that are created via
- * {@link CommandFactory#createCommand(Object)} and {@link CommandRegistry#registerCommand(Object)}.
+ * {@link CommandFactory#createCommand(Object)} or {@link CommandManager#registerCommand(Object)}.
  *
  * @author Sparky983
  * @since 0.1.0
@@ -51,6 +51,8 @@ public interface CommandGroup extends Subcommand {
      * Gets all the subcommands of this group.
      * <p>
      * The returned list is an unmodifiable collection of subcommands.
+     * <p>
+     * All subcommands are guaranteed to be either {@link CommandGroup} or an {@link Subcommand}.
      *
      * @return all the subcommands of this group.
      * @since 0.1.0

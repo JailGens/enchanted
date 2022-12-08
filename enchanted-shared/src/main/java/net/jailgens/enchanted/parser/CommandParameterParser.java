@@ -5,6 +5,7 @@ import net.jailgens.enchanted.ArgumentParser;
 import net.jailgens.enchanted.Arguments;
 import net.jailgens.enchanted.Converter;
 import net.jailgens.enchanted.resolver.CommandParameterResolver;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -40,5 +41,6 @@ public interface CommandParameterParser {
      * unparsable.
      * @throws NullPointerException if the arguments is {@code null} (optional).
      */
+    @Contract(mutates = "param")
     @NotNull Optional<@NotNull String> parse(@NotNull Arguments arguments) throws ArgumentParseException;
 }

@@ -1,6 +1,5 @@
 package net.jailgens.enchanted;
 
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
@@ -24,6 +23,5 @@ public interface Subcommand extends Inspectable, Command {
      * @since 0.1.0
      */
     @Override
-    @Contract(pure = true)
     @NotNull @Unmodifiable List<? extends @NotNull CommandParameter<?>> getParameters();
 }

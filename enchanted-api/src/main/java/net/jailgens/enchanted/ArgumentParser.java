@@ -26,6 +26,6 @@ public interface ArgumentParser<T extends @NotNull Annotation> {
      * @throws NullPointerException if the annotation or the arguments is {@code null} (optional).
      * @since 0.1.0
      */
-    @Contract(mutates = "param")
+    @Contract(mutates = "param1")
     @NotNull Optional<@NotNull String> parse(@NotNull T annotation, @NotNull Arguments arguments);
 }

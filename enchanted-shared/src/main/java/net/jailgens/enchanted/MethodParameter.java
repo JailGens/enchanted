@@ -103,7 +103,7 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
                         .orElseGet(() -> parameter.getName().replace(' ', '_')),
                 parameter.getAnnotations(),
                 commandManager.getConverter(parameter.getRawType())
-                        .orElseThrow(() -> new IllegalStateException("Required converter for type " + parameter.getRawType() + "not fond")),
+                        .orElseThrow(() -> new IllegalStateException("Required converter for type " + parameter.getRawType() + " not fond")),
                 parser,
                 resolver
         );
@@ -148,5 +148,11 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
             throws ArgumentParseException {
 
         return resolver.resolve(this, parameter.getRawType(), arguments);
+    }
+
+    @Override
+    public @NotNull Class<@NotNull T> getType() {
+
+        return parameter.getRawType();
     }
 }

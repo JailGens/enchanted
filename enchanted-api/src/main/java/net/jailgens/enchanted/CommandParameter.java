@@ -95,4 +95,12 @@ public interface CommandParameter<T extends @NotNull Object> {
      * @since 0.1.0
      */
     @Nullable T resolve(@NotNull Arguments arguments);
+
+    /**
+     * Gets the type of this parameter.
+     *
+     * @return the type of this parameter.
+     * @since 0.1.0
+     */
+    @NotNull Class<@NotNull T> getType();
 }
