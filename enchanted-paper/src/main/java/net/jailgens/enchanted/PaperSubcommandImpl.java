@@ -90,6 +90,8 @@ final class PaperSubcommandImpl implements PaperSubcommand {
         final Arguments arguments = new ListArguments(commandArguments);
 
         try {
+            // TODO(Sparky983): This is a temporary solution. It should be replaced with a more
+            //  elegant solution.
             final Optional<Map.Entry<TabCompleter<?>, String>> completer = getParameters().stream()
                     .map((parameter) -> Map.entry(parameter.getTabCompleter(), parameter.parse(arguments)))
                     .filter((entry) -> entry.getValue().isPresent())
