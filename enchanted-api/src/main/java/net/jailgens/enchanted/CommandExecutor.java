@@ -20,4 +20,16 @@ public interface CommandExecutor {
      * @since 0.0.0
      */
     void sendMessage(@NotNull String message);
+
+    /**
+     * Gets an alternative executor that doesn't have to implement {@link CommandExecutor}.
+     * <p>
+     * This can be used so consumers can use other command executors such as Bukkit's
+     * {@code CommandSender} interface.
+     * <p>
+     * If there is no alternative executor, it is valid to return {@code this}.
+     *
+     * @return the alternative executor.
+     */
+    @NotNull Object getAlternativeExecutor();
 }

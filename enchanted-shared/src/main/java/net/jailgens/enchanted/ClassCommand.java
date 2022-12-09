@@ -152,7 +152,7 @@ final class ClassCommand implements CommandGroup {
 
         final Command command;
 
-        if (arguments.size() > 1) {
+        if (!arguments.isEmpty()) {
             command = subcommands.getCommand(arguments.get(0)).orElse(null);
         } else {
             command = null;
