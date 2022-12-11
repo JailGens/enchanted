@@ -32,7 +32,7 @@ public interface CommandParameterResolver {
      * @param <T> the type of the object.
      * @throws ArgumentParseException if the argument could not be parsed due to the arguments being
      * unparsable.
-     * @throws NullPointerException if the type or arguments is {@code null} (optional).
+     * @throws NullPointerException if the type or arguments are {@code null} (optional).
      * @since 0.1.0
      */
     <T extends @Nullable Object> /*@NotNull*/ T resolve(@NotNull CommandParameter<T> parameter,

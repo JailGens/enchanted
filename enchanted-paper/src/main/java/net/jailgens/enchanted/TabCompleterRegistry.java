@@ -17,7 +17,7 @@ public interface TabCompleterRegistry {
      * @param type the type of parameter to use the completer.
      * @param completer the tab completer.
      * @param <T> the type of parameter.
-     * @throws NullPointerException if the type or the tab completer is {@code null}.
+     * @throws NullPointerException if the type or the tab completer are {@code null}.
      * @since 0.1.0
      */
     @Contract(mutates = "this")

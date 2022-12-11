@@ -24,8 +24,8 @@ public interface Executable {
      * @param sender the sender.
      * @param arguments the arguments.
      * @return the result of the execution.
-     * @throws NullPointerException if the sender is {@code null} or the arguments is or contains
-     * {@code null}.
+     * @throws NullPointerException if the sender is {@code null} is {@code nll} or the arguments
+     * is or contains {@code null}.
      * @since 0.0.0
      */
     @NotNull CommandResult execute(@NotNull CommandExecutor sender,
