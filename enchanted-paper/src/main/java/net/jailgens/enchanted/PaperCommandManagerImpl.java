@@ -34,29 +34,6 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     private final @NotNull ArgumentResolverRegistry argumentResolverRegistry;
     private final @NotNull TabCompleterRegistry tabCompleterRegistry;
 
-    @Contract(pure = true)
-    PaperCommandManagerImpl(final @NotNull PaperCommandFactory commandFactory,
-                            final @NotNull PaperCommandRegistry commandRegistry,
-                            final @NotNull ConverterRegistry converterRegistry,
-                            final @NotNull ArgumentParserRegistry argumentParserRegistry,
-                            final @NotNull ArgumentResolverRegistry argumentResolverRegistry,
-                            final @NotNull TabCompleterRegistry tabCompleterRegistry) {
-
-        Objects.requireNonNull(commandFactory, "commandFactory cannot be null");
-        Objects.requireNonNull(commandRegistry, "commandRegistry cannot be null");
-        Objects.requireNonNull(converterRegistry, "converterRegistry cannot be null");
-        Objects.requireNonNull(argumentParserRegistry, "argumentParserRegistry cannot be null");
-        Objects.requireNonNull(argumentResolverRegistry, "argumentResolverRegistry cannot be null");
-        Objects.requireNonNull(tabCompleterRegistry, "tabCompleterRegistry cannot be null");
-
-        this.commandFactory = commandFactory;
-        this.commandRegistry = commandRegistry;
-        this.converterRegistry = converterRegistry;
-        this.argumentParserRegistry = argumentParserRegistry;
-        this.argumentResolverRegistry = argumentResolverRegistry;
-        this.tabCompleterRegistry = tabCompleterRegistry;
-    }
-
     PaperCommandManagerImpl(final @NotNull Plugin plugin) {
 
         Objects.requireNonNull(plugin, "plugin cannot be null");
