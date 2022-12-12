@@ -25,6 +25,8 @@ import static net.jailgens.enchanted.ClassCommand.USAGE;
  */
 final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
 
+    private static final @NotNull Object @NotNull [] NO_ARGUMENTS = new Object[0];
+
     private final @NotNull String usage;
     private final @NotNull T command;
     /**
@@ -32,8 +34,8 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
      * <p>
      * Is {@code null} when no executor is specified.
      */
-    private final @Nullable Class<? extends @NotNull CommandExecutor> executorType;
-    private final @NotNull List<@NotNull CommandParameter<?>> commandParameters;
+    private final @Nullable Class<? extends @NotNull Object> executorType;
+    private final @NotNull List<@NotNull CommandParameter<? extends @NotNull Object>> commandParameters;
     private final @NotNull Method<@NotNull T, @NotNull Void> method;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -61,11 +63,7 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
         if (commandParameters.size() >= 1) {
             final Parameter<?> executorParameter = method.getParameters().get(0);
 
-            if (!CommandExecutor.class.isAssignableFrom(executorParameter.getRawType())) {
-                throw new IllegalArgumentException("First parameter must be a sub class of " + CommandExecutor.class.getName());
-            }
-
-            this.executorType = (Class<? extends CommandExecutor>) executorParameter.getRawType();
+            this.executorType = executorParameter.getRawType();
         } else {
             this.executorType = null;
         }
@@ -80,15 +78,22 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
 
         final boolean hasExecutor = executorType != null;
 
-        if (hasExecutor && !executorType.isInstance(sender)) {
-            return CommandResult.error("You must be a " + executorType.getSimpleName() + " to execute this command");
-        }
+        final Object commandExecutor;
+        final Object[] methodArguments;
 
-        final Object[] methodArguments = new Object[commandParameters.size() + (hasExecutor ? 1 : 0)];
-
-        if (executorType != null) {
-            assert commandParameters.size() == 0;
-            methodArguments[0] = sender;
+        if (hasExecutor) {
+            if (executorType.isInstance(sender)) {
+                commandExecutor = sender;
+            } else if (executorType.isInstance(sender.getAlternativeExecutor())) {
+                commandExecutor = sender.getAlternativeExecutor();
+            } else {
+                return CommandResult.error("You must be a " + executorType.getSimpleName() + " to execute this command");
+            }
+            methodArguments = new Object[commandParameters.size() + 1];
+            methodArguments[0] = commandExecutor;
+        } else {
+            assert commandParameters.isEmpty();
+            methodArguments = NO_ARGUMENTS;
         }
 
         final Arguments arguments = new ListArguments(commandArguments);
@@ -106,11 +111,7 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
                         createGenericError(parameter, message);
             }
 
-            if (argument.isEmpty()) {
-                return createGenericError(parameter);
-            }
-
-            parsedArgumentsList.add(argument.get());
+            argument.ifPresent(parsedArgumentsList::add);
         }
 
         final Arguments parsedArguments = new ListArguments(parsedArgumentsList);

@@ -17,55 +17,86 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * A {@link CommandManager} decorator for the paper platform.
+ *
+ * @author Sparky983
+ */
 final class PaperCommandManagerImpl implements PaperCommandManager {
 
-    /**
-     * Cached material converter.
-     */
-    private static final @NotNull Converter<@NotNull Material> MATERIAL_CONVERTER =
-            new MaterialConverter();
+    private final @NotNull PaperCommandFactory commandFactory;
+    private final @NotNull PaperCommandRegistry commandRegistry;
+    private final @NotNull ConverterRegistry converterRegistry;
+    private final @NotNull ArgumentParserRegistry argumentParserRegistry;
+    private final @NotNull ArgumentResolverRegistry argumentResolverRegistry;
+    private final @NotNull TabCompleterRegistry tabCompleterRegistry;
 
-    private final @NotNull CommandFactory commandFactory;
-    private final @NotNull CommandRegistry commandRegistry;
-    private final @NotNull ConverterRegistry converterRegistry = new SharedConverterRegistry();
-    private final @NotNull ArgumentParserRegistry argumentParserRegistry = new SharedArgumentParserRegistry();
-    private final @NotNull ArgumentResolverRegistry argumentResolverRegistry = new SharedArgumentResolverRegistry();
-
-    @Contract(pure = true)
     PaperCommandManagerImpl(final @NotNull Plugin plugin) {
 
         Objects.requireNonNull(plugin, "plugin cannot be null");
 
-        final Server server = plugin.getServer();
         final Mirror mirror = Mirror.builder().build();
+        final PaperAdapter adapter = new PaperAdapterImpl(this);
+        final Server server = plugin.getServer();
 
-        this.commandFactory = new SharedCommandFactory(mirror, this);
+        this.commandFactory = new PaperCommandFactoryImpl(
+                new SharedCommandFactory(mirror, this),
+                adapter
+        );
 
-        final CommandMap<Command> commandMap = new PaperCommandMap(
-                CommandMap.create(),
-                plugin.getName().toLowerCase(Locale.ROOT),
-                server.getCommandMap());
+        this.commandRegistry = new PaperCommandRegistryImpl(
+                new PaperCommandMap(
+                        CommandMap.create(),
+                        new CommandMapCommandAdapterImpl(),
+                        plugin.getName().toLowerCase(),
+                        server.getCommandMap()
+                ),
+                adapter
+        );
 
-        this.commandRegistry = new SharedCommandRegistry(commandFactory, commandMap);
-
-        converterRegistry.registerConverter(Material.class, MATERIAL_CONVERTER);
+        this.converterRegistry = new SharedConverterRegistry();
         converterRegistry.registerConverter(Audience.class, new AudienceConverter(server));
+        converterRegistry.registerConverter(Material.class, new MaterialConverter());
         converterRegistry.registerConverter(Player.class, new PlayerConverter(server));
         converterRegistry.registerConverter(World.class, new WorldConverter(server));
+        this.argumentParserRegistry = new SharedArgumentParserRegistry();
+        this.argumentResolverRegistry = new SharedArgumentResolverRegistry();
+        this.tabCompleterRegistry = new TabCompleterRegistryImpl(server);
     }
 
     @Override
-    public @NotNull CommandGroup createCommand(final @NotNull Object command) {
+    public @NotNull PaperCommandGroup createCommand(final @NotNull Object command) {
+
+        Objects.requireNonNull(command, "command cannot be null");
 
         return commandFactory.createCommand(command);
     }
 
     @Override
-    public @NotNull CommandGroup registerCommand(final @NotNull Object command) {
+    public @NotNull PaperCommandGroup registerCommand(final @NotNull Object command) {
+
+        Objects.requireNonNull(command, "command cannot be null");
+
+        final PaperCommandGroup paperCommandGroup = createCommand(command);
+        registerCommand(paperCommandGroup);
+        return paperCommandGroup;
+    }
+
+    @Override
+    public @NotNull PaperCommand registerCommand(final @NotNull PaperCommand command) {
+
+        Objects.requireNonNull(command, "command cannot be null");
+
+        return commandRegistry.registerCommand(command);
+    }
+
+    @Override
+    public @NotNull PaperCommand registerCommand(@NotNull final Command command) {
+
+        Objects.requireNonNull(command, "command cannot be null");
 
         return commandRegistry.registerCommand(command);
     }
@@ -73,12 +104,16 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     @Override
     public void unregisterCommand(final @NotNull Command command) {
 
+        Objects.requireNonNull(command, "command cannot be null");
+
         commandRegistry.unregisterCommand(command);
     }
 
     @Override
     public @NotNull Optional<? extends @NotNull Command> getCommand(
             @Subst("command-name") final @NotNull String label) {
+
+        Objects.requireNonNull(label, "label cannot be null");
 
         return commandRegistry.getCommand(label);
     }
@@ -90,27 +125,40 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     }
 
     @Override
-    public <T> void registerConverter(final @NotNull Class<@NotNull T> type,
-                                      final @NotNull Converter<@NotNull T> converter) {
+    public <T extends @NotNull Object> void registerConverter(
+            final @NotNull Class<@NotNull T> type,
+            final @NotNull Converter<@NotNull T> converter) {
+
+        Objects.requireNonNull(type, "type cannot be null");
+        Objects.requireNonNull(converter, "converter cannot be null");
 
         converterRegistry.registerConverter(type, converter);
     }
 
     @Override
-    public <T> Optional<? extends @NotNull Converter<@NotNull T>> getConverter(final @NotNull Class<@NotNull T> type) {
+    public <T extends @NotNull Object> Optional<? extends @NotNull Converter<@NotNull T>>
+    getConverter(final @NotNull Class<@NotNull T> type) {
+
+        Objects.requireNonNull(type, "type cannot be null");
 
         return converterRegistry.getConverter(type);
     }
 
     @Override
-    public boolean hasConverter(final @NotNull Class<?> type) {
+    public boolean hasConverter(final @NotNull Class<? extends @NotNull Object> type) {
+
+        Objects.requireNonNull(type, "type cannot be null");
 
         return converterRegistry.hasConverter(type);
     }
 
     @Override
-    public <T extends @NotNull Annotation> void registerArgumentParser(final @NotNull Class<@NotNull T> annotationType,
-                                                                       final @NotNull ArgumentParser<@NotNull T> argumentParser) {
+    public <T extends @NotNull Annotation> void registerArgumentParser(
+            final @NotNull Class<@NotNull T> annotationType,
+            final @NotNull ArgumentParser<@NotNull T> argumentParser) {
+
+        Objects.requireNonNull(annotationType, "annotationType cannot be null");
+        Objects.requireNonNull(argumentParser, "argumentParser cannot be null");
 
         argumentParserRegistry.registerArgumentParser(annotationType, argumentParser);
     }
@@ -120,6 +168,8 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
             ? extends @NotNull ArgumentParser<@NotNull T>>
     getArgumentParser(final @NotNull Class<@NotNull T> annotationType) {
 
+        Objects.requireNonNull(annotationType, "annotationType cannot be null");
+
         return argumentParserRegistry.getArgumentParser(annotationType);
     }
 
@@ -127,6 +177,9 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     public <T extends @NotNull Annotation> void registerArgumentResolver(
             final @NotNull Class<@NotNull T> annotationType,
             final @NotNull ArgumentResolver<T> resolver) {
+
+        Objects.requireNonNull(annotationType, "annotationType cannot be null");
+        Objects.requireNonNull(resolver, "resolver cannot be null");
 
         argumentResolverRegistry.registerArgumentResolver(annotationType, resolver);
     }
@@ -137,5 +190,25 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
     getArgumentResolver(final @NotNull Class<@NotNull T> annotationType) {
 
         return argumentResolverRegistry.getArgumentResolver(annotationType);
+    }
+
+    @Override
+    public <T extends @NotNull Object> void registerTabCompleter(
+            final @NotNull Class<@NotNull T> type,
+            final @NotNull TabCompleter<@NotNull T> completer) {
+
+        Objects.requireNonNull(type, "type cannot be null");
+        Objects.requireNonNull(completer, "completer cannot be null");
+
+        tabCompleterRegistry.registerTabCompleter(type, completer);
+    }
+
+    @Override
+    public @NotNull <T extends @NotNull Object> TabCompleter<@NotNull T>
+    getTabCompleter(final @NotNull Class<T> type) {
+
+        Objects.requireNonNull(type, "type cannot be null");
+
+        return tabCompleterRegistry.getTabCompleter(type);
     }
 }

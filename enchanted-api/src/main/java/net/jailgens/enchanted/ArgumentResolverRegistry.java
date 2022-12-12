@@ -20,7 +20,7 @@ public interface ArgumentResolverRegistry {
      * @param annotationType the annotation type.
      * @param resolver the resolver.
      * @param <T> the type of the annotation that specifies the resolver.
-     * @throws NullPointerException if the annotation type or the resolver is {@code null}.
+     * @throws NullPointerException if the annotation type or the resolver are {@code null}.
      * @since 0.1.0
      */
     @Contract(mutates = "this")

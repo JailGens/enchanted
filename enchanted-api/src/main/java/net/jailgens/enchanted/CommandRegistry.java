@@ -21,25 +21,26 @@ public interface CommandRegistry {
     /**
      * Registers the specified command to this registry.
      *
-     * @param command the command to add.
-     * @return the created command as specified in {@link CommandFactory}.
-     * @throws IllegalArgumentException if the command failed validation.
+     * @param command the command.
+     * @return the command that was registered. Note that this may be different to the specified
+     * command.
      * @throws IllegalStateException if the command is currently registered to this registry or
      * another command has been registered with a name or aliases that conflict with the command.
      * @throws NullPointerException if the command is {@code null}.
+     * @see CommandManager#registerCommand(Object)
      * @see #unregisterCommand(Command)
      * @since 0.0.0
      */
-    @Contract(value = "_ -> new", mutates = "this")
-    @NotNull CommandGroup registerCommand(@NotNull Object command);
+    @Contract(mutates = "this")
+    @NotNull Command registerCommand(@NotNull Command command);
 
     /**
      * Removes the specified command from this registry.
      *
-     * @param command the command to remove.
+     * @param command the command.
      * @throws IllegalStateException if the command is not currently registered to this registry.
      * @throws NullPointerException if the command is {@code null}.
-     * @see #registerCommand(Object)
+     * @see #registerCommand(Command)
      * @since 0.0.0
      */
     @Contract(mutates = "this")

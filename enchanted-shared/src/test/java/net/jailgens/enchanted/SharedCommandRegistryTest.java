@@ -17,7 +17,6 @@ import static org.mockito.Mockito.when;
 
 class SharedCommandRegistryTest {
 
-    CommandFactory commandFactory;
     CommandMap<Command> commandMap;
     CommandRegistry registry;
 
@@ -25,9 +24,8 @@ class SharedCommandRegistryTest {
     @BeforeEach
     void setUp() {
 
-        commandFactory = mock(CommandFactory.class);
         commandMap = mock(CommandMap.class);
-        registry = new SharedCommandRegistry(commandFactory, commandMap);
+        registry = new SharedCommandRegistry(commandMap);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -52,29 +50,14 @@ class SharedCommandRegistryTest {
     }
 
     @Test
-    void Given_Command_When_RegisterCommand_Then_ReturnsCommand() {
+    void Given_Command_When_RegisterCommand_Then_RegistersCommand() {
 
-        final Object command = new Object();
-        final CommandGroup commandInstance = mock(CommandGroup.class);
-        when(commandInstance.getLabels()).thenReturn(List.of("label"));
-        when(commandFactory.createCommand(command)).thenReturn(commandInstance);
+        final CommandGroup commandGroup = mock(CommandGroup.class);
+        when(commandGroup.getLabels()).thenReturn(List.of("label"));
 
-        final Command createdCommand = registry.registerCommand(command);
+        registry.registerCommand(commandGroup);
 
-        verify(commandFactory).createCommand(command);
-        verify(commandMap).registerCommand(commandInstance);
-        assertEquals(commandInstance, createdCommand);
-    }
-
-    @Test
-    void Given_CommandRegistry_When_RegisterCommand_Then_RegistersCommand() {
-
-        final CommandGroup command = mock(CommandGroup.class);
-        when(commandFactory.createCommand(any())).thenReturn(command);
-
-        registry.registerCommand(new Object());
-
-        verify(commandMap).registerCommand(command);
+        verify(commandMap).registerCommand(commandGroup);
     }
 
     @Test
