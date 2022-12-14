@@ -1,5 +1,6 @@
-package net.jailgens.enchanted;
+package net.jailgens.enchanted.converters;
 
+import net.jailgens.enchanted.Converter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.World;
@@ -10,12 +11,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-final class WorldConverter implements Converter<@NotNull World> {
+public final class WorldConverter implements Converter<@NotNull World> {
 
     private final @NotNull Server server;
 
     @Contract(pure = true)
-    WorldConverter(final @NotNull Server server) {
+    public WorldConverter(final @NotNull Server server) {
 
         Objects.requireNonNull(server, "server cannot be null");
 

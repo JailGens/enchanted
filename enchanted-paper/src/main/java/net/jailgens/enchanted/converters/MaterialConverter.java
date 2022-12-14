@@ -1,12 +1,14 @@
-package net.jailgens.enchanted;
+package net.jailgens.enchanted.converters;
 
+import net.jailgens.enchanted.ArgumentParseException;
+import net.jailgens.enchanted.Converter;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.Optional;
 
-final class MaterialConverter implements Converter<@NotNull Material> {
+public final class MaterialConverter implements Converter<@NotNull Material> {
 
     @Override
     public @NotNull Optional<? extends @NotNull Material> convert(final @NotNull String string) {
