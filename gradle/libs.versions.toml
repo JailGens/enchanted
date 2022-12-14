@@ -1,5 +1,5 @@
 [versions]
-jetbrains-annotations = "23.0.0"
+jetbrains-annotations = "23.1.0"
 mirror = "0.4.0"
 paper = "1.16.5-R0.1-SNAPSHOT"
 
