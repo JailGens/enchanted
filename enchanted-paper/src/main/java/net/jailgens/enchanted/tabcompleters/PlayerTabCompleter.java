@@ -1,5 +1,6 @@
-package net.jailgens.enchanted;
+package net.jailgens.enchanted.tabcompleters;
 
+import net.jailgens.enchanted.TabCompleter;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-final class PlayerTabCompleter implements TabCompleter<@NotNull Player> {
+public final class PlayerTabCompleter implements TabCompleter<@NotNull Player> {
 
     private final @NotNull Server server;
 

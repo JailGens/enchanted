@@ -1,5 +1,7 @@
-package net.jailgens.enchanted;
+package net.jailgens.enchanted.converters;
 
+import net.jailgens.enchanted.ArgumentParseException;
+import net.jailgens.enchanted.Converter;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -8,12 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.Optional;
 
-final class PlayerConverter implements Converter<@NotNull Player> {
+public final class PlayerConverter implements Converter<@NotNull Player> {
 
     private final @NotNull Server server;
 
     @Contract(pure = true)
-    PlayerConverter(final @NotNull Server server) {
+    public PlayerConverter(final @NotNull Server server) {
 
         Objects.requireNonNull(server, "server cannot be null");
 

@@ -1,5 +1,7 @@
-package net.jailgens.enchanted;
+package net.jailgens.enchanted.converters;
 
+import net.jailgens.enchanted.ArgumentParseException;
+import net.jailgens.enchanted.Converter;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Server;
 import org.jetbrains.annotations.Contract;
@@ -8,12 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.Optional;
 
-final class AudienceConverter implements Converter<@NotNull Audience> {
+public final class AudienceConverter implements Converter<@NotNull Audience> {
 
     private final @NotNull Server server;
 
     @Contract(pure = true)
-    AudienceConverter(final @NotNull Server server) {
+    public AudienceConverter(final @NotNull Server server) {
 
         Objects.requireNonNull(server, "server cannot be null");
 

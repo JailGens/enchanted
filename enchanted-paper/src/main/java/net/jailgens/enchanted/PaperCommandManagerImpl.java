@@ -1,6 +1,10 @@
 package net.jailgens.enchanted;
 
 import net.jailgens.enchanted.converter.SharedConverterRegistry;
+import net.jailgens.enchanted.converters.AudienceConverter;
+import net.jailgens.enchanted.converters.MaterialConverter;
+import net.jailgens.enchanted.converters.PlayerConverter;
+import net.jailgens.enchanted.converters.WorldConverter;
 import net.jailgens.enchanted.parser.SharedArgumentParserRegistry;
 import net.jailgens.enchanted.resolver.SharedArgumentResolverRegistry;
 import net.jailgens.mirror.Mirror;
@@ -11,7 +15,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.intellij.lang.annotations.Subst;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
