@@ -1,7 +1,6 @@
 package net.jailgens.enchanted.converters;
 
 import net.jailgens.enchanted.Converter;
-import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.jetbrains.annotations.NotNull;
 
