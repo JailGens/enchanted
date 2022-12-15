@@ -37,7 +37,7 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
     private final @NotNull Parameter<@NotNull T> parameter;
     private final @NotNull String name;
     private final @NotNull AnnotationValues annotations;
-    private final @NotNull Converter<@NotNull T> converter;
+    private final @NotNull Converter<? extends @NotNull T> converter;
     private final @NotNull CommandParameterParser parser;
     private final @NotNull CommandParameterResolver resolver;
 
@@ -45,7 +45,7 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
     MethodParameter(final @NotNull Parameter<@NotNull T> parameter,
                     final @NotNull String name,
                     final @NotNull AnnotationValues annotations,
-                    final @NotNull Converter<@NotNull T> converter,
+                    final @NotNull Converter<? extends @NotNull T> converter,
                     final @NotNull CommandParameterParser parser,
                     final @NotNull CommandParameterResolver resolver) {
 
@@ -129,7 +129,7 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
     }
 
     @Override
-    public @NotNull Converter<@NotNull T> getConverter() {
+    public @NotNull Converter<? extends @NotNull T> getConverter() {
 
         return converter;
     }

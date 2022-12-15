@@ -65,7 +65,7 @@ public interface CommandParameter<T extends @NotNull Object> {
      * @since 0.1.0
      */
     @Contract(pure = true)
-    @NotNull Converter<@NotNull T> getConverter();
+    @NotNull Converter<? extends @NotNull T> getConverter();
 
     /**
      * Parses the specified argument into a {@link String} that is usable by an {@link Converter}.

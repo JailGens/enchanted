@@ -27,7 +27,7 @@ public interface ConverterRegistry {
     @Contract(mutates = "this")
     <T extends @NotNull Object> void registerConverter(
             @NotNull Class<@NotNull T> type,
-            @NotNull Converter<@NotNull T> converter);
+            @NotNull Converter<? extends @NotNull T> converter);
 
     /**
      * Gets the converter for the specified type.
@@ -38,7 +38,7 @@ public interface ConverterRegistry {
      * @throws NullPointerException if the type is {@code null}.
      * @since 0.0.0
      */
-    <T extends @NotNull Object> Optional<? extends @NotNull Converter<@NotNull T>> getConverter(
+    <T extends @NotNull Object> Optional<? extends @NotNull Converter<? extends @NotNull T>> getConverter(
             @NotNull Class<@NotNull T> type);
 
     /**
