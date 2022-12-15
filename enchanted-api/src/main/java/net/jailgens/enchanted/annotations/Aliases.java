@@ -29,5 +29,5 @@ public @interface Aliases {
      * @since 0.0.0
      */
     @Contract(pure = true)
-    /* @Pattern(Command.NAME_PATTERN) */ @NotNull String @NotNull [] value();
+    /*@Pattern(Command.NAME_PATTERN)*/ @NotNull String @NotNull [] value();
 }

@@ -51,7 +51,7 @@ final class CommandValidator {
      * @param aliases the aliases of the command.
      * @return the validated aliases.
      */
-    static @NotNull List</* @org.intellij.lang.annotations.Pattern(NAME_PATTERN) */@NotNull String> validateAliases(
+    static @NotNull List</*@org.intellij.lang.annotations.Pattern(NAME_PATTERN)*/ @NotNull String> validateAliases(
             final @NotNull String name,
             final @NotNull List<@NotNull String> aliases) {
 

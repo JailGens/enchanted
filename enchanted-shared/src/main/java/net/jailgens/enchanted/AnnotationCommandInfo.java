@@ -36,8 +36,8 @@ final class AnnotationCommandInfo implements CommandInfo {
 
     @org.intellij.lang.annotations.Pattern(NAME_PATTERN)
     private final @NotNull String name;
-    private final @NotNull List</* @org.intellij.lang.annotations.Pattern(NAME_PATTERN) */@NotNull String> aliases;
-    private final @NotNull List</* @org.intellij.lang.annotations.Pattern(NAME_PATTERN) */@NotNull String> labels;
+    private final @NotNull List</*@org.intellij.lang.annotations.Pattern(NAME_PATTERN)*/ @NotNull String> aliases;
+    private final @NotNull List</*@org.intellij.lang.annotations.Pattern(NAME_PATTERN)*/ @NotNull String> labels;
     @org.intellij.lang.annotations.Pattern(DESCRIPTION_PATTERN)
     private final @NotNull String description;
 

@@ -61,7 +61,7 @@ public interface Command extends Executable {
      * @since 0.0.0
      */
     @Contract(pure = true)
-    @Unmodifiable @NotNull List</* @Pattern(NAME_PATTERN) */String> getAliases();
+    @Unmodifiable @NotNull List</*@Pattern(NAME_PATTERN)*/ String> getAliases();
 
     /**
      * Gets the labels of this command.
@@ -73,7 +73,7 @@ public interface Command extends Executable {
      * @since 0.0.0
      */
     @Contract(pure = true)
-    @Unmodifiable @NotNull List</* @Pattern(NAME_PATTERN) */String> getLabels();
+    @Unmodifiable @NotNull List</*@Pattern(NAME_PATTERN)*/ String> getLabels();
 
     /**
      * Gets the description of this command for the specified locale.

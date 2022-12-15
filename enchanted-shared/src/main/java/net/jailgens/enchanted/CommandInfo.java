@@ -35,7 +35,7 @@ public interface CommandInfo {
      * @see Command#getAliases()
      */
     @Contract(pure = true)
-    @Unmodifiable @NotNull List</* @Pattern(NAME_PATTERN) */@NotNull String> getAliases();
+    @Unmodifiable @NotNull List</*@Pattern(NAME_PATTERN)*/ @NotNull String> getAliases();
 
     /**
      * Gets the labels.
@@ -44,7 +44,7 @@ public interface CommandInfo {
      * @see Command#getLabels()
      */
     @Contract(pure = true)
-    @Unmodifiable @NotNull List</* @Pattern(NAME_PATTERN) */@NotNull String> getLabels();
+    @Unmodifiable @NotNull List</*@Pattern(NAME_PATTERN)*/ @NotNull String> getLabels();
 
     /**
      * Gets the raw, user-defined description.
