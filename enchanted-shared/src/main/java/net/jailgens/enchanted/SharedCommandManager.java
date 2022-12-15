@@ -82,13 +82,14 @@ public final class SharedCommandManager implements CommandManager {
 
     @Override
     public <T> void registerConverter(final @NotNull Class<@NotNull T> type,
-                                      final @NotNull Converter<@NotNull T> converter) {
+                                      final @NotNull Converter<? extends @NotNull T> converter) {
 
         converterRegistry.registerConverter(type, converter);
     }
 
     @Override
-    public <T> Optional<? extends @NotNull Converter<@NotNull T>> getConverter(final @NotNull Class<@NotNull T> type) {
+    public <T> Optional<? extends @NotNull Converter<? extends @NotNull T>>
+    getConverter(final @NotNull Class<@NotNull T> type) {
 
         return converterRegistry.getConverter(type);
     }

@@ -44,7 +44,7 @@ final class PaperCommandParameterImpl<T extends @NotNull Object> implements
     }
 
     @Override
-    public @NotNull Converter<@NotNull T> getConverter() {
+    public @NotNull Converter<? extends @NotNull T> getConverter() {
 
         return commandParameter.getConverter();
     }

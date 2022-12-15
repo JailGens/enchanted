@@ -51,7 +51,7 @@ public final class SharedConverterRegistry implements ConverterRegistry {
 
     @Override
     public <T> void registerConverter(final @NotNull Class<@NotNull T> type,
-                                      final @NotNull Converter<@NotNull T> converter) {
+                                      final @NotNull Converter<? extends @NotNull T> converter) {
 
         Objects.requireNonNull(type, "type cannot be null");
         Objects.requireNonNull(converter, "converter cannot be null");
