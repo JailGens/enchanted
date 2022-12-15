@@ -120,6 +120,8 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
         this.argumentParserRegistry = new SharedArgumentParserRegistry();
         this.argumentResolverRegistry = new SharedArgumentResolverRegistry();
         this.tabCompleterRegistry = new TabCompleterRegistryImpl(server);
+
+        registerConverters(server);
     }
 
     /**
