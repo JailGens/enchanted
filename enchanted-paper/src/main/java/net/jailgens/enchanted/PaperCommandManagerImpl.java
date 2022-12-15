@@ -66,7 +66,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.annotation.Annotation;
 import java.time.DayOfWeek;
 import java.time.Month;
