@@ -18,12 +18,12 @@ thanks to its annotation processor.
 | Internationalisation | ❌         |
 | Annotation Processor | ❌         |
 | Command Overloading  | ❌         |
-| Suggestions          | ❌         |
-| Aliases              | ❌         |
+| Suggestions          | ✔         |
+| Aliases              | ✔         |
 | Validation           | ❌         |
 | Service Loader       | ❌         |
 | Usage Generation     | ❌         |
-| Paper                | ❌         |
+| Paper                | ✔         |
 | Discord4J            | ❌         |
 
 ## Credit
