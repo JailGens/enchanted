@@ -3,7 +3,7 @@ plugins {
 }
 
 repositories {
-    maven("https://repo.sparky983.me/releases")
+    maven("https://repo.jailgens.net/releases")
 }
 
 dependencies {
