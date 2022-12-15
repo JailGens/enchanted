@@ -8,7 +8,7 @@ Many other command frameworks are too complex and support features that aren't r
 as complete internationalisation APIs, dependency injection, and configuration.
 
 Another issue with almost all other command frameworks is that they delay command validation (verify
-overloads, command names, etc.) until runtime. Enchanted can validate all of this and compile-time
+overloads, command names, etc.) until runtime. Enchanted can (*soon*) validate all of this and compile-time
 thanks to its annotation processor.
 
 ## Features
