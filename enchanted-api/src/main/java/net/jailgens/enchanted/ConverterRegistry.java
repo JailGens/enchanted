@@ -3,13 +3,16 @@ package net.jailgens.enchanted;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.Color;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 /**
  * A registry of converters.
  * <p>
  * By default, it must contain the following converters:
- * <p>
+ * <ul>
  *     <li>{@link String}</li>
  *     <li>{@link Integer}, {@code int}</li>
  *     <li>{@link Double}, {@code double}</li>
@@ -19,7 +22,10 @@ import java.util.Optional;
  *     <li>{@link Short}, {@code short}</li>
  *     <li>{@link Byte}, {@code byte}</li>
  *     <li>{@link Character}, {@code char}</li>
- * </p>
+ *     <li>{@link UUID}</li>
+ *     <li>{@link Pattern}</li>
+ *     <li>{@link Color}</li>
+ * </ul>
  * The implementation of these converters is unspecified.
  *
  * @author Sparky983

@@ -9,7 +9,7 @@ import io.papermc.paper.inventory.ItemRarity;
 import io.papermc.paper.world.MoonPhase;
 import net.jailgens.enchanted.converter.SharedConverterRegistry;
 import net.jailgens.enchanted.converters.DifficultyConverter;
-import net.jailgens.enchanted.converters.EnumConverter;
+import net.jailgens.enchanted.converter.EnumConverter;
 import net.jailgens.enchanted.converters.GameModeConverter;
 import net.jailgens.enchanted.converters.SearchConverter;
 import net.jailgens.enchanted.converters.SoundConverter;
@@ -66,17 +66,13 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
-import java.awt.Color;
 import java.lang.annotation.Annotation;
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 /**
  * A {@link CommandManager} decorator for the paper platform.
@@ -195,27 +191,6 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
                 throw new ArgumentParseException("Color \"" + string + "\" is invalid");
             }
             return Optional.of(color);
-        });
-        registerConverter(UUID.class, (string) -> {
-            try {
-                return Optional.of(UUID.fromString(string));
-            } catch (final IllegalArgumentException e) {
-                throw new ArgumentParseException("UUID \"" + string + "\" is invalid", e);
-            }
-        });
-        registerConverter(Pattern.class, (string) -> {
-            try {
-                return Optional.of(Pattern.compile(string));
-            } catch (final PatternSyntaxException e) {
-                throw new ArgumentParseException("Pattern \"" + string + "\" is invalid", e);
-            }
-        });
-        registerConverter(Color.class, (string) -> {
-            try {
-                return Optional.of(Color.decode(string));
-            } catch (final NumberFormatException e) {
-                throw new ArgumentParseException("Color \"" + string + "\" is invalid", e);
-            }
         });
 
         registerConverter(Sound.class, new SearchConverter<>("Sound", new SoundConverter(keyConverter)));

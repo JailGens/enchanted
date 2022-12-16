@@ -4,10 +4,13 @@ import net.jailgens.enchanted.Converter;
 import net.jailgens.enchanted.ConverterRegistry;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 /**
  * The shared implementation of {@link ConverterRegistry}.
@@ -25,6 +28,9 @@ public final class SharedConverterRegistry implements ConverterRegistry {
     private static final @NotNull Converter<@NotNull Short> SHORT_CONVERTER = new ShortConverter();
     private static final @NotNull Converter<@NotNull Byte> BYTE_CONVERTER = new ByteConverter();
     private static final @NotNull Converter<@NotNull Character> CHARACTER_CONVERTER = new CharacterConverter();
+    private static final @NotNull Converter<@NotNull UUID> UUID_CONVERTER = new UuidConverter();
+    private static final @NotNull Converter<@NotNull Pattern> PATTERN_CONVERTER = new PatternConverter();
+    private static final @NotNull Converter<@NotNull Color> COLOR_CONVERTER = new ColorConverter();
 
     private final @NotNull Map<@NotNull Class<? extends @NotNull Object>, Converter<? extends @NotNull Object>> converters = new HashMap<>();
 
@@ -47,6 +53,9 @@ public final class SharedConverterRegistry implements ConverterRegistry {
         registerConverter(byte.class, BYTE_CONVERTER);
         registerConverter(Character.class, CHARACTER_CONVERTER);
         registerConverter(char.class, CHARACTER_CONVERTER);
+        registerConverter(UUID.class, UUID_CONVERTER);
+        registerConverter(Pattern.class, PATTERN_CONVERTER);
+        registerConverter(Color.class, COLOR_CONVERTER);
     }
 
     @Override

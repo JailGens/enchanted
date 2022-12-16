@@ -1,4 +1,4 @@
-package net.jailgens.enchanted.converters;
+package net.jailgens.enchanted.converter;
 
 import net.jailgens.enchanted.Converter;
 import org.jetbrains.annotations.Contract;
