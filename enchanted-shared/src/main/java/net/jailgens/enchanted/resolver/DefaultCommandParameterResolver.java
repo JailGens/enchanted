@@ -1,5 +1,6 @@
 package net.jailgens.enchanted.resolver;
 
+import net.jailgens.enchanted.ArgumentParseException;
 import net.jailgens.enchanted.Arguments;
 import net.jailgens.enchanted.CommandParameter;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,6 @@ public final class DefaultCommandParameterResolver implements CommandParameterRe
 
         return arguments.pop()
                 .flatMap((argument) -> parameter.getConverter().convert(argument))
-                .orElseThrow();
+                .orElseThrow(ArgumentParseException::new);
     }
 }
