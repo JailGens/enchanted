@@ -7,6 +7,20 @@ import java.util.Optional;
 
 /**
  * A registry of converters.
+ * <p>
+ * By default, it must contain the following converters:
+ * <p>
+ *     <li>{@link String}</li>
+ *     <li>{@link Integer}, {@code int}</li>
+ *     <li>{@link Double}, {@code double}</li>
+ *     <li>{@link Float}, {@code float}</li>
+ *     <li>{@link Boolean}, {@code boolean}</li>
+ *     <li>{@link Long}, {@code long}</li>
+ *     <li>{@link Short}, {@code short}</li>
+ *     <li>{@link Byte}, {@code byte}</li>
+ *     <li>{@link Character}, {@code char}</li>
+ * </p>
+ * The implementation of these converters is unspecified.
  *
  * @author Sparky983
  * @since 0.0.0
