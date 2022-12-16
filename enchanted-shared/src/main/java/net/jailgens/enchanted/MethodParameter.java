@@ -144,8 +144,7 @@ final class MethodParameter<T extends @NotNull Object> implements CommandParamet
     }
 
     @Override
-    public @Nullable T resolve(final @NotNull Arguments arguments)
-            throws ArgumentParseException {
+    public @Nullable T resolve(final @NotNull Arguments arguments) {
 
         return resolver.resolve(this, parameter.getRawType(), arguments);
     }

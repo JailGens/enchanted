@@ -168,7 +168,7 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
 
         assert parameter != null;
 
-        return CommandResult.error("Error parsing argument \"" + parameter + "\"");
+        return CommandResult.error("Could not parse argument \"" + parameter + "\"");
     }
 
     @Contract(pure = true)
@@ -187,6 +187,6 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
         assert parameter != null;
         assert message != null;
 
-        return CommandResult.error("Error parsing argument \"" + parameter + "\": " + message);
+        return CommandResult.error("Could not parse argument \"" + parameter + "\": " + message);
     }
 }

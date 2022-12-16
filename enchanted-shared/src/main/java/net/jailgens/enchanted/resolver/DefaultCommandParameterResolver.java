@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public final class DefaultCommandParameterResolver implements CommandParameterResolver {
 
@@ -20,8 +21,13 @@ public final class DefaultCommandParameterResolver implements CommandParameterRe
         Objects.requireNonNull(type, "type cannot be null");
         Objects.requireNonNull(arguments, "arguments cannot be null");
 
-        return arguments.pop()
-                .flatMap((argument) -> parameter.getConverter().convert(argument))
+        final Optional<String> argument = arguments.pop();
+
+        if (argument.isEmpty()) {
+            throw new ArgumentParseException("argument is missing");
+        }
+
+        return parameter.getConverter().convert(argument.get())
                 .orElseThrow(ArgumentParseException::new);
     }
 }
