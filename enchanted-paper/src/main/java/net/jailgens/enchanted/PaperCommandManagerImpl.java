@@ -7,9 +7,9 @@ import io.papermc.paper.datapack.Datapack;
 import io.papermc.paper.enchantments.EnchantmentRarity;
 import io.papermc.paper.inventory.ItemRarity;
 import io.papermc.paper.world.MoonPhase;
+import net.jailgens.enchanted.converter.EnumConverter;
 import net.jailgens.enchanted.converter.SharedConverterRegistry;
 import net.jailgens.enchanted.converters.DifficultyConverter;
-import net.jailgens.enchanted.converter.EnumConverter;
 import net.jailgens.enchanted.converters.GameModeConverter;
 import net.jailgens.enchanted.converters.SearchConverter;
 import net.jailgens.enchanted.converters.SoundConverter;
@@ -23,6 +23,7 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Art;
 import org.bukkit.ChatColor;
@@ -104,7 +105,9 @@ final class PaperCommandManagerImpl implements PaperCommandManager {
         this.commandRegistry = new PaperCommandRegistryImpl(
                 new PaperCommandMap(
                         CommandMap.create(),
-                        new CommandMapCommandAdapterImpl(),
+                        new CommandMapCommandAdapterImpl(
+                                PaperTranslationRegistry.create(MiniMessage.miniMessage())
+                        ),
                         plugin.getName().toLowerCase(),
                         server.getCommandMap()
                 ),

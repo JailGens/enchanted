@@ -2,6 +2,8 @@ package net.jailgens.enchanted;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 /**
  * Something that can execute (run) commands.
  * <p>
@@ -22,6 +24,18 @@ public interface CommandExecutor {
     void sendMessage(@NotNull String message);
 
     /**
+     * Sends a translated message to the command executor.
+     *
+     * @param key the translation key.
+     * @param placeholders the message placeholders.
+     * @throws NullPointerException if the key or arguments are {@code null}.
+     * @see TranslationKey
+     * @since 0.1.0
+     */
+    void sendTranslatedMessage(
+            @NotNull String key, @NotNull Map<@NotNull String, @NotNull Object> placeholders);
+
+    /**
      * Gets an alternative executor that doesn't have to implement {@link CommandExecutor}.
      * <p>
      * This can be used so consumers can use other command executors such as Bukkit's
@@ -30,6 +44,7 @@ public interface CommandExecutor {
      * If there is no alternative executor, it is valid to return {@code this}.
      *
      * @return the alternative executor.
+     * @since 0.1.0
      */
     @NotNull Object getAlternativeExecutor();
 }

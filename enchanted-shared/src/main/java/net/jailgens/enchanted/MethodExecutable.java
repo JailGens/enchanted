@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -87,7 +88,9 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
             } else if (executorType.isInstance(sender.getAlternativeExecutor())) {
                 commandExecutor = sender.getAlternativeExecutor();
             } else {
-                return CommandResult.error("You must be a " + executorType.getSimpleName() + " to execute this command");
+                return CommandResult.Error.translate(
+                        TranslationKey.INVALID_SENDER,
+                        Map.of("sender", executorType.getSimpleName()));
             }
             methodArguments = new Object[commandParameters.size() + 1];
             methodArguments[0] = commandExecutor;
@@ -138,7 +141,7 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
             return CommandResult.success();
         } catch (final InvocationException e) {
             e.printStackTrace();
-            return CommandResult.error("An internal error occurred while executing the command");
+            return CommandResult.Error.translate(TranslationKey.INTERNAL_ERROR);
         }
     }
 
@@ -155,38 +158,30 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
     }
 
     @Contract(pure = true)
-    private static @NotNull CommandResult createGenericError(
+    private @NotNull CommandResult createGenericError(
             final @NotNull CommandParameter<?> parameter) {
 
         assert parameter != null;
 
-        return createGenericError(parameter.getName());
+        return CommandResult.Error.translate(
+                TranslationKey.INVALID_ARGUMENT,
+                Map.of(
+                        "argument", parameter.getName(),
+                        "usage", getUsage()));
     }
 
     @Contract(pure = true)
-    private static @NotNull CommandResult createGenericError(final @NotNull String parameter) {
-
-        assert parameter != null;
-
-        return CommandResult.error("Could not parse argument \"" + parameter + "\"");
-    }
-
-    @Contract(pure = true)
-    private static @NotNull CommandResult createGenericError(final @NotNull CommandParameter<?> parameter,
-                                                             final @NotNull String message) {
-
-        assert parameter != null;
-
-        return createGenericError(parameter.getName(), message);
-    }
-
-    @Contract(pure = true)
-    private static @NotNull CommandResult createGenericError(final @NotNull String parameter,
-                                                             final @NotNull String message) {
+    private @NotNull CommandResult createGenericError(final @NotNull CommandParameter<?> parameter,
+                                                      final @NotNull String message) {
 
         assert parameter != null;
         assert message != null;
 
-        return CommandResult.error("Could not parse argument \"" + parameter + "\": " + message);
+        return CommandResult.Error.translate(
+                TranslationKey.INVALID_ARGUMENT,
+                Map.of(
+                        "argument", parameter.getName(),
+                        "reason", message,
+                        "usage", getUsage()));
     }
 }
