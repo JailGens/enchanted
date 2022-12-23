@@ -1,14 +1,14 @@
 [versions]
 jetbrains-annotations = "23.1.0"
 mirror = "0.4.0"
-paper = "1.16.5-R0.1-SNAPSHOT"
+paper = "1.18.2-R0.1-SNAPSHOT"
 
 junit = "5.9.1"
 
 [libraries]
 mirror = { module = "net.jailgens:mirror", version.ref = "mirror" }
 jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
-paper = { module = "com.destroystokyo.paper:paper-api", version.ref = "paper" }
+paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }

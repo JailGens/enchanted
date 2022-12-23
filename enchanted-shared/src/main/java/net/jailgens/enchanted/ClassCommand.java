@@ -16,6 +16,7 @@ import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -160,7 +161,7 @@ final class ClassCommand implements CommandGroup {
 
         if (command == null) {
             return defaultCommand == null ?
-                    CommandResult.error("Invalid usage, try: " + getUsage()) :
+                    CommandResult.Error.translate(TranslationKey.INVALID_USAGE, Map.of("usage", getUsage())) :
                     defaultCommand.execute(sender, arguments);
         }
 
