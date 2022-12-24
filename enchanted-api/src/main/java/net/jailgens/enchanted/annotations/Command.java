@@ -41,7 +41,7 @@ public @interface Command {
      * @since 0.0.0
      */
     @Retention(RUNTIME)
-    @Target({METHOD})
+    @Target(METHOD)
     @interface Default {
 
     }

@@ -1,5 +1,7 @@
 package net.jailgens.enchanted;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A utility class containing all default translation keys.
  *
@@ -18,7 +20,7 @@ public final class TranslationKey {
      *
      * @since 0.1.0
      */
-    public static final String INVALID_USAGE = "enchanted.invalid-usage";
+    public static final @NotNull String INVALID_USAGE = "enchanted.invalid-usage";
 
     /**
      * The translation key for the "invalid sender" message.
@@ -30,7 +32,7 @@ public final class TranslationKey {
      *
      * @since 0.1.0
      */
-    public static final String INVALID_SENDER = "enchanted.invalid-sender";
+    public static final @NotNull String INVALID_SENDER = "enchanted.invalid-sender";
 
     /**
      * The translation key for the "invalid argument" message.
@@ -45,7 +47,7 @@ public final class TranslationKey {
      * @see #GENERIC_INVALID_ARGUMENT
      * @since 0.1.0
      */
-    public static final String INVALID_ARGUMENT = "enchanted.invalid-argument";
+    public static final @NotNull String INVALID_ARGUMENT = "enchanted.invalid-argument";
 
     /**
      * The translation key for the "generic invalid argument" message.
@@ -62,7 +64,7 @@ public final class TranslationKey {
      * @see #INVALID_ARGUMENT
      * @since 0.1.0
      */
-    public static final String GENERIC_INVALID_ARGUMENT = "enchanted.generic-invalid-argument";
+    public static final @NotNull String GENERIC_INVALID_ARGUMENT = "enchanted.generic-invalid-argument";
 
     /**
      * The translation key for the "internal error" message.
@@ -71,7 +73,7 @@ public final class TranslationKey {
      *
      * @since 0.1.0
      */
-    public static final String INTERNAL_ERROR = "enchanted.internal-error";
+    public static final @NotNull String INTERNAL_ERROR = "enchanted.internal-error";
 
     private TranslationKey() {
 

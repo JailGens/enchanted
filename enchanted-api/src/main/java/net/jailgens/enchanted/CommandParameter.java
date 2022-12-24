@@ -37,8 +37,8 @@ public interface CommandParameter<T extends @NotNull Object> {
      * Returns whether this parameter is optional.
      *
      * @return whether this parameter is optional.
-     * @since 0.1.0
      * @see net.jailgens.enchanted.annotations.Optional
+     * @since 0.1.0
      */
     @Contract(pure = true)
     boolean isOptional();

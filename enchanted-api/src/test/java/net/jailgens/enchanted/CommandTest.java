@@ -3,6 +3,7 @@ package net.jailgens.enchanted;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import static net.jailgens.enchanted.Command.DESCRIPTION_PATTERN;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -42,7 +43,7 @@ class CommandTest {
     @ParameterizedTest
     void Given_ValidDescription_When_MatchingPattern_Then_Matches(final String description) {
 
-        final boolean matches = description.matches(Command.DESCRIPTION_PATTERN);
+        final boolean matches = description.matches(DESCRIPTION_PATTERN);
 
         assertTrue(matches);
     }
@@ -51,7 +52,7 @@ class CommandTest {
     @ParameterizedTest
     void Given_InvalidDescription_When_MatchingPattern_Then_DoesNotMatch(final String description) {
 
-        final boolean matches = description.matches(Command.DESCRIPTION_PATTERN);
+        final boolean matches = description.matches(DESCRIPTION_PATTERN);
 
         assertFalse(matches);
     }

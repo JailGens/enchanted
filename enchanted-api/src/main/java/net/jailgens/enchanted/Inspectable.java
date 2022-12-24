@@ -30,5 +30,6 @@ public interface Inspectable extends Executable {
      * @since 0.1.0
      */
     @Contract(pure = true)
-    @NotNull @Unmodifiable List<? extends @NotNull CommandParameter<?>> getParameters();
+    @NotNull @Unmodifiable List<? extends @NotNull CommandParameter<? extends @NotNull Object>>
+    getParameters();
 }

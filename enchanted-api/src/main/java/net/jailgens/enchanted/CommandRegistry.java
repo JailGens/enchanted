@@ -61,7 +61,8 @@ public interface CommandRegistry {
      * @throws NullPointerException if the label is {@code null}
      * @since 0.0.0
      */
-    @NotNull Optional<? extends @NotNull Command> getCommand(@Pattern(NAME_PATTERN) @NotNull String label);
+    @NotNull Optional<? extends @NotNull Command> getCommand(
+            @Pattern(NAME_PATTERN) @NotNull String label);
 
     /**
      * Gets all the registered commands of this registry.
