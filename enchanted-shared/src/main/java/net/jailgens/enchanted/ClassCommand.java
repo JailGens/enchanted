@@ -66,7 +66,7 @@ final class ClassCommand implements CommandGroup {
                     final Object subcommand;
                     if (subcommandType.getModifiers().contains(Modifier.STATIC)) {
                         subcommand = subcommandType.getConstructors().stream()
-                                .filter((constructor) -> constructor.getParameters().size() == 0)
+                                .filter((constructor) -> constructor.getParameters().isEmpty())
                                 .findAny()
                                 .orElseThrow(() -> new IllegalArgumentException("No suitable constructor found for static inner command group \"" + subcommandType.getName() + "\""))
                                 .construct();

@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -58,7 +59,7 @@ final class AnnotationCommandInfo implements CommandInfo {
         labels.add(name);
         labels.addAll(aliases);
 
-        this.labels = labels;
+        this.labels = Collections.unmodifiableList(labels);
     }
 
     private static void validateName(final @NotNull String name) {
