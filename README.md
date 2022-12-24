@@ -4,7 +4,7 @@ Enchanted is a lightweight, annotation-driven command library.
 
 ## Quick Links
 
-- [User Guide](https://dev.jailgens.net/jailgens-open-source/enchanted/getting-started)
+- [User Guide](https://dev.jailgens.net/docs/enchanted/getting-started)
 - [JavaDocs](https://repo.jailgens.net/javadoc/snapshots/net/jailgens/enchanted-api/0.1.0-SNAPSHOT)
 
 ## Motivation
