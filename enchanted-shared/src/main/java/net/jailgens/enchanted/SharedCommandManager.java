@@ -17,7 +17,7 @@ public final class SharedCommandManager implements CommandManager {
 
     private final @NotNull CommandFactory commandFactory;
     private final @NotNull CommandRegistry commandRegistry;
-    private final @NotNull ConverterRegistry converterRegistry = new SharedConverterRegistry();;
+    private final @NotNull ConverterRegistry converterRegistry = new SharedConverterRegistry();
     private final @NotNull ArgumentParserRegistry argumentParserRegistry =
             new SharedArgumentParserRegistry();
     private final @NotNull ArgumentResolverRegistry argumentResolverRegistry =

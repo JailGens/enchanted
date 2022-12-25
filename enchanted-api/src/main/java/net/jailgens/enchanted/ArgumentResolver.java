@@ -29,14 +29,8 @@ public interface ArgumentResolver<A extends @NotNull Annotation> {
      * {@code null} (optional).
      * @since 0.1.0
      */
-    <T extends @Nullable Object> /*@NotNull*/ T resolve(@NotNull CommandParameter<T> parameter,
-                                                        @NotNull A annotation,
-                                                        @NotNull Class<@NotNull T> type,
-                                                        @NotNull Arguments arguments);
-
-    // @NotNull is commented out because by Kotlin and JSpecify rules, the return value may contain
-    // null if the <T> is @Nullable. But the IDE says this is equivalent to the JSpecify MINUS_NULL
-    // operator
-
-    // Optional<T> isn't applicable here because the result is directly handed to the method
+    <T extends @NotNull Object> @Nullable T resolve(@NotNull CommandParameter<T> parameter,
+                                                    @NotNull A annotation,
+                                                    @NotNull Class<@NotNull T> type,
+                                                    @NotNull Arguments arguments);
 }

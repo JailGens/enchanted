@@ -18,7 +18,6 @@ import java.util.Optional;
 public interface CommandResult {
 
     // TODO(Sparky983) redo interface hierarchy and class hierarchy in AbstractCommandResult
-    //
 
     /**
      * Gets an empty success result.
@@ -100,7 +99,9 @@ public interface CommandResult {
      * @since 0.1.0
      */
     @Contract(value = "_, _ -> new", pure = true)
-    static @NotNull Translate translate(final @NotNull String key, final @NotNull Map<@NotNull String, @NotNull Object> placeholders) {
+    static @NotNull Translate translate(
+            final @NotNull String key,
+            final @NotNull Map<@NotNull String, @NotNull Object> placeholders) {
 
         return Success.translate(key, placeholders);
     }
@@ -308,8 +309,9 @@ public interface CommandResult {
          * @since 0.1.0
          */
         @Contract(value = "_, _ -> new", pure = true)
-        static @NotNull Translate error(final @NotNull String key,
-                                        final @NotNull Map<@NotNull String, @NotNull Object> placeholders) {
+        static @NotNull Translate error(
+                final @NotNull String key,
+                final @NotNull Map<@NotNull String, @NotNull Object> placeholders) {
 
             return Error.translate(key, placeholders);
         }

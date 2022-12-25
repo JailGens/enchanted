@@ -22,6 +22,7 @@ public interface ArgumentParserRegistry {
      * @param annotationType the annotation for the argument parser.
      * @param argumentParser the argument parser.
      * @param <T> the annotation type.
+     * @throws NullPointerException if the annotation type or argument parser are {@code null}.
      * @since 0.1.0
      */
     @Contract(mutates = "this")
@@ -35,7 +36,8 @@ public interface ArgumentParserRegistry {
      * @param annotationType the annotation type.
      * @param <T> the annotation type.
      * @return an optional containing the argument parser, otherwise {@code Optional.empty()} if
-     * no argument parser for the specified annotation is registered..
+     * no argument parser for the specified annotation is registered.
+     * @throws NullPointerException if the annotation type is {@code null}.
      * @since 0.1.0
      */
     <T extends @NotNull Annotation> @NotNull Optional<? extends @NotNull ArgumentParser<@NotNull T>>

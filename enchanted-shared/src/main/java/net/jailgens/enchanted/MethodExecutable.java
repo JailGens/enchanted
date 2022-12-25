@@ -61,7 +61,7 @@ final class MethodExecutable<T extends @NotNull Object> implements Inspectable {
                 .map((parameter) -> (MethodParameter<?>) MethodParameter.of(commandManager, (Parameter) parameter))
                 .collect(Collectors.toUnmodifiableList());
 
-        if (commandParameters.size() >= 1) {
+        if (!commandParameters.isEmpty()) {
             final Parameter<?> executorParameter = method.getParameters().get(0);
 
             this.executorType = executorParameter.getRawType();

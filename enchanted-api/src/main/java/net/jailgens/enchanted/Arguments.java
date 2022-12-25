@@ -93,6 +93,7 @@ public interface Arguments extends Iterable<@NotNull String> {
      * Gets an iterator over the arguments from top to bottom.
      *
      * @return an iterator over the arguments from top to bottom.
+     * @since 0.1.0
      */
     @Override
     @NotNull Iterator<@NotNull String> iterator();

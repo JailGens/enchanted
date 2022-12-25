@@ -23,5 +23,6 @@ public interface Subcommand extends Inspectable, Command {
      * @since 0.1.0
      */
     @Override
-    @NotNull @Unmodifiable List<? extends @NotNull CommandParameter<?>> getParameters();
+    @NotNull @Unmodifiable List<? extends @NotNull CommandParameter<? extends @NotNull Object>>
+    getParameters();
 }
