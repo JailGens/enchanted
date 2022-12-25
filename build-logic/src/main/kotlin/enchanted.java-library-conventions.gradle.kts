@@ -34,7 +34,7 @@ publishing {
     }
     repositories {
         maven {
-            name = "sparky"
+            name = "jailgens"
             url = if (project.version.toString().endsWith("-SNAPSHOT")) {
                 uri("https://repo.jailgens.net/snapshots")
             } else {
