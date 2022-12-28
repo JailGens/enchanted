@@ -13,4 +13,4 @@ paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 junit-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit" }
-mockito = { module = "org.mockito:mockito-core", version = "4.10.0" }
+mockito = { module = "org.mockito:mockito-core", version = "4.11.0" }
