@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author Sparky983
  */
-public interface PaperTranslationRegistry {
+interface PaperTranslationRegistry {
 
     @Contract(value = "_ -> new", pure = true)
     static PaperTranslationRegistry create(final @NotNull MiniMessage miniMessage) {
