@@ -16,7 +16,7 @@ repositories {
 dependencies {
     api(project(":enchanted-api"))
     implementation(project(":enchanted-shared"))
-    implementation(libs.paper)
+    compileOnly(libs.paper)
     // implementation to avoid exposing a later version of paper API than the plugin is using
     testImplementation(libs.mockito)
 }
